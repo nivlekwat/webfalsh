@@ -1,7 +1,9 @@
 (function () {
   const els = {
-    category: document.getElementById("category"),
-    shuffle: document.getElementById("shuffle"),
+    loadingState: document.getElementById("loadingState"),
+    emptyState: document.getElementById("emptyState"),
+    errorState: document.getElementById("errorState"),
+    studyContent: document.getElementById("studyContent"),
     progress: document.getElementById("progress"),
     card: document.getElementById("card"),
     cardImage: document.getElementById("cardImage"),
@@ -13,6 +15,7 @@
     speakBack: document.getElementById("speakBack"),
     prev: document.getElementById("prev"),
     next: document.getElementById("next"),
+    shuffle: document.getElementById("shuffle"),
     ttsWarning: document.getElementById("ttsWarning"),
   };
 
@@ -20,51 +23,41 @@
   let index = 0;
   let chineseVoice = null;
 
-  // Cache of wikiTitle -> image URL (or null when no image was found).
-  const imageCache = new Map();
+  function show(el) { el.classList.remove("hidden"); }
+  function hide(el) { el.classList.add("hidden"); }
 
-  // Populate category dropdown.
-  Object.keys(DECKS).forEach((name) => {
-    const opt = document.createElement("option");
-    opt.value = name;
-    opt.textContent = name;
-    els.category.appendChild(opt);
-  });
-
-  function loadDeck(name) {
-    deck = DECKS[name].slice();
+  // --- Load deck from data/cards.json ---
+  async function loadDeck() {
+    try {
+      const res = await fetch("data/cards.json?t=" + Date.now(), {
+        cache: "no-store",
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (!Array.isArray(data)) throw new Error("cards.json is not an array");
+      deck = data;
+    } catch (e) {
+      hide(els.loadingState);
+      show(els.errorState);
+      console.error(e);
+      return;
+    }
+    hide(els.loadingState);
+    if (!deck.length) {
+      show(els.emptyState);
+      return;
+    }
+    show(els.studyContent);
     index = 0;
     render();
   }
 
-  function shuffle(arr) {
+  function shuffleArr(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
-  }
-
-  // --- Image loading via Wikipedia REST API ---
-  async function fetchImage(title) {
-    if (imageCache.has(title)) return imageCache.get(title);
-    const url =
-      "https://en.wikipedia.org/api/rest_v1/page/summary/" +
-      encodeURIComponent(title);
-    try {
-      const res = await fetch(url, { headers: { accept: "application/json" } });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      const data = await res.json();
-      const src =
-        (data.originalimage && data.originalimage.source) ||
-        (data.thumbnail && data.thumbnail.source) ||
-        null;
-      imageCache.set(title, src);
-      return src;
-    } catch (e) {
-      imageCache.set(title, null);
-      return null;
-    }
   }
 
   function setPlaceholder(text) {
@@ -74,16 +67,14 @@
     els.cardImage.removeAttribute("src");
   }
 
-  async function loadCardImage(card) {
-    const myIndex = index; // guard against rapid navigation
-    setPlaceholder("Loading picture…");
-    const src = await fetchImage(card.wikiTitle || card.english);
-    if (myIndex !== index) return; // user moved on
-    if (!src) {
-      setPlaceholder("(no picture available)");
+  function loadCardImage(card) {
+    const myIndex = index;
+    if (!card.image) {
+      setPlaceholder("No picture");
       return;
     }
-    els.cardImage.alt = card.english;
+    setPlaceholder("Loading picture…");
+    els.cardImage.alt = card.english || "";
     els.cardImage.onload = () => {
       if (myIndex !== index) return;
       els.cardImage.classList.add("loaded");
@@ -93,15 +84,15 @@
       if (myIndex !== index) return;
       setPlaceholder("(picture failed to load)");
     };
-    els.cardImage.src = src;
+    els.cardImage.src = card.image;
   }
 
   function render() {
     if (!deck.length) return;
     const card = deck[index];
-    els.hanzi.textContent = card.hanzi;
-    els.pinyin.textContent = card.pinyin;
-    els.english.textContent = card.english;
+    els.hanzi.textContent = card.hanzi || "";
+    els.pinyin.textContent = card.pinyin || "";
+    els.english.textContent = card.english || "";
     els.progress.textContent = `${index + 1} / ${deck.length}`;
     els.card.classList.remove("flipped");
     loadCardImage(card);
@@ -111,17 +102,17 @@
     els.card.classList.toggle("flipped");
   }
 
-  function next() {
+  function nextCard() {
     index = (index + 1) % deck.length;
     render();
   }
 
-  function prev() {
+  function prevCard() {
     index = (index - 1 + deck.length) % deck.length;
     render();
   }
 
-  // --- Web Speech API setup ---
+  // --- Web Speech API ---
   function pickChineseVoice() {
     if (!("speechSynthesis" in window)) return null;
     const voices = speechSynthesis.getVoices();
@@ -135,11 +126,8 @@
 
   function refreshVoice() {
     chineseVoice = pickChineseVoice();
-    if (!chineseVoice && "speechSynthesis" in window) {
-      els.ttsWarning.hidden = false;
-    } else {
-      els.ttsWarning.hidden = true;
-    }
+    els.ttsWarning.hidden = !!(chineseVoice || !("speechSynthesis" in window));
+    if (!("speechSynthesis" in window)) els.ttsWarning.hidden = false;
   }
 
   if ("speechSynthesis" in window) {
@@ -150,7 +138,7 @@
   }
 
   function speak(text, btn) {
-    if (!("speechSynthesis" in window)) return;
+    if (!text || !("speechSynthesis" in window)) return;
     speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = "zh-CN";
@@ -164,15 +152,7 @@
     speechSynthesis.speak(utter);
   }
 
-  // --- Event wiring ---
-  els.category.addEventListener("change", (e) => loadDeck(e.target.value));
-
-  els.shuffle.addEventListener("click", () => {
-    shuffle(deck);
-    index = 0;
-    render();
-  });
-
+  // --- Events ---
   els.card.addEventListener("click", (e) => {
     if (e.target.closest(".speak-btn")) return;
     flip();
@@ -187,21 +167,27 @@
 
   els.speakFront.addEventListener("click", (e) => {
     e.stopPropagation();
-    speak(deck[index].hanzi, els.speakFront);
+    speak(deck[index] && deck[index].hanzi, els.speakFront);
   });
 
   els.speakBack.addEventListener("click", (e) => {
     e.stopPropagation();
-    speak(deck[index].hanzi, els.speakBack);
+    speak(deck[index] && deck[index].hanzi, els.speakBack);
   });
 
-  els.next.addEventListener("click", next);
-  els.prev.addEventListener("click", prev);
+  els.next.addEventListener("click", nextCard);
+  els.prev.addEventListener("click", prevCard);
+  els.shuffle.addEventListener("click", () => {
+    shuffleArr(deck);
+    index = 0;
+    render();
+  });
 
   document.addEventListener("keydown", (e) => {
-    if (e.target.tagName === "SELECT") return;
-    if (e.key === "ArrowRight") next();
-    else if (e.key === "ArrowLeft") prev();
+    if (!deck.length) return;
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    if (e.key === "ArrowRight") nextCard();
+    else if (e.key === "ArrowLeft") prevCard();
     else if (e.key.toLowerCase() === "s") speak(deck[index].hanzi, els.speakFront);
     else if (e.key === " " && e.target !== els.card) {
       e.preventDefault();
@@ -209,5 +195,5 @@
     }
   });
 
-  loadDeck(Object.keys(DECKS)[0]);
+  loadDeck();
 })();
