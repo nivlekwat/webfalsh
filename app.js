@@ -7,7 +7,9 @@
     progress: document.getElementById("progress"),
     card: document.getElementById("card"),
     cardImage: document.getElementById("cardImage"),
+    cardImageBack: document.getElementById("cardImageBack"),
     imagePlaceholder: document.getElementById("imagePlaceholder"),
+    imagePlaceholderBack: document.getElementById("imagePlaceholderBack"),
     hanzi: document.getElementById("hanzi"),
     hanziBack: document.getElementById("hanziBack"),
     pinyin: document.getElementById("pinyin"),
@@ -62,10 +64,14 @@
   }
 
   function setPlaceholder(text) {
-    els.imagePlaceholder.textContent = text;
-    els.imagePlaceholder.classList.remove("hidden");
-    els.cardImage.classList.remove("loaded");
-    els.cardImage.removeAttribute("src");
+    for (const ph of [els.imagePlaceholder, els.imagePlaceholderBack]) {
+      ph.textContent = text;
+      ph.classList.remove("hidden");
+    }
+    for (const img of [els.cardImage, els.cardImageBack]) {
+      img.classList.remove("loaded");
+      img.removeAttribute("src");
+    }
   }
 
   // Cache of wikiTitle -> image URL (or null if not found).
@@ -105,7 +111,9 @@
       setPlaceholder("No picture");
       return;
     }
-    els.cardImage.alt = card.english || "";
+    const alt = card.english || "";
+    els.cardImage.alt = alt;
+    els.cardImageBack.alt = alt;
     els.cardImage.onload = () => {
       if (myIndex !== index) return;
       els.cardImage.classList.add("loaded");
@@ -113,9 +121,19 @@
     };
     els.cardImage.onerror = () => {
       if (myIndex !== index) return;
-      setPlaceholder("(picture failed to load)");
+      els.imagePlaceholder.textContent = "(failed to load)";
+    };
+    els.cardImageBack.onload = () => {
+      if (myIndex !== index) return;
+      els.cardImageBack.classList.add("loaded");
+      els.imagePlaceholderBack.classList.add("hidden");
+    };
+    els.cardImageBack.onerror = () => {
+      if (myIndex !== index) return;
+      els.imagePlaceholderBack.textContent = "(failed to load)";
     };
     els.cardImage.src = src;
+    els.cardImageBack.src = src;
   }
 
   function render() {

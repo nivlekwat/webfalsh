@@ -27,13 +27,13 @@ body {
 
 header {
   text-align: center;
-  padding: 1.25rem 1rem 0.5rem;
+  padding: 0.6rem 1rem 0.25rem;
 }
 
 h1 {
-  margin: 0 0 0.75rem;
+  margin: 0;
   color: var(--accent);
-  font-size: 1.6rem;
+  font-size: 1.35rem;
   letter-spacing: 0.02em;
 }
 
@@ -75,8 +75,8 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  gap: 1rem;
+  padding: 0.5rem;
+  gap: 0.5rem;
 }
 
 .progress {
@@ -85,8 +85,8 @@ main {
 }
 
 .card {
-  width: min(420px, 92vw);
-  height: min(520px, 70vh);
+  width: min(420px, 94vw);
+  height: min(620px, 78vh);
   perspective: 1500px;
   cursor: pointer;
   outline: none;
@@ -118,8 +118,9 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
+  justify-content: flex-start;
+  padding: 0.75rem 0.75rem 1.6rem;
+  gap: 0.4rem;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
@@ -130,8 +131,7 @@ main {
 }
 
 .image-wrap {
-  width: clamp(180px, 55%, 260px);
-  height: clamp(180px, 38vh, 260px);
+  width: 100%;
   border-radius: 14px;
   overflow: hidden;
   background: #f0eadb;
@@ -140,6 +140,17 @@ main {
   justify-content: center;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
   position: relative;
+}
+
+.card-front .image-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.card-back .image-wrap {
+  flex: 0 0 auto;
+  width: 78%;
+  height: clamp(160px, 30vh, 240px);
 }
 
 .image-wrap img {
@@ -172,49 +183,53 @@ main {
 }
 
 .hanzi {
-  font-size: clamp(2.4rem, 9vw, 4rem);
-  margin-top: 1rem;
+  font-size: clamp(2.6rem, 11vw, 4.4rem);
+  margin: 0.2rem 0 0;
   color: var(--accent);
   font-weight: 600;
   letter-spacing: 0.05em;
   user-select: text;
+  line-height: 1;
 }
 
 .english {
-  font-size: clamp(1.4rem, 5vw, 1.9rem);
+  font-size: clamp(1.3rem, 5vw, 1.7rem);
   color: var(--text);
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin: 0.25rem 0 0;
 }
 
 .hanzi-back {
-  font-size: clamp(2.8rem, 10vw, 4.2rem);
+  font-size: clamp(2.4rem, 9vw, 3.6rem);
   color: var(--accent);
   font-weight: 600;
   letter-spacing: 0.05em;
   user-select: text;
-  margin: 0.25rem 0;
+  margin: 0.1rem 0;
+  line-height: 1;
 }
 
 .pinyin {
-  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  font-size: clamp(1.5rem, 5.5vw, 2.1rem);
   color: var(--accent-dark);
   font-style: italic;
-  margin-top: 0.25rem;
+  margin: 0.15rem 0 0;
+  line-height: 1.1;
 }
 
 .speak-btn {
-  margin-top: 1.25rem;
+  margin-top: 0.4rem;
   background: var(--accent);
   color: white;
   border: none;
-  font-size: 1.4rem;
-  width: 56px;
-  height: 56px;
+  font-size: 1.1rem;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .speak-btn:hover {
@@ -232,10 +247,11 @@ main {
 
 .hint {
   position: absolute;
-  bottom: 1rem;
+  bottom: 0.45rem;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   margin: 0;
+  opacity: 0.7;
 }
 
 .controls-bottom {
@@ -300,13 +316,16 @@ main {
 
 footer {
   text-align: center;
-  padding: 0.75rem 1rem 1.25rem;
+  padding: 0.4rem 1rem 0.6rem;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.78rem;
 }
 
 @media (max-width: 480px) {
   .controls-bottom button {
     min-width: 90px;
+  }
+  footer {
+    display: none;
   }
 }
