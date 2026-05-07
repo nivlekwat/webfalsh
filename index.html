@@ -72,6 +72,8 @@
         </div>
       </div>
 
+      <button id="gotIt" class="got-it-btn" type="button">✓ I got it!</button>
+
       <div class="controls-bottom">
         <button id="prev" type="button" aria-label="Previous card">← Prev</button>
         <button id="shuffle" type="button" title="Shuffle deck">Shuffle</button>
@@ -83,6 +85,18 @@
       </p>
     </div>
   </main>
+
+  <div id="rewardOverlay" class="reward-overlay" role="dialog" aria-modal="true" aria-labelledby="rewardTitle">
+    <div class="reward-card">
+      <div class="reward-title" id="rewardTitle">🎉 Great job!</div>
+      <div class="reward-media">
+        <div class="reward-loading" id="rewardLoading">Loading your prize…</div>
+        <img id="rewardGif" alt="Surprise animal gif" />
+      </div>
+      <button class="reward-next" id="rewardNext" type="button">Next card ➜</button>
+      <p class="reward-hint">Tap anywhere to keep going</p>
+    </div>
+  </div>
 
   <footer>
     <p>← / → to navigate, Space to flip, S to play sound.</p>

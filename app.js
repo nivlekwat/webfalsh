@@ -20,6 +20,11 @@
     next: document.getElementById("next"),
     shuffle: document.getElementById("shuffle"),
     ttsWarning: document.getElementById("ttsWarning"),
+    gotIt: document.getElementById("gotIt"),
+    rewardOverlay: document.getElementById("rewardOverlay"),
+    rewardLoading: document.getElementById("rewardLoading"),
+    rewardGif: document.getElementById("rewardGif"),
+    rewardNext: document.getElementById("rewardNext"),
   };
 
   let deck = [];
@@ -256,6 +261,45 @@
 
   els.next.addEventListener("click", nextCard);
   els.prev.addEventListener("click", prevCard);
+
+  // --- "I got it!" reward (random animal GIF from cataas.com) ---
+  const REWARD_SOURCES = [
+    () => "https://cataas.com/cat/gif?t=" + Date.now() + Math.random(),
+    () => "https://cataas.com/cat/cute/gif?t=" + Date.now() + Math.random(),
+    () => "https://cataas.com/cat/funny/gif?t=" + Date.now() + Math.random(),
+  ];
+
+  function showReward() {
+    spawnConfetti(els.gotIt);
+    els.rewardOverlay.classList.add("show");
+    els.rewardLoading.style.display = "block";
+    els.rewardLoading.textContent = "Loading your prize…";
+    els.rewardGif.classList.remove("loaded");
+    els.rewardGif.removeAttribute("src");
+
+    const url = REWARD_SOURCES[Math.floor(Math.random() * REWARD_SOURCES.length)]();
+    els.rewardGif.onload = () => {
+      els.rewardGif.classList.add("loaded");
+      els.rewardLoading.style.display = "none";
+    };
+    els.rewardGif.onerror = () => {
+      els.rewardLoading.textContent = "🐱 (couldn't load — tap Next)";
+    };
+    els.rewardGif.src = url;
+  }
+
+  function dismissReward() {
+    if (!els.rewardOverlay.classList.contains("show")) return;
+    els.rewardOverlay.classList.remove("show");
+    nextCard();
+  }
+
+  els.gotIt.addEventListener("click", showReward);
+  els.rewardOverlay.addEventListener("click", dismissReward);
+  els.rewardNext.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dismissReward();
+  });
   els.shuffle.addEventListener("click", () => {
     shuffleArr(deck);
     index = 0;
@@ -265,6 +309,10 @@
   document.addEventListener("keydown", (e) => {
     if (!deck.length) return;
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    if (e.key === "Escape" && els.rewardOverlay.classList.contains("show")) {
+      dismissReward();
+      return;
+    }
     if (e.key === "ArrowRight") nextCard();
     else if (e.key === "ArrowLeft") prevCard();
     else if (e.key.toLowerCase() === "s") speak(deck[index].hanzi, els.speakFront);
