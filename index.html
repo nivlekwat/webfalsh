@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chinese Flashcards</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Chinese Flashcards</h1>
+    <div class="controls-top">
+      <label for="category">Category:</label>
+      <select id="category"></select>
+      <button id="shuffle" type="button" title="Shuffle deck">Shuffle</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="progress" id="progress">0 / 0</div>
+
+    <div class="card" id="card" role="button" tabindex="0" aria-label="Flashcard. Click to flip.">
+      <div class="card-inner" id="cardInner">
+        <div class="card-face card-front">
+          <div class="image-wrap" id="imageWrap">
+            <img id="cardImage" alt="" />
+            <div class="image-placeholder" id="imagePlaceholder">Loading picture…</div>
+          </div>
+          <div class="hanzi" id="hanzi">汉字</div>
+          <button class="speak-btn" id="speakFront" type="button" aria-label="Play pronunciation">
+            <span aria-hidden="true">🔊</span>
+          </button>
+          <p class="hint">Tap card to reveal</p>
+        </div>
+        <div class="card-face card-back">
+          <div class="pinyin" id="pinyin">pīnyīn</div>
+          <div class="english" id="english">English</div>
+          <button class="speak-btn" id="speakBack" type="button" aria-label="Play pronunciation">
+            <span aria-hidden="true">🔊</span>
+          </button>
+          <p class="hint">Tap card to flip back</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bottom">
+      <button id="prev" type="button" aria-label="Previous card">← Prev</button>
+      <button id="next" type="button" aria-label="Next card">Next →</button>
+    </div>
+
+    <p class="tts-warning" id="ttsWarning" hidden>
+      Your browser doesn't have a Chinese voice installed. Pictures and text still work.
+    </p>
+  </main>
+
+  <footer>
+    <p>Use ← / → to navigate, Space to flip, S to play sound.</p>
+  </footer>
+
+  <script src="cards.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

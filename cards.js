@@ -1,0 +1,51 @@
+// Vocabulary deck: { hanzi, pinyin, english, wikiTitle }
+// `wikiTitle` is the English Wikipedia article whose thumbnail represents the
+// word's meaning. Pictures are fetched from the Wikipedia REST API at runtime.
+const DECKS = {
+  Animals: [
+    { hanzi: "猫",   pinyin: "māo",       english: "cat",        wikiTitle: "Cat" },
+    { hanzi: "狗",   pinyin: "gǒu",       english: "dog",        wikiTitle: "Dog" },
+    { hanzi: "熊猫", pinyin: "xióngmāo",  english: "panda",      wikiTitle: "Giant_panda" },
+    { hanzi: "鸟",   pinyin: "niǎo",      english: "bird",       wikiTitle: "Bird" },
+    { hanzi: "鱼",   pinyin: "yú",        english: "fish",       wikiTitle: "Fish" },
+    { hanzi: "马",   pinyin: "mǎ",        english: "horse",      wikiTitle: "Horse" },
+    { hanzi: "牛",   pinyin: "niú",       english: "cow",        wikiTitle: "Cattle" },
+    { hanzi: "猪",   pinyin: "zhū",       english: "pig",        wikiTitle: "Domestic_pig" },
+    { hanzi: "兔子", pinyin: "tùzi",      english: "rabbit",     wikiTitle: "Rabbit" },
+    { hanzi: "老虎", pinyin: "lǎohǔ",     english: "tiger",      wikiTitle: "Tiger" },
+  ],
+  Food: [
+    { hanzi: "米饭", pinyin: "mǐfàn",     english: "rice",       wikiTitle: "Cooked_rice" },
+    { hanzi: "面条", pinyin: "miàntiáo",  english: "noodles",    wikiTitle: "Noodle" },
+    { hanzi: "苹果", pinyin: "píngguǒ",   english: "apple",      wikiTitle: "Apple" },
+    { hanzi: "香蕉", pinyin: "xiāngjiāo", english: "banana",     wikiTitle: "Banana" },
+    { hanzi: "茶",   pinyin: "chá",       english: "tea",        wikiTitle: "Tea" },
+    { hanzi: "水",   pinyin: "shuǐ",      english: "water",      wikiTitle: "Water" },
+    { hanzi: "鸡蛋", pinyin: "jīdàn",     english: "egg",        wikiTitle: "Egg_as_food" },
+    { hanzi: "面包", pinyin: "miànbāo",   english: "bread",      wikiTitle: "Bread" },
+    { hanzi: "西瓜", pinyin: "xīguā",     english: "watermelon", wikiTitle: "Watermelon" },
+    { hanzi: "饺子", pinyin: "jiǎozi",    english: "dumpling",   wikiTitle: "Jiaozi" },
+  ],
+  Colors: [
+    { hanzi: "红色", pinyin: "hóngsè",  english: "red",    wikiTitle: "Red" },
+    { hanzi: "蓝色", pinyin: "lánsè",   english: "blue",   wikiTitle: "Blue" },
+    { hanzi: "黄色", pinyin: "huángsè", english: "yellow", wikiTitle: "Yellow" },
+    { hanzi: "绿色", pinyin: "lǜsè",    english: "green",  wikiTitle: "Green" },
+    { hanzi: "黑色", pinyin: "hēisè",   english: "black",  wikiTitle: "Black" },
+    { hanzi: "白色", pinyin: "báisè",   english: "white",  wikiTitle: "White" },
+    { hanzi: "紫色", pinyin: "zǐsè",    english: "purple", wikiTitle: "Purple" },
+    { hanzi: "橙色", pinyin: "chéngsè", english: "orange", wikiTitle: "Orange_(colour)" },
+  ],
+  Nature: [
+    { hanzi: "太阳", pinyin: "tàiyáng", english: "sun",      wikiTitle: "Sun" },
+    { hanzi: "月亮", pinyin: "yuèliàng", english: "moon",    wikiTitle: "Moon" },
+    { hanzi: "星星", pinyin: "xīngxing", english: "star",    wikiTitle: "Star" },
+    { hanzi: "树",   pinyin: "shù",      english: "tree",    wikiTitle: "Tree" },
+    { hanzi: "花",   pinyin: "huā",      english: "flower",  wikiTitle: "Flower" },
+    { hanzi: "山",   pinyin: "shān",     english: "mountain", wikiTitle: "Mountain" },
+    { hanzi: "河",   pinyin: "hé",       english: "river",   wikiTitle: "River" },
+    { hanzi: "海",   pinyin: "hǎi",      english: "sea",     wikiTitle: "Sea" },
+    { hanzi: "云",   pinyin: "yún",      english: "cloud",   wikiTitle: "Cloud" },
+    { hanzi: "雪",   pinyin: "xuě",      english: "snow",    wikiTitle: "Snow" },
+  ],
+};
