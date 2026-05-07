@@ -180,17 +180,27 @@ main {
   user-select: text;
 }
 
-.pinyin {
-  font-size: clamp(2rem, 8vw, 3rem);
-  color: var(--accent-dark);
-  font-style: italic;
+.english {
+  font-size: clamp(1.4rem, 5vw, 1.9rem);
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
-.english {
-  font-size: clamp(1.2rem, 5vw, 1.75rem);
-  color: var(--text);
-  margin-top: 0.5rem;
-  text-align: center;
+.hanzi-back {
+  font-size: clamp(2.8rem, 10vw, 4.2rem);
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  user-select: text;
+  margin: 0.25rem 0;
+}
+
+.pinyin {
+  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  color: var(--accent-dark);
+  font-style: italic;
+  margin-top: 0.25rem;
 }
 
 .speak-btn {

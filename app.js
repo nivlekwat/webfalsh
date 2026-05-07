@@ -9,6 +9,7 @@
     cardImage: document.getElementById("cardImage"),
     imagePlaceholder: document.getElementById("imagePlaceholder"),
     hanzi: document.getElementById("hanzi"),
+    hanziBack: document.getElementById("hanziBack"),
     pinyin: document.getElementById("pinyin"),
     english: document.getElementById("english"),
     speakFront: document.getElementById("speakFront"),
@@ -121,6 +122,7 @@
     if (!deck.length) return;
     const card = deck[index];
     els.hanzi.textContent = card.hanzi || "";
+    els.hanziBack.textContent = card.hanzi || "";
     els.pinyin.textContent = card.pinyin || "";
     els.english.textContent = card.english || "";
     els.progress.textContent = `${index + 1} / ${deck.length}`;
