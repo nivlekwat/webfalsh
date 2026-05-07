@@ -67,13 +67,43 @@
     els.cardImage.removeAttribute("src");
   }
 
-  function loadCardImage(card) {
+  // Cache of wikiTitle -> image URL (or null if not found).
+  const wikiImageCache = new Map();
+
+  async function resolveWikiImage(title) {
+    if (wikiImageCache.has(title)) return wikiImageCache.get(title);
+    const url =
+      "https://en.wikipedia.org/api/rest_v1/page/summary/" +
+      encodeURIComponent(title);
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      const src =
+        (data.originalimage && data.originalimage.source) ||
+        (data.thumbnail && data.thumbnail.source) ||
+        null;
+      wikiImageCache.set(title, src);
+      return src;
+    } catch (e) {
+      wikiImageCache.set(title, null);
+      return null;
+    }
+  }
+
+  async function loadCardImage(card) {
     const myIndex = index;
-    if (!card.image) {
+    setPlaceholder("Loading picture…");
+
+    let src = card.image || null;
+    if (!src && card.wikiTitle) {
+      src = await resolveWikiImage(card.wikiTitle);
+      if (myIndex !== index) return;
+    }
+    if (!src) {
       setPlaceholder("No picture");
       return;
     }
-    setPlaceholder("Loading picture…");
     els.cardImage.alt = card.english || "";
     els.cardImage.onload = () => {
       if (myIndex !== index) return;
@@ -84,7 +114,7 @@
       if (myIndex !== index) return;
       setPlaceholder("(picture failed to load)");
     };
-    els.cardImage.src = card.image;
+    els.cardImage.src = src;
   }
 
   function render() {
