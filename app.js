@@ -146,10 +146,39 @@
     els.progress.textContent = `${index + 1} / ${deck.length}`;
     els.card.classList.remove("flipped");
     loadCardImage(card);
+    triggerBounce();
   }
 
   function flip() {
     els.card.classList.toggle("flipped");
+    spawnConfetti(els.card);
+  }
+
+  function spawnConfetti(centerEl) {
+    const rect = centerEl.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const emojis = ["⭐", "✨", "🌟", "🎉", "💫", "🎈"];
+    const count = 14;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement("span");
+      p.className = "confetti";
+      p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.left = cx + "px";
+      p.style.top = cy + "px";
+      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4;
+      const dist = 100 + Math.random() * 80;
+      p.style.setProperty("--dx", Math.cos(angle) * dist + "px");
+      p.style.setProperty("--dy", Math.sin(angle) * dist + "px");
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 1100);
+    }
+  }
+
+  function triggerBounce() {
+    els.card.classList.remove("bounce-in");
+    void els.card.offsetWidth;
+    els.card.classList.add("bounce-in");
   }
 
   function nextCard() {
