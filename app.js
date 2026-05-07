@@ -262,30 +262,113 @@
   els.next.addEventListener("click", nextCard);
   els.prev.addEventListener("click", prevCard);
 
-  // --- "I got it!" reward (random animal GIF from cataas.com) ---
-  const REWARD_SOURCES = [
-    () => "https://cataas.com/cat/gif?t=" + Date.now() + Math.random(),
-    () => "https://cataas.com/cat/cute/gif?t=" + Date.now() + Math.random(),
-    () => "https://cataas.com/cat/funny/gif?t=" + Date.now() + Math.random(),
-  ];
+  // --- "I got it!" reward (random animal pic, multi-source + preload) ---
+  function loadImageWithTimeout(url, ms) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const timer = setTimeout(() => {
+        img.onload = img.onerror = null;
+        reject(new Error("timeout"));
+      }, ms);
+      img.onload = () => { clearTimeout(timer); resolve(url); };
+      img.onerror = () => { clearTimeout(timer); reject(new Error("img error")); };
+      img.src = url;
+    });
+  }
 
-  function showReward() {
-    spawnConfetti(els.gotIt);
-    els.rewardOverlay.classList.add("show");
+  async function srcCatApi() {
+    const res = await fetch(
+      "https://api.thecatapi.com/v1/images/search?mime_types=gif&limit=1"
+    );
+    if (!res.ok) throw new Error("thecatapi " + res.status);
+    const data = await res.json();
+    const url = data && data[0] && data[0].url;
+    if (!url) throw new Error("thecatapi no url");
+    return loadImageWithTimeout(url, 6000);
+  }
+
+  async function srcCataas() {
+    const url =
+      "https://cataas.com/cat/gif?width=480&t=" + Date.now() + Math.random();
+    return loadImageWithTimeout(url, 7000);
+  }
+
+  async function srcDog() {
+    const res = await fetch("https://dog.ceo/api/breeds/image/random");
+    if (!res.ok) throw new Error("dog " + res.status);
+    const data = await res.json();
+    const url = data && data.message;
+    if (!url) throw new Error("dog no url");
+    return loadImageWithTimeout(url, 6000);
+  }
+
+  async function srcShibe() {
+    const res = await fetch("https://shibe.online/api/shibes?count=1");
+    if (!res.ok) throw new Error("shibe " + res.status);
+    const data = await res.json();
+    const url = data && data[0];
+    if (!url) throw new Error("shibe no url");
+    return loadImageWithTimeout(url, 6000);
+  }
+
+  const REWARD_SOURCES = [srcCatApi, srcCataas, srcDog, srcShibe];
+
+  async function fetchAnimalReward() {
+    const order = REWARD_SOURCES.slice().sort(() => Math.random() - 0.5);
+    for (const src of order) {
+      try { return await src(); } catch (_) { /* try next */ }
+    }
+    return null;
+  }
+
+  let preloadedReward = null;
+  let preloadingReward = false;
+
+  function preloadReward() {
+    if (preloadedReward || preloadingReward) return;
+    preloadingReward = true;
+    fetchAnimalReward()
+      .then((url) => { preloadedReward = url; })
+      .finally(() => { preloadingReward = false; });
+  }
+
+  function renderRewardUrl(url) {
+    if (!url) {
+      els.rewardLoading.style.display = "block";
+      els.rewardLoading.textContent = "🎉 Great job! 🐱";
+      return;
+    }
     els.rewardLoading.style.display = "block";
-    els.rewardLoading.textContent = "Loading your prize…";
-    els.rewardGif.classList.remove("loaded");
-    els.rewardGif.removeAttribute("src");
-
-    const url = REWARD_SOURCES[Math.floor(Math.random() * REWARD_SOURCES.length)]();
+    els.rewardLoading.textContent = "🎉";
     els.rewardGif.onload = () => {
       els.rewardGif.classList.add("loaded");
       els.rewardLoading.style.display = "none";
     };
     els.rewardGif.onerror = () => {
-      els.rewardLoading.textContent = "🐱 (couldn't load — tap Next)";
+      els.rewardLoading.textContent = "🎉 Great job! 🐱";
     };
     els.rewardGif.src = url;
+  }
+
+  function showReward() {
+    spawnConfetti(els.gotIt);
+    els.rewardOverlay.classList.add("show");
+    els.rewardGif.classList.remove("loaded");
+    els.rewardGif.removeAttribute("src");
+
+    if (preloadedReward) {
+      renderRewardUrl(preloadedReward);
+      preloadedReward = null;
+      preloadReward();
+    } else {
+      els.rewardLoading.style.display = "block";
+      els.rewardLoading.textContent = "Loading your prize…";
+      fetchAnimalReward().then((url) => {
+        if (!els.rewardOverlay.classList.contains("show")) return;
+        renderRewardUrl(url);
+      });
+      preloadReward();
+    }
   }
 
   function dismissReward() {
@@ -323,4 +406,5 @@
   });
 
   loadDeck();
+  preloadReward();
 })();
