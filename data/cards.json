@@ -34,5 +34,29 @@
     "pinyin": "tián",
     "english": "farm",
     "wikiTitle": "Paddy_field"
+  },
+  {
+    "hanzi": "爸爸",
+    "pinyin": "bàba",
+    "english": "dad",
+    "wikiTitle": "Father"
+  },
+  {
+    "hanzi": "媽媽",
+    "pinyin": "māma",
+    "english": "mom",
+    "wikiTitle": "Mother"
+  },
+  {
+    "hanzi": "姐姐",
+    "pinyin": "jiějie",
+    "english": "older sister",
+    "wikiTitle": "Sister"
+  },
+  {
+    "hanzi": "妹妹",
+    "pinyin": "mèimei",
+    "english": "younger sister",
+    "wikiTitle": "Sibling"
   }
 ]
