@@ -467,19 +467,45 @@
     });
   }
 
+  function evaluateTranscripts(transcripts) {
+    if (checkPronunciation(transcripts)) {
+      setMicState("success", "✓ Great job!");
+      setTimeout(() => {
+        setMicState("idle", MIC_IDLE_TEXT);
+        showReward();
+      }, 500);
+      return;
+    }
+    const heard = (transcripts && transcripts[0]) || "";
+    if (heard) {
+      setMicState("error", `Heard: "${heard}" — try again`);
+    } else {
+      setMicState("error", "🎤 Didn't catch that — try again");
+    }
+    resetMicSoon(2800);
+  }
+
   function startListening() {
     if (!SR) {
       setMicState("unsupported", "🎤 not supported here");
       return;
     }
-    if (micListening) return;
+    if (micListening) {
+      // Tap again while listening = stop early and use whatever we heard.
+      try { micRecognition && micRecognition.stop(); } catch (_) {}
+      return;
+    }
     if (els.rewardOverlay.classList.contains("show")) return;
 
     micRecognition = new SR();
     micRecognition.lang = "zh-CN";
     micRecognition.continuous = false;
-    micRecognition.interimResults = false;
+    micRecognition.interimResults = true; // iOS Safari often only delivers interim
     micRecognition.maxAlternatives = 5;
+
+    let lastInterim = "";
+    let lastFinalTranscripts = null;
+    let handled = false;
 
     micRecognition.onstart = () => {
       micListening = true;
@@ -487,26 +513,31 @@
     };
 
     micRecognition.onresult = (e) => {
-      micListening = false;
-      const transcripts = [];
-      for (let i = 0; i < e.results[0].length; i++) {
-        transcripts.push(e.results[0][i].transcript);
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const result = e.results[i];
+        const transcripts = [];
+        for (let j = 0; j < result.length; j++) {
+          transcripts.push(result[j].transcript);
+        }
+        if (result.isFinal) {
+          lastFinalTranscripts = transcripts;
+        } else {
+          lastInterim = transcripts[0] || lastInterim;
+          if (lastInterim) {
+            setMicState("listening", `🎤 "${lastInterim}"`);
+          }
+        }
       }
-      if (checkPronunciation(transcripts)) {
-        setMicState("success", "✓ Great job!");
-        setTimeout(() => {
-          setMicState("idle", MIC_IDLE_TEXT);
-          showReward();
-        }, 500);
-      } else {
-        const heard = transcripts[0] || "";
-        setMicState("error", `Heard: "${heard}" — try again`);
-        resetMicSoon(2800);
+      if (lastFinalTranscripts && !handled) {
+        handled = true;
+        micListening = false;
+        evaluateTranscripts(lastFinalTranscripts);
       }
     };
 
     micRecognition.onerror = (e) => {
       micListening = false;
+      handled = true;
       let msg = "🎤 Try again";
       if (e.error === "not-allowed" || e.error === "service-not-allowed") {
         msg = "🎤 Allow microphone access";
@@ -516,15 +547,26 @@
         msg = "🎤 No mic detected";
       } else if (e.error === "network") {
         msg = "🎤 Network error";
+      } else if (e.error) {
+        msg = `🎤 ${e.error}`;
       }
       setMicState("error", msg);
-      resetMicSoon(2500);
+      resetMicSoon(2800);
     };
 
     micRecognition.onend = () => {
       micListening = false;
-      if (els.mic.dataset.state === "listening") {
-        setMicState("idle", MIC_IDLE_TEXT);
+      if (handled) return;
+      handled = true;
+      // No final result was delivered (common on iOS Safari). Use the last
+      // interim if we have one; otherwise tell the user to try again.
+      if (lastFinalTranscripts) {
+        evaluateTranscripts(lastFinalTranscripts);
+      } else if (lastInterim) {
+        evaluateTranscripts([lastInterim]);
+      } else {
+        setMicState("error", "🎤 Didn't catch that — try again");
+        resetMicSoon(2500);
       }
     };
 
