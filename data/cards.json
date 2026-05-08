@@ -3,312 +3,613 @@
     "hanzi": "家",
     "pinyin": "jiā",
     "english": "home",
-    "wikiTitles": ["House", "Cottage", "Mansion"]
+    "wikiTitles": [
+      "House",
+      "Cottage",
+      "Mansion"
+    ],
+    "localImages": {
+      "House": "data/images/dda36245de06.jpg",
+      "Cottage": "data/images/494531185ae6.jpg",
+      "Mansion": "data/images/e795fcdabd45.jpg"
+    }
   },
   {
     "hanzi": "学",
     "pinyin": "xué",
     "english": "learn",
-    "wikiTitles": ["Education", "Classroom", "School"]
+    "wikiTitles": [
+      "Education",
+      "Classroom",
+      "School"
+    ],
+    "localImages": {
+      "Education": "data/images/188d25e94f29.jpg",
+      "Classroom": "data/images/538618dda210.jpg",
+      "School": "data/images/4662bad7b3fb.jpg"
+    }
   },
   {
     "hanzi": "石",
     "pinyin": "shí",
     "english": "rock",
-    "wikiTitles": ["Boulder", "Pebble", "Cobble_(geology)"]
+    "wikiTitles": [
+      "Boulder",
+      "Pebble",
+      "Cobble_(geology)"
+    ],
+    "localImages": {
+      "Boulder": "data/images/d79dfb572687.jpg",
+      "Pebble": "data/images/f8289d3403ea.jpg",
+      "Cobble_(geology)": "data/images/ea36628ad91e.jpg"
+    }
   },
   {
     "hanzi": "火",
     "pinyin": "huǒ",
     "english": "fire",
-    "wikiTitles": ["Fire", "Campfire", "Bonfire"]
+    "wikiTitles": [
+      "Fire",
+      "Campfire",
+      "Bonfire"
+    ],
+    "localImages": {
+      "Fire": "data/images/74429603f258.jpg",
+      "Campfire": "data/images/096ca03c4064.png",
+      "Bonfire": "data/images/dd4d8030d37a.jpg"
+    }
   },
   {
     "hanzi": "土",
     "pinyin": "tǔ",
     "english": "dirt / ground",
-    "wikiTitles": ["Soil", "Mud", "Sand"]
+    "wikiTitles": [
+      "Soil",
+      "Mud",
+      "Sand"
+    ],
+    "localImages": {
+      "Soil": "data/images/f2ef4dc218c6.jpg",
+      "Mud": "data/images/dac1e40eea7c.jpg",
+      "Sand": "data/images/02a52816ad22.jpg"
+    }
   },
   {
     "hanzi": "田",
     "pinyin": "tián",
     "english": "farm",
-    "wikiTitles": ["Paddy_field", "Farm", "Field_(agriculture)"]
+    "wikiTitles": [
+      "Paddy_field",
+      "Farm",
+      "Field_(agriculture)"
+    ],
+    "localImages": {
+      "Paddy_field": "data/images/da3b0614ff4b.jpg",
+      "Farm": "data/images/60aa2e8c1d24.jpg",
+      "Field_(agriculture)": "data/images/fbb45ca0a80e.jpg"
+    }
   },
   {
     "hanzi": "爸爸",
     "pinyin": "bàba",
     "english": "dad",
-    "wikiTitles": ["Father", "Fatherhood", "Paternal_bond"]
+    "wikiTitles": [
+      "Father",
+      "Fatherhood",
+      "Paternal_bond"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "妈妈",
     "pinyin": "māma",
     "english": "mom",
-    "wikiTitles": ["Mother", "Motherhood", "Maternal_bond"]
+    "wikiTitles": [
+      "Mother",
+      "Motherhood",
+      "Maternal_bond"
+    ],
+    "localImages": {
+      "Maternal_bond": "data/images/c2f473ef4e2e.jpg"
+    }
   },
   {
     "hanzi": "姐姐",
     "pinyin": "jiějie",
     "english": "older sister",
-    "wikiTitles": ["Sister", "Sibling", "Adolescence"]
+    "wikiTitles": [
+      "Sister",
+      "Sibling",
+      "Adolescence"
+    ],
+    "localImages": {
+      "Sister": "data/images/1a2e259c9d9d.jpg"
+    }
   },
   {
     "hanzi": "妹妹",
     "pinyin": "mèimei",
     "english": "younger sister",
-    "wikiTitles": ["Girl", "Daughter", "Child"]
+    "wikiTitles": [
+      "Girl",
+      "Daughter",
+      "Child"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "人",
     "pinyin": "rén",
     "english": "person",
-    "wikiTitles": ["Human", "Person", "Adult"]
+    "wikiTitles": [
+      "Human",
+      "Person",
+      "Adult"
+    ],
+    "localImages": {
+      "Human": "data/images/a5ce914d685a.jpg"
+    }
   },
   {
     "hanzi": "头",
     "pinyin": "tóu",
     "english": "head",
-    "wikiTitles": ["Head", "Human_head", "Face"]
+    "wikiTitles": [
+      "Head",
+      "Human_head",
+      "Face"
+    ],
+    "localImages": {
+      "Face": "data/images/bbdfb4ac1086.jpg"
+    }
   },
   {
     "hanzi": "手",
     "pinyin": "shǒu",
     "english": "hand",
-    "wikiTitles": ["Hand", "Fist", "Palm_(anatomy)"]
+    "wikiTitles": [
+      "Hand",
+      "Fist",
+      "Palm_(anatomy)"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "脚",
     "pinyin": "jiǎo",
     "english": "foot",
-    "wikiTitles": ["Foot", "Barefoot", "Toe"]
+    "wikiTitles": [
+      "Foot",
+      "Barefoot",
+      "Toe"
+    ],
+    "localImages": {
+      "Barefoot": "data/images/27f1caf90617.jpg",
+      "Toe": "data/images/7af14fe60f7b.png"
+    }
   },
   {
     "hanzi": "天",
     "pinyin": "tiān",
     "english": "sky",
-    "wikiTitles": ["Sky", "Cloud", "Sunset"]
+    "wikiTitles": [
+      "Sky",
+      "Cloud",
+      "Sunset"
+    ],
+    "localImages": {
+      "Sunset": "data/images/60a8eb8819a3.jpg"
+    }
   },
   {
     "hanzi": "口",
     "pinyin": "kǒu",
     "english": "mouth",
-    "wikiTitles": ["Mouth", "Lip", "Smile"]
+    "wikiTitles": [
+      "Mouth",
+      "Lip",
+      "Smile"
+    ],
+    "localImages": {
+      "Lip": "data/images/52c6a9324301.jpg"
+    }
   },
   {
     "hanzi": "耳",
     "pinyin": "ěr",
     "english": "ear",
-    "wikiTitles": ["Ear", "Earlobe", "Outer_ear"]
+    "wikiTitles": [
+      "Ear",
+      "Earlobe",
+      "Outer_ear"
+    ],
+    "localImages": {
+      "Earlobe": "data/images/e8b5c9fd771d.png",
+      "Outer_ear": "data/images/4722aa4f2106.png"
+    }
   },
   {
     "hanzi": "花",
     "pinyin": "huā",
     "english": "flower",
-    "wikiTitles": ["Flower", "Rose", "Sunflower", "Tulip"]
+    "wikiTitles": [
+      "Flower",
+      "Rose",
+      "Sunflower",
+      "Tulip"
+    ],
+    "localImages": {
+      "Rose": "data/images/188a4e1f2ef6.jpg",
+      "Sunflower": "data/images/8ff4cf7bc1c5.jpg",
+      "Tulip": "data/images/e6922143357f.jpg"
+    }
   },
   {
     "hanzi": "花园",
     "pinyin": "huāyuán",
     "english": "garden",
-    "wikiTitles": ["Garden", "Flower_garden", "Japanese_garden"]
+    "wikiTitles": [
+      "Garden",
+      "Flower_garden",
+      "Japanese_garden"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "牛",
     "pinyin": "niú",
     "english": "cow",
-    "wikiTitles": ["Cattle", "Holstein_Friesian", "Calf"]
+    "wikiTitles": [
+      "Cattle",
+      "Holstein_Friesian",
+      "Calf"
+    ],
+    "localImages": {
+      "Cattle": "data/images/85e2ec0bb8b4.jpg",
+      "Holstein_Friesian": "data/images/849fa7970494.jpg"
+    }
   },
   {
     "hanzi": "羊",
     "pinyin": "yáng",
     "english": "sheep",
-    "wikiTitles": ["Sheep", "Lamb_(animal)", "Wool"]
+    "wikiTitles": [
+      "Sheep",
+      "Lamb_(animal)",
+      "Wool"
+    ],
+    "localImages": {
+      "Sheep": "data/images/8d8653a9da65.jpg"
+    }
   },
   {
     "hanzi": "马",
     "pinyin": "mǎ",
     "english": "horse",
-    "wikiTitles": ["Horse", "Pony", "Foal"]
+    "wikiTitles": [
+      "Horse",
+      "Pony",
+      "Foal"
+    ],
+    "localImages": {
+      "Horse": "data/images/7cf3c11cbd81.jpg",
+      "Pony": "data/images/27dba9ccc58c.jpg"
+    }
   },
   {
     "hanzi": "狗",
     "pinyin": "gǒu",
     "english": "dog",
-    "wikiTitles": ["Dog", "Puppy", "Golden_Retriever"]
+    "wikiTitles": [
+      "Dog",
+      "Puppy",
+      "Golden_Retriever"
+    ],
+    "localImages": {
+      "Puppy": "data/images/9f8b946901b6.jpg",
+      "Golden_Retriever": "data/images/257bc60650a2.jpg"
+    }
   },
   {
     "hanzi": "鸟",
     "pinyin": "niǎo",
     "english": "bird",
-    "wikiTitles": ["Bird", "Sparrow", "Pigeon"]
+    "wikiTitles": [
+      "Bird",
+      "Sparrow",
+      "Pigeon"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "虫",
     "pinyin": "chóng",
     "english": "insect",
-    "wikiTitles": ["Caterpillar", "Butterfly", "Earthworm"]
+    "wikiTitles": [
+      "Caterpillar",
+      "Butterfly",
+      "Earthworm"
+    ],
+    "localImages": {
+      "Caterpillar": "data/images/72521e476f72.jpg",
+      "Butterfly": "data/images/b5544e038241.jpg",
+      "Earthworm": "data/images/e3a142d42c25.jpg"
+    }
   },
   {
     "hanzi": "水",
     "pinyin": "shuǐ",
     "english": "water",
-    "wikiTitles": ["Drinking_water"]
+    "wikiTitles": [
+      "Drinking_water"
+    ],
+    "localImages": {
+      "Drinking_water": "data/images/4bd8778b9023.jpg"
+    }
   },
   {
     "hanzi": "一",
     "pinyin": "yī",
     "english": "one",
-    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23c0392b'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E1%3C/text%3E%3C/svg%3E"]
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23c0392b'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E1%3C/text%3E%3C/svg%3E"
+    ]
   },
   {
     "hanzi": "二",
     "pinyin": "èr",
     "english": "two",
-    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23e67e22'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E2%3C/text%3E%3C/svg%3E"]
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23e67e22'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E2%3C/text%3E%3C/svg%3E"
+    ]
   },
   {
     "hanzi": "三",
     "pinyin": "sān",
     "english": "three",
-    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23f39c12'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E3%3C/text%3E%3C/svg%3E"]
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23f39c12'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E3%3C/text%3E%3C/svg%3E"
+    ]
   },
   {
     "hanzi": "四",
     "pinyin": "sì",
     "english": "four",
-    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2327ae60'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E4%3C/text%3E%3C/svg%3E"]
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2327ae60'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E4%3C/text%3E%3C/svg%3E"
+    ]
   },
   {
     "hanzi": "五",
     "pinyin": "wǔ",
     "english": "five",
-    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2316a085'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E5%3C/text%3E%3C/svg%3E"]
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2316a085'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E5%3C/text%3E%3C/svg%3E"
+    ]
   },
   {
     "hanzi": "六",
     "pinyin": "liù",
     "english": "six",
-    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%232980b9'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E6%3C/text%3E%3C/svg%3E"]
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%232980b9'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E6%3C/text%3E%3C/svg%3E"
+    ]
   },
   {
     "hanzi": "七",
     "pinyin": "qī",
     "english": "seven",
-    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%238e44ad'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E7%3C/text%3E%3C/svg%3E"]
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%238e44ad'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E7%3C/text%3E%3C/svg%3E"
+    ]
   },
   {
     "hanzi": "八",
     "pinyin": "bā",
     "english": "eight",
-    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23e91e63'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E8%3C/text%3E%3C/svg%3E"]
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23e91e63'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E8%3C/text%3E%3C/svg%3E"
+    ]
   },
   {
     "hanzi": "九",
     "pinyin": "jiǔ",
     "english": "nine",
-    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23795548'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E9%3C/text%3E%3C/svg%3E"]
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23795548'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E9%3C/text%3E%3C/svg%3E"
+    ]
   },
   {
     "hanzi": "十",
     "pinyin": "shí",
     "english": "ten",
-    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2334495e'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='285'%20font-size='240'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E10%3C/text%3E%3C/svg%3E"]
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2334495e'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='285'%20font-size='240'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E10%3C/text%3E%3C/svg%3E"
+    ]
   },
   {
     "hanzi": "百",
     "pinyin": "bǎi",
     "english": "hundred",
-    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%238b0000'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='275'%20font-size='200'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E100%3C/text%3E%3C/svg%3E"]
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%238b0000'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='275'%20font-size='200'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E100%3C/text%3E%3C/svg%3E"
+    ]
   },
   {
     "hanzi": "老师",
     "pinyin": "lǎoshī",
     "english": "teacher",
-    "wikiTitles": ["Teacher", "Professor", "Schoolteacher"]
+    "wikiTitles": [
+      "Teacher",
+      "Professor",
+      "Schoolteacher"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "同学",
     "pinyin": "tóngxué",
     "english": "classmate",
-    "wikiTitles": ["Student", "Classmate", "Pupil_(student)"]
+    "wikiTitles": [
+      "Student",
+      "Classmate",
+      "Pupil_(student)"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "多",
     "pinyin": "duō",
     "english": "many",
-    "wikiTitles": ["Crowd", "Multitude", "Abundance"]
+    "wikiTitles": [
+      "Crowd",
+      "Multitude",
+      "Abundance"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "少",
     "pinyin": "shǎo",
     "english": "few",
-    "wikiTitles": ["Solitude", "Minority"]
+    "wikiTitles": [
+      "Solitude",
+      "Minority"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "小",
     "pinyin": "xiǎo",
     "english": "small",
-    "wikiTitles": ["Miniature", "Mouse", "Ant"]
+    "wikiTitles": [
+      "Miniature",
+      "Mouse",
+      "Ant"
+    ],
+    "localImages": {
+      "Mouse": "data/images/8176b3ad0c3e.jpg"
+    }
   },
   {
     "hanzi": "月",
     "pinyin": "yuè",
     "english": "moon",
-    "wikiTitles": ["Moon", "Full_moon", "Crescent"]
+    "wikiTitles": [
+      "Moon",
+      "Full_moon",
+      "Crescent"
+    ],
+    "localImages": {
+      "Moon": "data/images/f948abee13bb.jpg",
+      "Full_moon": "data/images/f948abee13bb.jpg",
+      "Crescent": "data/images/e65e00a06a41.jpg"
+    }
   },
   {
     "hanzi": "山",
     "pinyin": "shān",
     "english": "mountain",
-    "wikiTitles": ["Mountain", "Mount_Fuji", "Hill"]
+    "wikiTitles": [
+      "Mountain",
+      "Mount_Fuji",
+      "Hill"
+    ],
+    "localImages": {
+      "Mountain": "data/images/5c91919899fd.jpg",
+      "Mount_Fuji": "data/images/579fda65b1c1.jpg"
+    }
   },
   {
     "hanzi": "日",
     "pinyin": "rì",
     "english": "sun",
-    "wikiTitles": ["Sun", "Sunrise", "Sunlight"]
+    "wikiTitles": [
+      "Sun",
+      "Sunrise",
+      "Sunlight"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "木",
     "pinyin": "mù",
     "english": "wood / tree",
-    "wikiTitles": ["Tree", "Wood", "Forest"]
+    "wikiTitles": [
+      "Tree",
+      "Wood",
+      "Forest"
+    ],
+    "localImages": {
+      "Tree": "data/images/82a63e92c388.jpg"
+    }
   },
   {
     "hanzi": "上",
     "pinyin": "shàng",
     "english": "up / above",
-    "wikiTitles": ["Sky", "Ceiling"]
+    "wikiTitles": [
+      "Sky",
+      "Ceiling"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "下",
     "pinyin": "xià",
     "english": "down / below",
-    "wikiTitles": ["Cave", "Basement", "Underground"]
+    "wikiTitles": [
+      "Cave",
+      "Basement",
+      "Underground"
+    ],
+    "localImages": {
+      "Basement": "data/images/d1fd0170e7e7.jpg"
+    }
   },
   {
     "hanzi": "出",
     "pinyin": "chū",
     "english": "go out / exit",
-    "wikiTitles": ["Exit_sign", "Doorway", "Door"]
+    "wikiTitles": [
+      "Exit_sign",
+      "Doorway",
+      "Door"
+    ],
+    "localImages": {
+      "Door": "data/images/6503816d06b4.png"
+    }
   },
   {
     "hanzi": "入",
     "pinyin": "rù",
     "english": "enter",
-    "wikiTitles": ["Entrance", "Doorway", "Gate"]
+    "wikiTitles": [
+      "Entrance",
+      "Doorway",
+      "Gate"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "走",
     "pinyin": "zǒu",
     "english": "walk",
-    "wikiTitles": ["Walking", "Pedestrian", "Hiking"]
+    "wikiTitles": [
+      "Walking",
+      "Pedestrian",
+      "Hiking"
+    ],
+    "localImages": {}
   },
   {
     "hanzi": "立",
     "pinyin": "lì",
     "english": "stand",
-    "wikiTitles": ["Standing", "Posture"]
+    "wikiTitles": [
+      "Standing",
+      "Posture"
+    ],
+    "localImages": {}
   }
 ]
