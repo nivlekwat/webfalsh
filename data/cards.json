@@ -10,5 +10,29 @@
     "pinyin": "xué",
     "english": "learn",
     "wikiTitle": "Education"
+  },
+  {
+    "hanzi": "石",
+    "pinyin": "shí",
+    "english": "rock",
+    "wikiTitle": "Rock_(geology)"
+  },
+  {
+    "hanzi": "火",
+    "pinyin": "huǒ",
+    "english": "fire",
+    "wikiTitle": "Fire"
+  },
+  {
+    "hanzi": "土",
+    "pinyin": "tǔ",
+    "english": "dirt / ground",
+    "wikiTitle": "Soil"
+  },
+  {
+    "hanzi": "田",
+    "pinyin": "tián",
+    "english": "farm",
+    "wikiTitle": "Paddy_field"
   }
 ]
