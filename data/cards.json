@@ -112,5 +112,47 @@
     "pinyin": "huāyuán",
     "english": "garden",
     "wikiTitle": "Garden"
+  },
+  {
+    "hanzi": "牛",
+    "pinyin": "niú",
+    "english": "cow",
+    "wikiTitle": "Cattle"
+  },
+  {
+    "hanzi": "羊",
+    "pinyin": "yáng",
+    "english": "sheep",
+    "wikiTitle": "Sheep"
+  },
+  {
+    "hanzi": "马",
+    "pinyin": "mǎ",
+    "english": "horse",
+    "wikiTitle": "Horse"
+  },
+  {
+    "hanzi": "狗",
+    "pinyin": "gǒu",
+    "english": "dog",
+    "wikiTitle": "Dog"
+  },
+  {
+    "hanzi": "鸟",
+    "pinyin": "niǎo",
+    "english": "bird",
+    "wikiTitle": "Bird"
+  },
+  {
+    "hanzi": "虫",
+    "pinyin": "chóng",
+    "english": "insect",
+    "wikiTitle": "Insect"
+  },
+  {
+    "hanzi": "水",
+    "pinyin": "shuǐ",
+    "english": "water",
+    "wikiTitle": "Water"
   }
 ]
