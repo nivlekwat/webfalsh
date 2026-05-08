@@ -31,6 +31,8 @@
   let deck = [];
   let index = 0;
   let chineseVoice = null;
+  // Bag-shuffle queue for "🔀" so every card is shown before any repeat.
+  let shuffleQueue = [];
 
   function show(el) { el.classList.remove("hidden"); }
   function hide(el) { el.classList.add("hidden"); }
@@ -58,6 +60,7 @@
     }
     show(els.studyContent);
     index = 0;
+    shuffleQueue = [];
     render();
   }
 
@@ -402,13 +405,23 @@
     }
   }
 
+  function refillShuffleQueue(avoidFirst) {
+    const idxs = [];
+    for (let i = 0; i < deck.length; i++) idxs.push(i);
+    for (let i = idxs.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
+    }
+    if (avoidFirst != null && idxs.length > 1 && idxs[0] === avoidFirst) {
+      [idxs[0], idxs[1]] = [idxs[1], idxs[0]];
+    }
+    shuffleQueue = idxs;
+  }
+
   function shuffleToRandomCard() {
     if (deck.length <= 1) return render();
-    let newIndex;
-    do {
-      newIndex = Math.floor(Math.random() * deck.length);
-    } while (newIndex === index);
-    index = newIndex;
+    if (shuffleQueue.length === 0) refillShuffleQueue(index);
+    index = shuffleQueue.shift();
     render();
   }
 
@@ -673,6 +686,7 @@
   els.shuffle.addEventListener("click", () => {
     shuffleArr(deck);
     index = 0;
+    shuffleQueue = [];
     render();
   });
 
