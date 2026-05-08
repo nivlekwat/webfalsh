@@ -21,6 +21,7 @@
     shuffle: document.getElementById("shuffle"),
     ttsWarning: document.getElementById("ttsWarning"),
     gotIt: document.getElementById("gotIt"),
+    mic: document.getElementById("mic"),
     rewardOverlay: document.getElementById("rewardOverlay"),
     rewardLoading: document.getElementById("rewardLoading"),
     rewardGif: document.getElementById("rewardGif"),
@@ -423,6 +424,124 @@
     e.stopPropagation();
     dismissReward();
   });
+
+  // --- Microphone speech check (Web Speech API) ---
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const MIC_IDLE_TEXT = "🎤 Try saying it";
+  let micRecognition = null;
+  let micListening = false;
+  let micResetTimer = null;
+
+  function setMicState(state, text) {
+    if (micResetTimer) {
+      clearTimeout(micResetTimer);
+      micResetTimer = null;
+    }
+    els.mic.dataset.state = state;
+    if (text !== undefined) els.mic.textContent = text;
+  }
+
+  function resetMicSoon(ms) {
+    if (micResetTimer) clearTimeout(micResetTimer);
+    micResetTimer = setTimeout(() => {
+      setMicState("idle", MIC_IDLE_TEXT);
+    }, ms);
+  }
+
+  function normalizeForCompare(s) {
+    return (s || "")
+      .replace(/\s+/g, "")
+      .replace(/[\.,!?。，！？、:;"'’“”]/g, "")
+      .toLowerCase();
+  }
+
+  function checkPronunciation(transcripts) {
+    const card = deck[index];
+    if (!card) return false;
+    const expected = normalizeForCompare(card.hanzi);
+    if (!expected) return false;
+    return transcripts.some((heard) => {
+      const h = normalizeForCompare(heard);
+      if (!h) return false;
+      return h.includes(expected) || expected.includes(h);
+    });
+  }
+
+  function startListening() {
+    if (!SR) {
+      setMicState("unsupported", "🎤 not supported here");
+      return;
+    }
+    if (micListening) return;
+    if (els.rewardOverlay.classList.contains("show")) return;
+
+    micRecognition = new SR();
+    micRecognition.lang = "zh-CN";
+    micRecognition.continuous = false;
+    micRecognition.interimResults = false;
+    micRecognition.maxAlternatives = 5;
+
+    micRecognition.onstart = () => {
+      micListening = true;
+      setMicState("listening", "🎤 Listening…");
+    };
+
+    micRecognition.onresult = (e) => {
+      micListening = false;
+      const transcripts = [];
+      for (let i = 0; i < e.results[0].length; i++) {
+        transcripts.push(e.results[0][i].transcript);
+      }
+      if (checkPronunciation(transcripts)) {
+        setMicState("success", "✓ Great job!");
+        setTimeout(() => {
+          setMicState("idle", MIC_IDLE_TEXT);
+          showReward();
+        }, 500);
+      } else {
+        const heard = transcripts[0] || "";
+        setMicState("error", `Heard: "${heard}" — try again`);
+        resetMicSoon(2800);
+      }
+    };
+
+    micRecognition.onerror = (e) => {
+      micListening = false;
+      let msg = "🎤 Try again";
+      if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+        msg = "🎤 Allow microphone access";
+      } else if (e.error === "no-speech") {
+        msg = "🎤 Didn't hear you — try again";
+      } else if (e.error === "audio-capture") {
+        msg = "🎤 No mic detected";
+      } else if (e.error === "network") {
+        msg = "🎤 Network error";
+      }
+      setMicState("error", msg);
+      resetMicSoon(2500);
+    };
+
+    micRecognition.onend = () => {
+      micListening = false;
+      if (els.mic.dataset.state === "listening") {
+        setMicState("idle", MIC_IDLE_TEXT);
+      }
+    };
+
+    try {
+      micRecognition.start();
+    } catch (err) {
+      micListening = false;
+      setMicState("error", "🎤 Try again");
+      resetMicSoon(1500);
+    }
+  }
+
+  if (!SR) {
+    setMicState("unsupported", "🎤 not supported here");
+  } else {
+    els.mic.addEventListener("click", startListening);
+  }
   els.shuffle.addEventListener("click", () => {
     shuffleArr(deck);
     index = 0;

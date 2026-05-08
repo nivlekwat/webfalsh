@@ -424,23 +424,66 @@ main, header, footer {
 .got-it-btn {
   background: linear-gradient(135deg, #4caf50, #66bb6a);
   color: white;
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 700;
-  padding: 0.85rem 2.2rem;
-  border-radius: 14px;
+  padding: 0.65rem 1.8rem;
+  border-radius: 12px;
   border: none;
   margin: 0.1rem 0 0.25rem;
-  box-shadow: 0 5px 14px rgba(76, 175, 80, 0.4);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.35);
   letter-spacing: 0.02em;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   cursor: pointer;
 }
 .got-it-btn:hover {
-  transform: scale(1.06);
-  box-shadow: 0 7px 18px rgba(76, 175, 80, 0.55);
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.5);
   background: linear-gradient(135deg, #4caf50, #66bb6a);
 }
 .got-it-btn:active { transform: scale(0.97); }
+
+/* Microphone button (speech check) */
+.mic-btn {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.85rem 2rem;
+  border-radius: 14px;
+  border: none;
+  margin: 0.1rem 0 0.15rem;
+  box-shadow: 0 5px 14px rgba(52, 152, 219, 0.4);
+  letter-spacing: 0.02em;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+  cursor: pointer;
+  min-width: 240px;
+}
+.mic-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 7px 18px rgba(52, 152, 219, 0.55);
+}
+.mic-btn:active { transform: scale(0.97); }
+
+.mic-btn[data-state="listening"] {
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+  animation: mic-pulse 1s ease-in-out infinite;
+}
+.mic-btn[data-state="success"] {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+}
+.mic-btn[data-state="error"] {
+  background: linear-gradient(135deg, #e67e22, #d35400);
+}
+.mic-btn[data-state="unsupported"] {
+  background: #bdbdbd;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+@keyframes mic-pulse {
+  0%, 100% { box-shadow: 0 5px 14px rgba(231, 76, 60, 0.5); }
+  50%      { box-shadow: 0 5px 30px rgba(231, 76, 60, 0.8); }
+}
 
 /* Reward overlay (animal gif prize) */
 .reward-overlay {
