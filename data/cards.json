@@ -159,67 +159,67 @@
     "hanzi": "一",
     "pinyin": "yī",
     "english": "one",
-    "wikiTitles": ["1"]
+    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23c0392b'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E1%3C/text%3E%3C/svg%3E"]
   },
   {
     "hanzi": "二",
     "pinyin": "èr",
     "english": "two",
-    "wikiTitles": ["2"]
+    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23e67e22'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E2%3C/text%3E%3C/svg%3E"]
   },
   {
     "hanzi": "三",
     "pinyin": "sān",
     "english": "three",
-    "wikiTitles": ["3"]
+    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23f39c12'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E3%3C/text%3E%3C/svg%3E"]
   },
   {
     "hanzi": "四",
     "pinyin": "sì",
     "english": "four",
-    "wikiTitles": ["4"]
+    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2327ae60'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E4%3C/text%3E%3C/svg%3E"]
   },
   {
     "hanzi": "五",
     "pinyin": "wǔ",
     "english": "five",
-    "wikiTitles": ["5"]
+    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2316a085'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E5%3C/text%3E%3C/svg%3E"]
   },
   {
     "hanzi": "六",
     "pinyin": "liù",
     "english": "six",
-    "wikiTitles": ["6"]
+    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%232980b9'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E6%3C/text%3E%3C/svg%3E"]
   },
   {
     "hanzi": "七",
     "pinyin": "qī",
     "english": "seven",
-    "wikiTitles": ["7"]
+    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%238e44ad'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E7%3C/text%3E%3C/svg%3E"]
   },
   {
     "hanzi": "八",
     "pinyin": "bā",
     "english": "eight",
-    "wikiTitles": ["8"]
+    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23e91e63'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E8%3C/text%3E%3C/svg%3E"]
   },
   {
     "hanzi": "九",
     "pinyin": "jiǔ",
     "english": "nine",
-    "wikiTitles": ["9"]
+    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23795548'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E9%3C/text%3E%3C/svg%3E"]
   },
   {
     "hanzi": "十",
     "pinyin": "shí",
     "english": "ten",
-    "wikiTitles": ["10"]
+    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2334495e'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='285'%20font-size='240'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E10%3C/text%3E%3C/svg%3E"]
   },
   {
     "hanzi": "百",
     "pinyin": "bǎi",
     "english": "hundred",
-    "wikiTitles": ["100", "Hundred"]
+    "images": ["data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%238b0000'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='275'%20font-size='200'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E100%3C/text%3E%3C/svg%3E"]
   },
   {
     "hanzi": "老师",

@@ -1,0 +1,36 @@
+name: Fetch images
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/cards.json'
+      - 'scripts/fetch-images.mjs'
+      - '.github/workflows/fetch-images.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip-fetch]')"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Resolve and download Wikipedia images
+        run: node scripts/fetch-images.mjs
+      - name: Commit changes
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/images data/cards.json
+            git commit -m "Sync local images for cards [skip-fetch]"
+            git push
+          else
+            echo "No image changes."
+          fi

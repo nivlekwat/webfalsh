@@ -108,6 +108,9 @@
     setPlaceholder("Loading picture…");
 
     let src = card.image || null;
+    if (!src && card.images && card.images.length) {
+      src = card.images[Math.floor(Math.random() * card.images.length)];
+    }
     if (!src) {
       const titles =
         card.wikiTitles && card.wikiTitles.length
@@ -117,8 +120,12 @@
           : [];
       if (titles.length) {
         const title = titles[Math.floor(Math.random() * titles.length)];
-        src = await resolveWikiImage(title);
-        if (myIndex !== index) return;
+        if (card.localImages && card.localImages[title]) {
+          src = card.localImages[title];
+        } else {
+          src = await resolveWikiImage(title);
+          if (myIndex !== index) return;
+        }
       }
     }
     if (!src) {
