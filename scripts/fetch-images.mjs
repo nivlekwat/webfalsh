@@ -18,14 +18,33 @@ const UA =
 fs.mkdirSync(IMG_DIR, { recursive: true });
 const cards = JSON.parse(fs.readFileSync(CARDS_PATH, "utf8"));
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function fetchWithRetry(url, options) {
+  const maxAttempts = 6;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const res = await fetch(url, options);
+    if (res.ok) return res;
+    if (res.status === 429 && attempt < maxAttempts) {
+      const wait = 1000 * Math.pow(2, attempt - 1) + Math.random() * 500;
+      console.log(
+        `  429; waiting ${Math.round(wait)}ms (attempt ${attempt}/${maxAttempts})`
+      );
+      await sleep(wait);
+      continue;
+    }
+    throw new Error(`HTTP ${res.status}`);
+  }
+  throw new Error("retry exhausted");
+}
+
 async function resolveImageUrl(title) {
   const url =
     "https://en.wikipedia.org/api/rest_v1/page/summary/" +
     encodeURIComponent(title);
-  const res = await fetch(url, {
+  const res = await fetchWithRetry(url, {
     headers: { "User-Agent": UA, accept: "application/json" },
   });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const data = await res.json();
   return (
     (data.originalimage && data.originalimage.source) ||
@@ -35,8 +54,7 @@ async function resolveImageUrl(title) {
 }
 
 async function downloadToFile(url, destFile) {
-  const res = await fetch(url, { headers: { "User-Agent": UA } });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const res = await fetchWithRetry(url, { headers: { "User-Agent": UA } });
   const buf = Buffer.from(await res.arrayBuffer());
   fs.writeFileSync(destFile, buf);
 }
@@ -63,6 +81,7 @@ for (const card of cards) {
     const existing = card.localImages[title];
     if (existing && fs.existsSync(path.join(ROOT, existing))) continue;
 
+    await sleep(250); // be polite to Wikipedia REST API
     try {
       const wikiUrl = await resolveImageUrl(title);
       if (!wikiUrl) {
