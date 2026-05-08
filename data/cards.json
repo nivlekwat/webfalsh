@@ -98,7 +98,11 @@
       "Fatherhood",
       "Paternal_bond"
     ],
-    "localImages": {}
+    "localImages": {
+      "Father": "data/images/b8f4101e87a6.jpg",
+      "Fatherhood": "data/images/b8f4101e87a6.jpg",
+      "Paternal_bond": "data/images/9ec7cf69503b.jpg"
+    }
   },
   {
     "hanzi": "妈妈",
@@ -110,7 +114,9 @@
       "Maternal_bond"
     ],
     "localImages": {
-      "Maternal_bond": "data/images/c2f473ef4e2e.jpg"
+      "Maternal_bond": "data/images/c2f473ef4e2e.jpg",
+      "Mother": "data/images/51cdc76e898c.jpg",
+      "Motherhood": "data/images/51cdc76e898c.jpg"
     }
   },
   {
@@ -123,7 +129,9 @@
       "Adolescence"
     ],
     "localImages": {
-      "Sister": "data/images/1a2e259c9d9d.jpg"
+      "Sister": "data/images/1a2e259c9d9d.jpg",
+      "Sibling": "data/images/ed556697f3a9.jpg",
+      "Adolescence": "data/images/a402d64c7cdb.jpg"
     }
   },
   {
@@ -135,7 +143,11 @@
       "Daughter",
       "Child"
     ],
-    "localImages": {}
+    "localImages": {
+      "Girl": "data/images/850d2e6f3c3d.jpg",
+      "Daughter": "data/images/e25fc07ee5e7.jpg",
+      "Child": "data/images/6273148fd710.jpeg"
+    }
   },
   {
     "hanzi": "人",
@@ -147,7 +159,8 @@
       "Adult"
     ],
     "localImages": {
-      "Human": "data/images/a5ce914d685a.jpg"
+      "Human": "data/images/a5ce914d685a.jpg",
+      "Person": "data/images/dfd55524f90e.jpg"
     }
   },
   {
@@ -160,7 +173,9 @@
       "Face"
     ],
     "localImages": {
-      "Face": "data/images/bbdfb4ac1086.jpg"
+      "Face": "data/images/bbdfb4ac1086.jpg",
+      "Head": "data/images/febe1f3eaa06.jpg",
+      "Human_head": "data/images/ca85a968baa1.jpg"
     }
   },
   {
@@ -172,7 +187,10 @@
       "Fist",
       "Palm_(anatomy)"
     ],
-    "localImages": {}
+    "localImages": {
+      "Hand": "data/images/5ea9b3aa4b3b.jpg",
+      "Palm_(anatomy)": "data/images/5ea9b3aa4b3b.jpg"
+    }
   },
   {
     "hanzi": "脚",
@@ -185,7 +203,8 @@
     ],
     "localImages": {
       "Barefoot": "data/images/27f1caf90617.jpg",
-      "Toe": "data/images/7af14fe60f7b.png"
+      "Toe": "data/images/7af14fe60f7b.png",
+      "Foot": "data/images/df78b7016f6e.jpg"
     }
   },
   {
@@ -198,7 +217,9 @@
       "Sunset"
     ],
     "localImages": {
-      "Sunset": "data/images/60a8eb8819a3.jpg"
+      "Sunset": "data/images/60a8eb8819a3.jpg",
+      "Sky": "data/images/396262d69a73.jpg",
+      "Cloud": "data/images/47be47a2ba4a.jpg"
     }
   },
   {
@@ -211,7 +232,9 @@
       "Smile"
     ],
     "localImages": {
-      "Lip": "data/images/52c6a9324301.jpg"
+      "Lip": "data/images/52c6a9324301.jpg",
+      "Mouth": "data/images/924ef5d5ec6b.jpg",
+      "Smile": "data/images/879222f2124d.jpg"
     }
   },
   {
@@ -225,7 +248,8 @@
     ],
     "localImages": {
       "Earlobe": "data/images/e8b5c9fd771d.png",
-      "Outer_ear": "data/images/4722aa4f2106.png"
+      "Outer_ear": "data/images/4722aa4f2106.png",
+      "Ear": "data/images/316f52b28daa.jpg"
     }
   },
   {
@@ -241,7 +265,8 @@
     "localImages": {
       "Rose": "data/images/188a4e1f2ef6.jpg",
       "Sunflower": "data/images/8ff4cf7bc1c5.jpg",
-      "Tulip": "data/images/e6922143357f.jpg"
+      "Tulip": "data/images/e6922143357f.jpg",
+      "Flower": "data/images/92acf33caf14.jpg"
     }
   },
   {
@@ -253,7 +278,11 @@
       "Flower_garden",
       "Japanese_garden"
     ],
-    "localImages": {}
+    "localImages": {
+      "Garden": "data/images/3b9cb9fef6d1.jpg",
+      "Flower_garden": "data/images/d515e43492f0.jpg",
+      "Japanese_garden": "data/images/ff939a20613b.jpg"
+    }
   },
   {
     "hanzi": "牛",
@@ -279,7 +308,8 @@
       "Wool"
     ],
     "localImages": {
-      "Sheep": "data/images/8d8653a9da65.jpg"
+      "Sheep": "data/images/8d8653a9da65.jpg",
+      "Wool": "data/images/da123002ebf3.jpg"
     }
   },
   {
@@ -293,7 +323,8 @@
     ],
     "localImages": {
       "Horse": "data/images/7cf3c11cbd81.jpg",
-      "Pony": "data/images/27dba9ccc58c.jpg"
+      "Pony": "data/images/27dba9ccc58c.jpg",
+      "Foal": "data/images/503bcf09bc7b.jpg"
     }
   },
   {
@@ -307,7 +338,8 @@
     ],
     "localImages": {
       "Puppy": "data/images/9f8b946901b6.jpg",
-      "Golden_Retriever": "data/images/257bc60650a2.jpg"
+      "Golden_Retriever": "data/images/257bc60650a2.jpg",
+      "Dog": "data/images/d055165c50e8.jpg"
     }
   },
   {
@@ -319,7 +351,10 @@
       "Sparrow",
       "Pigeon"
     ],
-    "localImages": {}
+    "localImages": {
+      "Bird": "data/images/ca57c585b8d3.png",
+      "Pigeon": "data/images/1a4f9cf4b22e.jpg"
+    }
   },
   {
     "hanzi": "虫",
@@ -444,7 +479,11 @@
       "Professor",
       "Schoolteacher"
     ],
-    "localImages": {}
+    "localImages": {
+      "Teacher": "data/images/7b3ba4ef9b00.jpg",
+      "Professor": "data/images/9560eb9af467.jpg",
+      "Schoolteacher": "data/images/7b3ba4ef9b00.jpg"
+    }
   },
   {
     "hanzi": "同学",
@@ -455,7 +494,9 @@
       "Classmate",
       "Pupil_(student)"
     ],
-    "localImages": {}
+    "localImages": {
+      "Student": "data/images/5f42bbe17718.jpg"
+    }
   },
   {
     "hanzi": "多",
@@ -466,7 +507,9 @@
       "Multitude",
       "Abundance"
     ],
-    "localImages": {}
+    "localImages": {
+      "Crowd": "data/images/e20836be69c8.jpg"
+    }
   },
   {
     "hanzi": "少",
@@ -476,7 +519,9 @@
       "Solitude",
       "Minority"
     ],
-    "localImages": {}
+    "localImages": {
+      "Solitude": "data/images/0b80719b3ec4.jpg"
+    }
   },
   {
     "hanzi": "小",
@@ -488,7 +533,8 @@
       "Ant"
     ],
     "localImages": {
-      "Mouse": "data/images/8176b3ad0c3e.jpg"
+      "Mouse": "data/images/8176b3ad0c3e.jpg",
+      "Ant": "data/images/657f6f4025f5.jpg"
     }
   },
   {
@@ -517,7 +563,8 @@
     ],
     "localImages": {
       "Mountain": "data/images/5c91919899fd.jpg",
-      "Mount_Fuji": "data/images/579fda65b1c1.jpg"
+      "Mount_Fuji": "data/images/579fda65b1c1.jpg",
+      "Hill": "data/images/49790b29a09c.jpg"
     }
   },
   {
@@ -529,7 +576,11 @@
       "Sunrise",
       "Sunlight"
     ],
-    "localImages": {}
+    "localImages": {
+      "Sun": "data/images/2e510f6c63f7.jpg",
+      "Sunrise": "data/images/2d501c10ccc4.jpg",
+      "Sunlight": "data/images/524e366aff6e.jpg"
+    }
   },
   {
     "hanzi": "木",
@@ -541,7 +592,9 @@
       "Forest"
     ],
     "localImages": {
-      "Tree": "data/images/82a63e92c388.jpg"
+      "Tree": "data/images/82a63e92c388.jpg",
+      "Wood": "data/images/627555485eb4.jpg",
+      "Forest": "data/images/1e1accb1d919.jpg"
     }
   },
   {
@@ -552,7 +605,10 @@
       "Sky",
       "Ceiling"
     ],
-    "localImages": {}
+    "localImages": {
+      "Sky": "data/images/396262d69a73.jpg",
+      "Ceiling": "data/images/f7c4f419743c.jpg"
+    }
   },
   {
     "hanzi": "下",
@@ -564,7 +620,8 @@
       "Underground"
     ],
     "localImages": {
-      "Basement": "data/images/d1fd0170e7e7.jpg"
+      "Basement": "data/images/d1fd0170e7e7.jpg",
+      "Cave": "data/images/b172dc262795.jpg"
     }
   },
   {
@@ -589,7 +646,9 @@
       "Doorway",
       "Gate"
     ],
-    "localImages": {}
+    "localImages": {
+      "Gate": "data/images/0005732dedc4.jpg"
+    }
   },
   {
     "hanzi": "走",
@@ -600,7 +659,11 @@
       "Pedestrian",
       "Hiking"
     ],
-    "localImages": {}
+    "localImages": {
+      "Walking": "data/images/be455845909b.jpg",
+      "Pedestrian": "data/images/07e432e3bbe6.jpg",
+      "Hiking": "data/images/216afea52c8c.jpg"
+    }
   },
   {
     "hanzi": "立",
@@ -610,6 +673,8 @@
       "Standing",
       "Posture"
     ],
-    "localImages": {}
+    "localImages": {
+      "Standing": "data/images/7bc91f976f4b.jpg"
+    }
   }
 ]
