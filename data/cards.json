@@ -474,6 +474,7 @@
     "hanzi": "老师",
     "pinyin": "lǎoshī",
     "english": "teacher",
+    "images": ["data/images/svg-teacher.svg"],
     "wikiTitles": [
       "Teacher",
       "Professor",
@@ -489,6 +490,7 @@
     "hanzi": "同学",
     "pinyin": "tóngxué",
     "english": "classmate",
+    "images": ["data/images/svg-classmate.svg"],
     "wikiTitles": [
       "Student",
       "Classmate",
@@ -502,6 +504,7 @@
     "hanzi": "多",
     "pinyin": "duō",
     "english": "many",
+    "images": ["data/images/svg-many.svg"],
     "wikiTitles": [
       "Crowd",
       "Multitude",
@@ -515,6 +518,7 @@
     "hanzi": "少",
     "pinyin": "shǎo",
     "english": "few",
+    "images": ["data/images/svg-few.svg"],
     "wikiTitles": [
       "Solitude",
       "Minority"
@@ -527,6 +531,7 @@
     "hanzi": "小",
     "pinyin": "xiǎo",
     "english": "small",
+    "images": ["data/images/svg-small.svg"],
     "wikiTitles": [
       "Miniature",
       "Mouse",
@@ -601,6 +606,7 @@
     "hanzi": "上",
     "pinyin": "shàng",
     "english": "up / above",
+    "images": ["data/images/svg-up.svg"],
     "wikiTitles": [
       "Sky",
       "Ceiling"
@@ -614,6 +620,7 @@
     "hanzi": "下",
     "pinyin": "xià",
     "english": "down / below",
+    "images": ["data/images/svg-down.svg"],
     "wikiTitles": [
       "Cave",
       "Basement",
@@ -628,6 +635,7 @@
     "hanzi": "出",
     "pinyin": "chū",
     "english": "go out / exit",
+    "images": ["data/images/svg-exit.svg"],
     "wikiTitles": [
       "Exit_sign",
       "Doorway",
@@ -641,6 +649,7 @@
     "hanzi": "入",
     "pinyin": "rù",
     "english": "enter",
+    "images": ["data/images/svg-enter.svg"],
     "wikiTitles": [
       "Entrance",
       "Doorway",
@@ -654,6 +663,7 @@
     "hanzi": "走",
     "pinyin": "zǒu",
     "english": "walk",
+    "images": ["data/images/svg-walk.svg"],
     "wikiTitles": [
       "Walking",
       "Pedestrian",
@@ -669,6 +679,7 @@
     "hanzi": "立",
     "pinyin": "lì",
     "english": "stand",
+    "images": ["data/images/svg-stand.svg"],
     "wikiTitles": [
       "Standing",
       "Posture"

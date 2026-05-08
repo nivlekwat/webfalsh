@@ -108,22 +108,36 @@
     setPlaceholder("Loading picture…");
 
     let src = card.image || null;
-    if (!src && card.images && card.images.length) {
-      src = card.images[Math.floor(Math.random() * card.images.length)];
-    }
     if (!src) {
-      const titles =
-        card.wikiTitles && card.wikiTitles.length
-          ? card.wikiTitles
-          : card.wikiTitle
-          ? [card.wikiTitle]
-          : [];
-      if (titles.length) {
-        const title = titles[Math.floor(Math.random() * titles.length)];
-        if (card.localImages && card.localImages[title]) {
-          src = card.localImages[title];
+      // Build a unified pool of every available picture for this card:
+      // explicit URLs from `images`, already-resolved local Wikipedia files
+      // from `localImages`, and any unresolved wikiTitles (which we'll fetch
+      // live if randomly picked).
+      const pool = [];
+      if (card.images && card.images.length) {
+        for (const url of card.images) pool.push({ kind: "url", value: url });
+      }
+      if (card.wikiTitles && card.wikiTitles.length) {
+        for (const title of card.wikiTitles) {
+          if (card.localImages && card.localImages[title]) {
+            pool.push({ kind: "url", value: card.localImages[title] });
+          } else {
+            pool.push({ kind: "fetch", value: title });
+          }
+        }
+      } else if (card.wikiTitle) {
+        if (card.localImages && card.localImages[card.wikiTitle]) {
+          pool.push({ kind: "url", value: card.localImages[card.wikiTitle] });
         } else {
-          src = await resolveWikiImage(title);
+          pool.push({ kind: "fetch", value: card.wikiTitle });
+        }
+      }
+      if (pool.length) {
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        if (pick.kind === "url") {
+          src = pick.value;
+        } else {
+          src = await resolveWikiImage(pick.value);
           if (myIndex !== index) return;
         }
       }
