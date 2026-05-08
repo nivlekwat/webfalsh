@@ -154,5 +154,161 @@
     "pinyin": "shuǐ",
     "english": "water",
     "wikiTitles": ["Drinking_water"]
+  },
+  {
+    "hanzi": "一",
+    "pinyin": "yī",
+    "english": "one",
+    "wikiTitles": ["1"]
+  },
+  {
+    "hanzi": "二",
+    "pinyin": "èr",
+    "english": "two",
+    "wikiTitles": ["2"]
+  },
+  {
+    "hanzi": "三",
+    "pinyin": "sān",
+    "english": "three",
+    "wikiTitles": ["3"]
+  },
+  {
+    "hanzi": "四",
+    "pinyin": "sì",
+    "english": "four",
+    "wikiTitles": ["4"]
+  },
+  {
+    "hanzi": "五",
+    "pinyin": "wǔ",
+    "english": "five",
+    "wikiTitles": ["5"]
+  },
+  {
+    "hanzi": "六",
+    "pinyin": "liù",
+    "english": "six",
+    "wikiTitles": ["6"]
+  },
+  {
+    "hanzi": "七",
+    "pinyin": "qī",
+    "english": "seven",
+    "wikiTitles": ["7"]
+  },
+  {
+    "hanzi": "八",
+    "pinyin": "bā",
+    "english": "eight",
+    "wikiTitles": ["8"]
+  },
+  {
+    "hanzi": "九",
+    "pinyin": "jiǔ",
+    "english": "nine",
+    "wikiTitles": ["9"]
+  },
+  {
+    "hanzi": "十",
+    "pinyin": "shí",
+    "english": "ten",
+    "wikiTitles": ["10"]
+  },
+  {
+    "hanzi": "百",
+    "pinyin": "bǎi",
+    "english": "hundred",
+    "wikiTitles": ["100", "Hundred"]
+  },
+  {
+    "hanzi": "老师",
+    "pinyin": "lǎoshī",
+    "english": "teacher",
+    "wikiTitles": ["Teacher", "Professor", "Schoolteacher"]
+  },
+  {
+    "hanzi": "同学",
+    "pinyin": "tóngxué",
+    "english": "classmate",
+    "wikiTitles": ["Student", "Classmate", "Pupil_(student)"]
+  },
+  {
+    "hanzi": "多",
+    "pinyin": "duō",
+    "english": "many",
+    "wikiTitles": ["Crowd", "Multitude", "Abundance"]
+  },
+  {
+    "hanzi": "少",
+    "pinyin": "shǎo",
+    "english": "few",
+    "wikiTitles": ["Solitude", "Minority"]
+  },
+  {
+    "hanzi": "小",
+    "pinyin": "xiǎo",
+    "english": "small",
+    "wikiTitles": ["Miniature", "Mouse", "Ant"]
+  },
+  {
+    "hanzi": "月",
+    "pinyin": "yuè",
+    "english": "moon",
+    "wikiTitles": ["Moon", "Full_moon", "Crescent"]
+  },
+  {
+    "hanzi": "山",
+    "pinyin": "shān",
+    "english": "mountain",
+    "wikiTitles": ["Mountain", "Mount_Fuji", "Hill"]
+  },
+  {
+    "hanzi": "日",
+    "pinyin": "rì",
+    "english": "sun",
+    "wikiTitles": ["Sun", "Sunrise", "Sunlight"]
+  },
+  {
+    "hanzi": "木",
+    "pinyin": "mù",
+    "english": "wood / tree",
+    "wikiTitles": ["Tree", "Wood", "Forest"]
+  },
+  {
+    "hanzi": "上",
+    "pinyin": "shàng",
+    "english": "up / above",
+    "wikiTitles": ["Sky", "Ceiling"]
+  },
+  {
+    "hanzi": "下",
+    "pinyin": "xià",
+    "english": "down / below",
+    "wikiTitles": ["Cave", "Basement", "Underground"]
+  },
+  {
+    "hanzi": "出",
+    "pinyin": "chū",
+    "english": "go out / exit",
+    "wikiTitles": ["Exit_sign", "Doorway", "Door"]
+  },
+  {
+    "hanzi": "入",
+    "pinyin": "rù",
+    "english": "enter",
+    "wikiTitles": ["Entrance", "Doorway", "Gate"]
+  },
+  {
+    "hanzi": "走",
+    "pinyin": "zǒu",
+    "english": "walk",
+    "wikiTitles": ["Walking", "Pedestrian", "Hiking"]
+  },
+  {
+    "hanzi": "立",
+    "pinyin": "lì",
+    "english": "stand",
+    "wikiTitles": ["Standing", "Posture"]
   }
 ]
