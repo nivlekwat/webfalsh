@@ -455,15 +455,101 @@
       .toLowerCase();
   }
 
+  // --- Pinyin (toneless) helpers for forgiving matching ---
+  function stripTones(s) {
+    return s
+      .replace(/[āáǎà]/g, "a")
+      .replace(/[ēéěè]/g, "e")
+      .replace(/[īíǐì]/g, "i")
+      .replace(/[ōóǒò]/g, "o")
+      .replace(/[ūúǔù]/g, "u")
+      .replace(/[ǖǘǚǜü]/g, "v");
+  }
+
+  function hanziToPinyin(text) {
+    const dict = window.PINYIN_DICT || {};
+    let out = "";
+    for (const ch of text) {
+      if (dict[ch]) {
+        out += dict[ch];
+      } else if (/[a-z]/i.test(ch)) {
+        out += ch.toLowerCase();
+      } else if (/[一-龥]/.test(ch)) {
+        // Unknown CJK char → placeholder so it doesn't accidentally match
+        out += "?";
+      }
+      // skip other punctuation/whitespace
+    }
+    return out;
+  }
+
+  function levenshtein(a, b) {
+    if (a === b) return 0;
+    if (!a.length) return b.length;
+    if (!b.length) return a.length;
+    const prev = new Array(b.length + 1);
+    for (let j = 0; j <= b.length; j++) prev[j] = j;
+    for (let i = 1; i <= a.length; i++) {
+      let curr = i;
+      for (let j = 1; j <= b.length; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        const next = Math.min(prev[j] + 1, curr + 1, prev[j - 1] + cost);
+        prev[j - 1] = curr;
+        curr = next;
+      }
+      prev[b.length] = curr;
+    }
+    return prev[b.length];
+  }
+
+  function similarity(a, b) {
+    if (a === b) return 1;
+    const longer = a.length >= b.length ? a : b;
+    if (!longer.length) return 1;
+    return (longer.length - levenshtein(a, b)) / longer.length;
+  }
+
   function checkPronunciation(transcripts) {
     const card = deck[index];
     if (!card) return false;
-    const expected = normalizeForCompare(card.hanzi);
-    if (!expected) return false;
+
+    const expectedHanzi = normalizeForCompare(card.hanzi);
+    const expectedPinyin = card.pinyin
+      ? stripTones(normalizeForCompare(card.pinyin))
+      : hanziToPinyin(expectedHanzi);
+
+    if (!expectedHanzi && !expectedPinyin) return false;
+
     return transcripts.some((heard) => {
-      const h = normalizeForCompare(heard);
-      if (!h) return false;
-      return h.includes(expected) || expected.includes(h);
+      const heardNorm = normalizeForCompare(heard);
+      if (!heardNorm) return false;
+
+      // 1. Exact / substring hanzi match (catches the obvious right answers).
+      if (expectedHanzi && (heardNorm.includes(expectedHanzi) || expectedHanzi.includes(heardNorm))) {
+        return true;
+      }
+
+      // 2. Pinyin match — ignores tones and homophones.
+      const heardPinyin = hanziToPinyin(heardNorm);
+      if (
+        heardPinyin &&
+        expectedPinyin &&
+        (heardPinyin.includes(expectedPinyin) ||
+          expectedPinyin.includes(heardPinyin))
+      ) {
+        return true;
+      }
+
+      // 3. Fuzzy similarity on pinyin — accepts close-but-not-perfect reads.
+      if (
+        heardPinyin &&
+        expectedPinyin &&
+        similarity(heardPinyin, expectedPinyin) >= 0.6
+      ) {
+        return true;
+      }
+
+      return false;
     });
   }
 
