@@ -3,156 +3,156 @@
     "hanzi": "家",
     "pinyin": "jiā",
     "english": "home",
-    "wikiTitle": "House"
+    "wikiTitles": ["House", "Cottage", "Mansion"]
   },
   {
     "hanzi": "学",
     "pinyin": "xué",
     "english": "learn",
-    "wikiTitle": "Education"
+    "wikiTitles": ["Education", "Classroom", "School"]
   },
   {
     "hanzi": "石",
     "pinyin": "shí",
     "english": "rock",
-    "wikiTitle": "Boulder"
+    "wikiTitles": ["Boulder", "Pebble", "Cobble_(geology)"]
   },
   {
     "hanzi": "火",
     "pinyin": "huǒ",
     "english": "fire",
-    "wikiTitle": "Fire"
+    "wikiTitles": ["Fire", "Campfire", "Bonfire"]
   },
   {
     "hanzi": "土",
     "pinyin": "tǔ",
     "english": "dirt / ground",
-    "wikiTitle": "Soil"
+    "wikiTitles": ["Soil", "Mud", "Sand"]
   },
   {
     "hanzi": "田",
     "pinyin": "tián",
     "english": "farm",
-    "wikiTitle": "Paddy_field"
+    "wikiTitles": ["Paddy_field", "Farm", "Field_(agriculture)"]
   },
   {
     "hanzi": "爸爸",
     "pinyin": "bàba",
     "english": "dad",
-    "wikiTitle": "Father"
+    "wikiTitles": ["Father", "Fatherhood", "Paternal_bond"]
   },
   {
     "hanzi": "妈妈",
     "pinyin": "māma",
     "english": "mom",
-    "wikiTitle": "Mother"
+    "wikiTitles": ["Mother", "Motherhood", "Maternal_bond"]
   },
   {
     "hanzi": "姐姐",
     "pinyin": "jiějie",
     "english": "older sister",
-    "wikiTitle": "Sister"
+    "wikiTitles": ["Sister", "Sibling", "Adolescence"]
   },
   {
     "hanzi": "妹妹",
     "pinyin": "mèimei",
     "english": "younger sister",
-    "wikiTitle": "Girl"
+    "wikiTitles": ["Girl", "Daughter", "Child"]
   },
   {
     "hanzi": "人",
     "pinyin": "rén",
     "english": "person",
-    "wikiTitle": "Human"
+    "wikiTitles": ["Human", "Person", "Adult"]
   },
   {
     "hanzi": "头",
     "pinyin": "tóu",
     "english": "head",
-    "wikiTitle": "Head"
+    "wikiTitles": ["Head", "Human_head", "Face"]
   },
   {
     "hanzi": "手",
     "pinyin": "shǒu",
     "english": "hand",
-    "wikiTitle": "Hand"
+    "wikiTitles": ["Hand", "Fist", "Palm_(anatomy)"]
   },
   {
     "hanzi": "脚",
     "pinyin": "jiǎo",
     "english": "foot",
-    "wikiTitle": "Foot"
+    "wikiTitles": ["Foot", "Barefoot", "Toe"]
   },
   {
     "hanzi": "天",
     "pinyin": "tiān",
     "english": "sky",
-    "wikiTitle": "Sky"
+    "wikiTitles": ["Sky", "Cloud", "Sunset"]
   },
   {
     "hanzi": "口",
     "pinyin": "kǒu",
     "english": "mouth",
-    "wikiTitle": "Mouth"
+    "wikiTitles": ["Mouth", "Lip", "Smile"]
   },
   {
     "hanzi": "耳",
     "pinyin": "ěr",
     "english": "ear",
-    "wikiTitle": "Ear"
+    "wikiTitles": ["Ear", "Earlobe", "Outer_ear"]
   },
   {
     "hanzi": "花",
     "pinyin": "huā",
     "english": "flower",
-    "wikiTitle": "Flower"
+    "wikiTitles": ["Flower", "Rose", "Sunflower", "Tulip"]
   },
   {
     "hanzi": "花园",
     "pinyin": "huāyuán",
     "english": "garden",
-    "wikiTitle": "Garden"
+    "wikiTitles": ["Garden", "Flower_garden", "Japanese_garden"]
   },
   {
     "hanzi": "牛",
     "pinyin": "niú",
     "english": "cow",
-    "wikiTitle": "Cattle"
+    "wikiTitles": ["Cattle", "Holstein_Friesian", "Calf"]
   },
   {
     "hanzi": "羊",
     "pinyin": "yáng",
     "english": "sheep",
-    "wikiTitle": "Sheep"
+    "wikiTitles": ["Sheep", "Lamb_(animal)", "Wool"]
   },
   {
     "hanzi": "马",
     "pinyin": "mǎ",
     "english": "horse",
-    "wikiTitle": "Horse"
+    "wikiTitles": ["Horse", "Pony", "Foal"]
   },
   {
     "hanzi": "狗",
     "pinyin": "gǒu",
     "english": "dog",
-    "wikiTitle": "Dog"
+    "wikiTitles": ["Dog", "Puppy", "Golden_Retriever"]
   },
   {
     "hanzi": "鸟",
     "pinyin": "niǎo",
     "english": "bird",
-    "wikiTitle": "Bird"
+    "wikiTitles": ["Bird", "Sparrow", "Pigeon"]
   },
   {
     "hanzi": "虫",
     "pinyin": "chóng",
     "english": "insect",
-    "wikiTitle": "Caterpillar"
+    "wikiTitles": ["Caterpillar", "Butterfly", "Earthworm"]
   },
   {
     "hanzi": "水",
     "pinyin": "shuǐ",
     "english": "water",
-    "wikiTitle": "Drinking_water"
+    "wikiTitles": ["Drinking_water"]
   }
 ]

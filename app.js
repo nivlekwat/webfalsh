@@ -108,9 +108,18 @@
     setPlaceholder("Loading picture…");
 
     let src = card.image || null;
-    if (!src && card.wikiTitle) {
-      src = await resolveWikiImage(card.wikiTitle);
-      if (myIndex !== index) return;
+    if (!src) {
+      const titles =
+        card.wikiTitles && card.wikiTitles.length
+          ? card.wikiTitles
+          : card.wikiTitle
+          ? [card.wikiTitle]
+          : [];
+      if (titles.length) {
+        const title = titles[Math.floor(Math.random() * titles.length)];
+        src = await resolveWikiImage(title);
+        if (myIndex !== index) return;
+      }
     }
     if (!src) {
       setPlaceholder("No picture");
@@ -371,10 +380,20 @@
     }
   }
 
+  function shuffleToRandomCard() {
+    if (deck.length <= 1) return render();
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * deck.length);
+    } while (newIndex === index);
+    index = newIndex;
+    render();
+  }
+
   function dismissReward() {
     if (!els.rewardOverlay.classList.contains("show")) return;
     els.rewardOverlay.classList.remove("show");
-    nextCard();
+    shuffleToRandomCard();
   }
 
   els.gotIt.addEventListener("click", showReward);
