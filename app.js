@@ -345,12 +345,29 @@
     return loadImageWithTimeout(url, 6000);
   }
 
-  const REWARD_SOURCES = [srcCatApi, srcCataas, srcDog, srcShibe];
+  // Weighted: dogs come up ~3x more often than cats.
+  const REWARD_SOURCES = [
+    { fn: srcDog,    weight: 3 },
+    { fn: srcShibe,  weight: 3 },
+    { fn: srcCatApi, weight: 1 },
+    { fn: srcCataas, weight: 1 },
+  ];
 
   async function fetchAnimalReward() {
-    const order = REWARD_SOURCES.slice().sort(() => Math.random() - 0.5);
-    for (const src of order) {
-      try { return await src(); } catch (_) { /* try next */ }
+    // Expand by weight, then shuffle, then try unique sources in that order.
+    const expanded = [];
+    for (const s of REWARD_SOURCES) {
+      for (let i = 0; i < s.weight; i++) expanded.push(s);
+    }
+    for (let i = expanded.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [expanded[i], expanded[j]] = [expanded[j], expanded[i]];
+    }
+    const tried = new Set();
+    for (const s of expanded) {
+      if (tried.has(s.fn)) continue;
+      tried.add(s.fn);
+      try { return await s.fn(); } catch (_) { /* try next */ }
     }
     return null;
   }
