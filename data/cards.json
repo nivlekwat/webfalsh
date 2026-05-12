@@ -687,5 +687,47 @@
     "localImages": {
       "Standing": "data/images/7bc91f976f4b.jpg"
     }
+  },
+  {
+    "hanzi": "你好",
+    "pinyin": "nǐhǎo",
+    "english": "hello",
+    "wikiTitles": ["Greeting", "Hello", "Wave_(gesture)"]
+  },
+  {
+    "hanzi": "长颈鹿",
+    "pinyin": "chángjǐnglù",
+    "english": "giraffe",
+    "wikiTitles": ["Giraffe"]
+  },
+  {
+    "hanzi": "什么",
+    "pinyin": "shénme",
+    "english": "what",
+    "wikiTitles": ["Question_mark", "Question"]
+  },
+  {
+    "hanzi": "新年",
+    "pinyin": "xīnnián",
+    "english": "new year",
+    "wikiTitles": ["Chinese_New_Year", "New_Year", "Fireworks"]
+  },
+  {
+    "hanzi": "方向",
+    "pinyin": "fāngxiàng",
+    "english": "direction",
+    "wikiTitles": ["Compass", "Compass_rose"]
+  },
+  {
+    "hanzi": "前面",
+    "pinyin": "qiánmiàn",
+    "english": "in front",
+    "images": ["data/images/svg-front.svg"]
+  },
+  {
+    "hanzi": "后面",
+    "pinyin": "hòumiàn",
+    "english": "in the back",
+    "images": ["data/images/svg-back.svg"]
   }
 ]
