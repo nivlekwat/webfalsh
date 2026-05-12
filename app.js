@@ -4,7 +4,8 @@
     emptyState: document.getElementById("emptyState"),
     errorState: document.getElementById("errorState"),
     studyContent: document.getElementById("studyContent"),
-    progress: document.getElementById("progress"),
+    score: document.getElementById("score"),
+    starCount: document.getElementById("starCount"),
     card: document.getElementById("card"),
     cardImage: document.getElementById("cardImage"),
     cardImageBack: document.getElementById("cardImageBack"),
@@ -33,6 +34,8 @@
   let chineseVoice = null;
   // Bag-shuffle queue for "🔀" so every card is shown before any repeat.
   let shuffleQueue = [];
+  // Session-local star count (resets on reload).
+  let stars = 0;
 
   function show(el) { el.classList.remove("hidden"); }
   function hide(el) { el.classList.add("hidden"); }
@@ -182,7 +185,6 @@
     els.hanziBack.textContent = card.hanzi || "";
     els.pinyin.textContent = card.pinyin || "";
     els.english.textContent = card.english || "";
-    els.progress.textContent = `${index + 1} / ${deck.length}`;
     els.card.classList.remove("flipped");
     loadCardImage(card);
     triggerBounce();
@@ -401,7 +403,26 @@
     els.rewardGif.src = url;
   }
 
+  function awardStar(originEl) {
+    stars += 1;
+    els.starCount.textContent = stars;
+    els.score.classList.remove("bump");
+    void els.score.offsetWidth;
+    els.score.classList.add("bump");
+
+    // Floating "+1" near the origin of the action (or the score pill).
+    const rect = (originEl || els.score).getBoundingClientRect();
+    const popup = document.createElement("span");
+    popup.className = "score-popup";
+    popup.textContent = "+1 ⭐";
+    popup.style.left = rect.left + rect.width / 2 + "px";
+    popup.style.top = rect.top + "px";
+    document.body.appendChild(popup);
+    setTimeout(() => popup.remove(), 950);
+  }
+
   function showReward() {
+    awardStar(els.gotIt);
     spawnConfetti(els.gotIt);
     els.rewardOverlay.classList.add("show");
     els.rewardGif.classList.remove("loaded");
