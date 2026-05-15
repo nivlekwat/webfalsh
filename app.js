@@ -192,6 +192,7 @@
 
   function flip() {
     els.card.classList.toggle("flipped");
+    playFlipSound();
     spawnConfetti(els.card);
   }
 
@@ -270,6 +271,61 @@
       utter.onend = utter.onerror = () => btn.classList.remove("speaking");
     }
     speechSynthesis.speak(utter);
+  }
+
+  // --- Sound effects (synthesized via Web Audio API) ---
+  let audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx) {
+      const Ctor = window.AudioContext || window.webkitAudioContext;
+      if (!Ctor) return null;
+      audioCtx = new Ctor();
+    }
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return audioCtx;
+  }
+
+  function playTone({ type, freqStart, freqEnd, duration, volume, when }) {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    const start = ctx.currentTime + (when || 0);
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freqStart, start);
+    if (freqEnd && freqEnd !== freqStart) {
+      osc.frequency.exponentialRampToValueAtTime(
+        Math.max(20, freqEnd),
+        start + duration
+      );
+    }
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(volume, start + 0.012);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(start);
+    osc.stop(start + duration + 0.02);
+  }
+
+  function playFlipSound() {
+    try {
+      playTone({ type: "triangle", freqStart: 900, freqEnd: 250, duration: 0.13, volume: 0.18 });
+    } catch (_) {}
+  }
+
+  function playGotItSound() {
+    try {
+      const notes = [523.25, 659.25, 783.99]; // C5, E5, G5
+      notes.forEach((f, i) =>
+        playTone({ type: "sine", freqStart: f, duration: 0.18, volume: 0.2, when: i * 0.07 })
+      );
+    } catch (_) {}
+  }
+
+  function playShuffleSound() {
+    try {
+      playTone({ type: "sawtooth", freqStart: 1100, freqEnd: 380, duration: 0.18, volume: 0.14 });
+    } catch (_) {}
   }
 
   // --- Events ---
@@ -422,6 +478,7 @@
   }
 
   function showReward() {
+    playGotItSound();
     awardStar(els.gotIt);
     spawnConfetti(els.gotIt);
     els.rewardOverlay.classList.add("show");
@@ -460,6 +517,7 @@
     if (deck.length <= 1) return render();
     if (shuffleQueue.length === 0) refillShuffleQueue(index);
     index = shuffleQueue.shift();
+    playShuffleSound();
     render();
   }
 
@@ -725,6 +783,7 @@
     shuffleArr(deck);
     index = 0;
     shuffleQueue = [];
+    playShuffleSound();
     render();
   });
 
