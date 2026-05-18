@@ -300,6 +300,33 @@ main {
   50% { transform: scale(1.08); }
 }
 
+.mastery {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+  z-index: 4;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 3px 10px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  font-size: 0.78rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.mastery .star {
+  color: #ddd;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06));
+}
+
+.mastery .star.filled {
+  color: #f1c40f;
+  text-shadow: 0 0 4px rgba(241, 196, 15, 0.4);
+}
+
 .hint {
   position: absolute;
   bottom: 0.45rem;
