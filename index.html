@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chinese Flashcards</title>
-  <link rel="stylesheet" href="styles.css?v=19" />
+  <link rel="stylesheet" href="styles.css?v=20" />
 </head>
 <body>
   <div class="bg-decor" aria-hidden="true">
@@ -49,6 +49,7 @@
         <span class="sticker sticker-br" aria-hidden="true">✨</span>
         <div class="card-inner" id="cardInner">
           <div class="card-face card-front">
+            <div class="mastery" id="masteryFront" aria-label="Mastery"></div>
             <div class="image-wrap" id="imageWrap">
               <img id="cardImage" alt="" />
               <div class="image-placeholder" id="imagePlaceholder">No picture</div>
@@ -60,6 +61,7 @@
             <p class="hint">Tap card to reveal</p>
           </div>
           <div class="card-face card-back">
+            <div class="mastery" id="masteryBack" aria-label="Mastery"></div>
             <div class="image-wrap">
               <img id="cardImageBack" alt="" />
               <div class="image-placeholder" id="imagePlaceholderBack">No picture</div>
@@ -108,8 +110,8 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.js"></script>
-  <script src="supabase-config.js?v=19"></script>
-  <script src="pinyin-dict.js?v=19"></script>
-  <script src="app.js?v=19"></script>
+  <script src="supabase-config.js?v=20"></script>
+  <script src="pinyin-dict.js?v=20"></script>
+  <script src="app.js?v=20"></script>
 </body>
 </html>
