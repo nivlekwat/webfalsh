@@ -116,10 +116,6 @@
 
     let src = card.image || null;
     if (!src) {
-      // Build a unified pool of every available picture for this card:
-      // explicit URLs from `images`, already-resolved local Wikipedia files
-      // from `localImages`, and any unresolved wikiTitles (which we'll fetch
-      // live if randomly picked).
       const pool = [];
       if (card.images && card.images.length) {
         for (const url of card.images) pool.push({ kind: "url", value: url });
@@ -233,7 +229,6 @@
     render();
   }
 
-  // --- Web Speech API ---
   function pickChineseVoice() {
     if (!("speechSynthesis" in window)) return null;
     const voices = speechSynthesis.getVoices();
@@ -273,7 +268,6 @@
     speechSynthesis.speak(utter);
   }
 
-  // --- Sound effects (synthesized via Web Audio API) ---
   let audioCtx = null;
   function getAudioCtx() {
     if (!audioCtx) {
@@ -294,10 +288,7 @@
     osc.type = type;
     osc.frequency.setValueAtTime(freqStart, start);
     if (freqEnd && freqEnd !== freqStart) {
-      osc.frequency.exponentialRampToValueAtTime(
-        Math.max(20, freqEnd),
-        start + duration
-      );
+      osc.frequency.exponentialRampToValueAtTime(Math.max(20, freqEnd), start + duration);
     }
     gain.gain.setValueAtTime(0.0001, start);
     gain.gain.exponentialRampToValueAtTime(volume, start + 0.012);
@@ -308,27 +299,47 @@
   }
 
   function playFlipSound() {
-    try {
-      playTone({ type: "triangle", freqStart: 900, freqEnd: 250, duration: 0.13, volume: 0.18 });
-    } catch (_) {}
+    try { playTone({ type: "triangle", freqStart: 900, freqEnd: 250, duration: 0.13, volume: 0.18 }); } catch (_) {}
   }
-
   function playGotItSound() {
     try {
-      const notes = [523.25, 659.25, 783.99]; // C5, E5, G5
-      notes.forEach((f, i) =>
-        playTone({ type: "sine", freqStart: f, duration: 0.18, volume: 0.2, when: i * 0.07 })
-      );
+      const notes = [523.25, 659.25, 783.99];
+      notes.forEach((f, i) => playTone({ type: "sine", freqStart: f, duration: 0.18, volume: 0.2, when: i * 0.07 }));
     } catch (_) {}
   }
-
   function playShuffleSound() {
-    try {
-      playTone({ type: "sawtooth", freqStart: 1100, freqEnd: 380, duration: 0.18, volume: 0.14 });
-    } catch (_) {}
+    try { playTone({ type: "sawtooth", freqStart: 1100, freqEnd: 380, duration: 0.18, volume: 0.14 }); } catch (_) {}
   }
 
-  // --- Events ---
+  // --- Supabase progress sync (cross-device per-card mastery) ---
+  const sb =
+    window.supabase && window.SUPABASE_URL && window.SUPABASE_KEY
+      ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY)
+      : null;
+
+  async function recordCorrect(cardKey) {
+    if (!sb || !cardKey) return;
+    const now = new Date().toISOString();
+    try {
+      const { data: existing } = await sb
+        .from("progress")
+        .select("seen, correct")
+        .eq("card_key", cardKey)
+        .maybeSingle();
+      const seen = ((existing && existing.seen) || 0) + 1;
+      const correct = ((existing && existing.correct) || 0) + 1;
+      await sb.from("progress").upsert({
+        card_key: cardKey,
+        seen,
+        correct,
+        last_seen_at: now,
+        last_correct_at: now,
+      });
+    } catch (e) {
+      console.warn("progress write failed:", e);
+    }
+  }
+
   els.card.addEventListener("click", (e) => {
     if (e.target.closest(".speak-btn")) return;
     flip();
@@ -354,7 +365,6 @@
   els.next.addEventListener("click", nextCard);
   els.prev.addEventListener("click", prevCard);
 
-  // --- "I got it!" reward (random animal pic, multi-source + preload) ---
   function loadImageWithTimeout(url, ms) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -369,9 +379,7 @@
   }
 
   async function srcCatApi() {
-    const res = await fetch(
-      "https://api.thecatapi.com/v1/images/search?mime_types=gif&limit=1"
-    );
+    const res = await fetch("https://api.thecatapi.com/v1/images/search?mime_types=gif&limit=1");
     if (!res.ok) throw new Error("thecatapi " + res.status);
     const data = await res.json();
     const url = data && data[0] && data[0].url;
@@ -380,8 +388,7 @@
   }
 
   async function srcCataas() {
-    const url =
-      "https://cataas.com/cat/gif?width=480&t=" + Date.now() + Math.random();
+    const url = "https://cataas.com/cat/gif?width=480&t=" + Date.now() + Math.random();
     return loadImageWithTimeout(url, 7000);
   }
 
@@ -403,7 +410,6 @@
     return loadImageWithTimeout(url, 6000);
   }
 
-  // Weighted: dogs come up ~3x more often than cats.
   const REWARD_SOURCES = [
     { fn: srcDog,    weight: 3 },
     { fn: srcShibe,  weight: 3 },
@@ -412,7 +418,6 @@
   ];
 
   async function fetchAnimalReward() {
-    // Expand by weight, then shuffle, then try unique sources in that order.
     const expanded = [];
     for (const s of REWARD_SOURCES) {
       for (let i = 0; i < s.weight; i++) expanded.push(s);
@@ -425,7 +430,7 @@
     for (const s of expanded) {
       if (tried.has(s.fn)) continue;
       tried.add(s.fn);
-      try { return await s.fn(); } catch (_) { /* try next */ }
+      try { return await s.fn(); } catch (_) {}
     }
     return null;
   }
@@ -466,7 +471,6 @@
     void els.score.offsetWidth;
     els.score.classList.add("bump");
 
-    // Floating "+1" near the origin of the action (or the score pill).
     const rect = (originEl || els.score).getBoundingClientRect();
     const popup = document.createElement("span");
     popup.className = "score-popup";
@@ -475,6 +479,9 @@
     popup.style.top = rect.top + "px";
     document.body.appendChild(popup);
     setTimeout(() => popup.remove(), 950);
+
+    const card = deck[index];
+    if (card && card.hanzi) recordCorrect(card.hanzi);
   }
 
   function showReward() {
@@ -534,7 +541,6 @@
     dismissReward();
   });
 
-  // --- Microphone speech check (Web Speech API) ---
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   const MIC_IDLE_TEXT = "🎤 Try saying it";
   let micRecognition = null;
@@ -564,7 +570,6 @@
       .toLowerCase();
   }
 
-  // --- Pinyin (toneless) helpers for forgiving matching ---
   function stripTones(s) {
     return s
       .replace(/[āáǎà]/g, "a")
@@ -579,15 +584,9 @@
     const dict = window.PINYIN_DICT || {};
     let out = "";
     for (const ch of text) {
-      if (dict[ch]) {
-        out += dict[ch];
-      } else if (/[a-z]/i.test(ch)) {
-        out += ch.toLowerCase();
-      } else if (/[一-龥]/.test(ch)) {
-        // Unknown CJK char → placeholder so it doesn't accidentally match
-        out += "?";
-      }
-      // skip other punctuation/whitespace
+      if (dict[ch]) out += dict[ch];
+      else if (/[a-z]/i.test(ch)) out += ch.toLowerCase();
+      else if (/[一-龥]/.test(ch)) out += "?";
     }
     return out;
   }
@@ -633,30 +632,12 @@
       const heardNorm = normalizeForCompare(heard);
       if (!heardNorm) return false;
 
-      // 1. Exact / substring hanzi match (catches the obvious right answers).
-      if (expectedHanzi && (heardNorm.includes(expectedHanzi) || expectedHanzi.includes(heardNorm))) {
-        return true;
-      }
+      if (expectedHanzi && (heardNorm.includes(expectedHanzi) || expectedHanzi.includes(heardNorm))) return true;
 
-      // 2. Pinyin match — ignores tones and homophones.
       const heardPinyin = hanziToPinyin(heardNorm);
-      if (
-        heardPinyin &&
-        expectedPinyin &&
-        (heardPinyin.includes(expectedPinyin) ||
-          expectedPinyin.includes(heardPinyin))
-      ) {
-        return true;
-      }
+      if (heardPinyin && expectedPinyin && (heardPinyin.includes(expectedPinyin) || expectedPinyin.includes(heardPinyin))) return true;
 
-      // 3. Fuzzy similarity on pinyin — accepts close-but-not-perfect reads.
-      if (
-        heardPinyin &&
-        expectedPinyin &&
-        similarity(heardPinyin, expectedPinyin) >= 0.6
-      ) {
-        return true;
-      }
+      if (heardPinyin && expectedPinyin && similarity(heardPinyin, expectedPinyin) >= 0.6) return true;
 
       return false;
     });
@@ -686,7 +667,6 @@
       return;
     }
     if (micListening) {
-      // Tap again while listening = stop early and use whatever we heard.
       try { micRecognition && micRecognition.stop(); } catch (_) {}
       return;
     }
@@ -695,7 +675,7 @@
     micRecognition = new SR();
     micRecognition.lang = "zh-CN";
     micRecognition.continuous = false;
-    micRecognition.interimResults = true; // iOS Safari often only delivers interim
+    micRecognition.interimResults = true;
     micRecognition.maxAlternatives = 5;
 
     let lastInterim = "";
@@ -753,8 +733,6 @@
       micListening = false;
       if (handled) return;
       handled = true;
-      // No final result was delivered (common on iOS Safari). Use the last
-      // interim if we have one; otherwise tell the user to try again.
       if (lastFinalTranscripts) {
         evaluateTranscripts(lastFinalTranscripts);
       } else if (lastInterim) {
