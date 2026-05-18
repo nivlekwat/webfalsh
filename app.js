@@ -27,6 +27,8 @@
     rewardLoading: document.getElementById("rewardLoading"),
     rewardGif: document.getElementById("rewardGif"),
     rewardNext: document.getElementById("rewardNext"),
+    masteryFront: document.getElementById("masteryFront"),
+    masteryBack: document.getElementById("masteryBack"),
   };
 
   let deck = [];
@@ -197,6 +199,7 @@
     els.pinyin.textContent = card.pinyin || "";
     els.english.textContent = card.english || "";
     els.card.classList.remove("flipped");
+    renderMastery(masteryLevel(progressMap[card.hanzi]));
     loadCardImage(card);
     triggerBounce();
     flippedThisCard = false;
@@ -425,6 +428,35 @@
   function hoursSince(t) {
     if (!t) return 1e9;
     return (Date.now() - new Date(t).getTime()) / 3600000;
+  }
+
+  function masteryLevel(p) {
+    if (!p || (p.seen || 0) === 0) return 0;
+    const correct = p.correct || 0;
+    const seen = p.seen || 0;
+    const wrong = p.wrong || 0;
+    const flips = p.flips || 0;
+    const accuracy = seen > 0 ? correct / seen : 0;
+    if (correct >= 5 && accuracy >= 0.9 && (wrong + flips) <= 1) return 5;
+    if (correct >= 4 && accuracy >= 0.8) return 4;
+    if (correct >= 2 && accuracy >= 0.6) return 3;
+    if (correct >= 1) return 2;
+    return 1;
+  }
+
+  function renderMastery(level) {
+    let html = "";
+    for (let i = 0; i < 5; i++) {
+      const filled = i < level;
+      html +=
+        '<span class="star' +
+        (filled ? " filled" : "") +
+        '">' +
+        (filled ? "★" : "☆") +
+        "</span>";
+    }
+    if (els.masteryFront) els.masteryFront.innerHTML = html;
+    if (els.masteryBack) els.masteryBack.innerHTML = html;
   }
 
   function classifyCard(p) {
