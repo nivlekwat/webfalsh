@@ -37,6 +37,14 @@
   // Session-local star count (resets on reload).
   let stars = 0;
 
+  // --- Smart picker state ---
+  const SESSION_SIZE = 20;
+  const PICKER_TARGETS = { knowIt: 10, learning: 4, review: 4, new: 2 };
+  let progressMap = {}; // hanzi -> { seen, correct, wrong, flips, last_seen_at, last_correct_at }
+  let smartQueue = []; // deck indexes
+  let flippedThisCard = false;
+  let gotItThisCard = false;
+
   function show(el) { el.classList.remove("hidden"); }
   function hide(el) { el.classList.add("hidden"); }
 
@@ -64,6 +72,13 @@
     show(els.studyContent);
     index = 0;
     shuffleQueue = [];
+    smartQueue = [];
+    // Fetch existing progress + build the first smart-picker queue, then
+    // start with one of those cards. Falls back gracefully if Supabase
+    // isn't reachable.
+    await refreshProgress();
+    buildSmartQueue();
+    if (smartQueue.length) index = smartQueue.shift();
     render();
   }
 
@@ -184,12 +199,15 @@
     els.card.classList.remove("flipped");
     loadCardImage(card);
     triggerBounce();
+    flippedThisCard = false;
+    gotItThisCard = false;
   }
 
   function flip() {
     els.card.classList.toggle("flipped");
     playFlipSound();
     spawnConfetti(els.card);
+    flippedThisCard = true;
   }
 
   function spawnConfetti(centerEl) {
@@ -220,11 +238,13 @@
   }
 
   function nextCard() {
+    maybeRecordUnresolvedFlip();
     index = (index + 1) % deck.length;
     render();
   }
 
   function prevCard() {
+    maybeRecordUnresolvedFlip();
     index = (index - 1 + deck.length) % deck.length;
     render();
   }
@@ -317,27 +337,180 @@
       ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY)
       : null;
 
+  function localProgress(cardKey) {
+    return progressMap[cardKey] || {};
+  }
+
+  function patchLocal(cardKey, patch) {
+    progressMap[cardKey] = { ...(progressMap[cardKey] || {}), card_key: cardKey, ...patch };
+  }
+
   async function recordCorrect(cardKey) {
-    if (!sb || !cardKey) return;
+    if (!cardKey) return;
     const now = new Date().toISOString();
+    const cur = localProgress(cardKey);
+    const next = {
+      card_key: cardKey,
+      seen: (cur.seen || 0) + 1,
+      correct: (cur.correct || 0) + 1,
+      wrong: cur.wrong || 0,
+      flips: cur.flips || 0,
+      last_seen_at: now,
+      last_correct_at: now,
+    };
+    patchLocal(cardKey, next);
+    if (!sb) return;
+    try { await sb.from("progress").upsert(next); }
+    catch (e) { console.warn("progress correct write failed:", e); }
+  }
+
+  async function recordWrong(cardKey) {
+    if (!cardKey) return;
+    const now = new Date().toISOString();
+    const cur = localProgress(cardKey);
+    const next = {
+      card_key: cardKey,
+      seen: (cur.seen || 0) + 1,
+      correct: cur.correct || 0,
+      wrong: (cur.wrong || 0) + 1,
+      flips: cur.flips || 0,
+      last_seen_at: now,
+      last_correct_at: cur.last_correct_at || null,
+    };
+    patchLocal(cardKey, next);
+    if (!sb) return;
+    try { await sb.from("progress").upsert(next); }
+    catch (e) { console.warn("progress wrong write failed:", e); }
+  }
+
+  async function recordFlip(cardKey) {
+    if (!cardKey) return;
+    const cur = localProgress(cardKey);
+    const next = {
+      card_key: cardKey,
+      seen: cur.seen || 0,
+      correct: cur.correct || 0,
+      wrong: cur.wrong || 0,
+      flips: (cur.flips || 0) + 1,
+      last_seen_at: cur.last_seen_at || new Date().toISOString(),
+      last_correct_at: cur.last_correct_at || null,
+    };
+    patchLocal(cardKey, next);
+    if (!sb) return;
+    try { await sb.from("progress").upsert(next); }
+    catch (e) { console.warn("progress flip write failed:", e); }
+  }
+
+  // Called when the user leaves a card. If they flipped it but didn't
+  // confirm with "I got it!" or a successful mic check, count a flip.
+  function maybeRecordUnresolvedFlip() {
+    if (!flippedThisCard || gotItThisCard) return;
+    const card = deck[index];
+    if (card && card.hanzi) recordFlip(card.hanzi);
+  }
+
+  async function refreshProgress() {
+    if (!sb) return;
     try {
-      const { data: existing } = await sb
+      const { data } = await sb
         .from("progress")
-        .select("seen, correct")
-        .eq("card_key", cardKey)
-        .maybeSingle();
-      const seen = ((existing && existing.seen) || 0) + 1;
-      const correct = ((existing && existing.correct) || 0) + 1;
-      await sb.from("progress").upsert({
-        card_key: cardKey,
-        seen,
-        correct,
-        last_seen_at: now,
-        last_correct_at: now,
-      });
+        .select("card_key, seen, correct, wrong, flips, last_seen_at, last_correct_at");
+      progressMap = {};
+      if (data) for (const r of data) progressMap[r.card_key] = r;
     } catch (e) {
-      console.warn("progress write failed:", e);
+      console.warn("progress fetch failed:", e);
     }
+  }
+
+  function hoursSince(t) {
+    if (!t) return 1e9;
+    return (Date.now() - new Date(t).getTime()) / 3600000;
+  }
+
+  function classifyCard(p) {
+    if (!p || (p.seen || 0) === 0) return "new";
+    const seen = p.seen || 0;
+    const correct = p.correct || 0;
+    const wrong = p.wrong || 0;
+    const flips = p.flips || 0;
+    const accuracy = correct / Math.max(seen, 1);
+    if ((wrong + flips) >= 1 && accuracy < 0.7) return "review";
+    if (accuracy < 0.5) return "review";
+    if (accuracy >= 0.8 && seen >= 3) return "knowIt";
+    return "learning";
+  }
+
+  function buildSmartQueue() {
+    const buckets = { knowIt: [], learning: [], review: [], new: [] };
+    for (let i = 0; i < deck.length; i++) {
+      const card = deck[i];
+      const p = progressMap[card.hanzi];
+      const bucket = classifyCard(p);
+      let score = 0;
+      if (bucket === "review") {
+        score = ((p && p.wrong) || 0) * 3 + ((p && p.flips) || 0) * 2 + hoursSince(p && p.last_seen_at) * 0.05;
+      } else if (bucket === "new") {
+        score = Math.random();
+      } else {
+        score = hoursSince(p && p.last_seen_at);
+      }
+      buckets[bucket].push({ i, score });
+    }
+    for (const key of Object.keys(buckets)) {
+      buckets[key].sort((a, b) => b.score - a.score);
+    }
+    const queue = [];
+    const used = new Set();
+    for (const key of ["knowIt", "learning", "review", "new"]) {
+      const take = Math.min(PICKER_TARGETS[key], buckets[key].length);
+      for (let i = 0; i < take; i++) {
+        queue.push(buckets[key][i].i);
+        used.add(buckets[key][i].i);
+      }
+    }
+    // Top up from non-new buckets if the queue's short (e.g., not enough
+    // know-it cards yet). Never top up from "new" — that's the whole
+    // point of the cap.
+    if (queue.length < SESSION_SIZE) {
+      for (const key of ["knowIt", "learning", "review"]) {
+        for (const entry of buckets[key]) {
+          if (queue.length >= SESSION_SIZE) break;
+          if (used.has(entry.i)) continue;
+          queue.push(entry.i);
+          used.add(entry.i);
+        }
+      }
+    }
+    // Shuffle so card types are interleaved.
+    for (let i = queue.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [queue[i], queue[j]] = [queue[j], queue[i]];
+    }
+    smartQueue = queue;
+  }
+
+  async function nextSmartCard() {
+    if (deck.length <= 1) return render();
+    maybeRecordUnresolvedFlip();
+    if (smartQueue.length === 0) {
+      await refreshProgress();
+      buildSmartQueue();
+    }
+    if (smartQueue.length === 0) {
+      // Fallback if everything failed: random non-current card.
+      let n;
+      do { n = Math.floor(Math.random() * deck.length); } while (n === index && deck.length > 1);
+      index = n;
+    } else {
+      // Avoid showing the same card back-to-back if the queue's first
+      // entry happens to be the current card.
+      if (smartQueue[0] === index && smartQueue.length > 1) {
+        [smartQueue[0], smartQueue[1]] = [smartQueue[1], smartQueue[0]];
+      }
+      index = smartQueue.shift();
+    }
+    playShuffleSound();
+    render();
   }
 
   els.card.addEventListener("click", (e) => {
@@ -482,6 +655,7 @@
 
     const card = deck[index];
     if (card && card.hanzi) recordCorrect(card.hanzi);
+    gotItThisCard = true;
   }
 
   function showReward() {
@@ -531,7 +705,7 @@
   function dismissReward() {
     if (!els.rewardOverlay.classList.contains("show")) return;
     els.rewardOverlay.classList.remove("show");
-    shuffleToRandomCard();
+    nextSmartCard();
   }
 
   els.gotIt.addEventListener("click", showReward);
@@ -655,6 +829,9 @@
     const heard = (transcripts && transcripts[0]) || "";
     if (heard) {
       setMicState("error", `Heard: "${heard}" — try again`);
+      // Only count an actual transcript-mismatch as a wrong answer.
+      const card = deck[index];
+      if (card && card.hanzi) recordWrong(card.hanzi);
     } else {
       setMicState("error", "🎤 Didn't catch that — try again");
     }
