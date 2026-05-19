@@ -298,40 +298,62 @@
       if (!Ctor) return null;
       audioCtx = new Ctor();
     }
-    if (audioCtx.state === "suspended") audioCtx.resume();
+    if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
     return audioCtx;
   }
+
+  // Pre-unlock the AudioContext on the very first user interaction so
+  // iOS Safari is already running by the time we play any sound.
+  function unlockAudio() {
+    const ctx = getAudioCtx();
+    if (ctx && ctx.state === "suspended") ctx.resume().catch(() => {});
+  }
+  document.addEventListener("touchstart", unlockAudio, { once: true, passive: true });
+  document.addEventListener("click", unlockAudio, { once: true });
 
   function playTone({ type, freqStart, freqEnd, duration, volume, when }) {
     const ctx = getAudioCtx();
     if (!ctx) return;
     const start = ctx.currentTime + (when || 0);
+    const end = start + duration;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = type;
     osc.frequency.setValueAtTime(freqStart, start);
     if (freqEnd && freqEnd !== freqStart) {
-      osc.frequency.exponentialRampToValueAtTime(Math.max(20, freqEnd), start + duration);
+      // Linear ramps survive iOS Safari's quirks better than exponential.
+      osc.frequency.linearRampToValueAtTime(freqEnd, end);
     }
-    gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(volume, start + 0.012);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+    const attack = Math.min(0.015, duration * 0.2);
+    gain.gain.setValueAtTime(0, start);
+    gain.gain.linearRampToValueAtTime(volume, start + attack);
+    gain.gain.linearRampToValueAtTime(0, end);
     osc.connect(gain).connect(ctx.destination);
     osc.start(start);
-    osc.stop(start + duration + 0.02);
+    osc.stop(end + 0.03);
   }
 
   function playFlipSound() {
-    try { playTone({ type: "triangle", freqStart: 900, freqEnd: 250, duration: 0.13, volume: 0.18 }); } catch (_) {}
+    try {
+      // Sharp click — short square wave with quick frequency drop.
+      playTone({ type: "square", freqStart: 600, freqEnd: 200, duration: 0.09, volume: 0.18 });
+    } catch (_) {}
   }
   function playGotItSound() {
     try {
-      const notes = [523.25, 659.25, 783.99];
-      notes.forEach((f, i) => playTone({ type: "sine", freqStart: f, duration: 0.18, volume: 0.2, when: i * 0.07 }));
+      // Bell-like chime — stacked sines (A5 fundamental + E6 5th).
+      playTone({ type: "sine", freqStart: 880, duration: 0.42, volume: 0.22 });
+      playTone({ type: "sine", freqStart: 1320, duration: 0.42, volume: 0.12 });
     } catch (_) {}
   }
   function playShuffleSound() {
-    try { playTone({ type: "sawtooth", freqStart: 1100, freqEnd: 380, duration: 0.18, volume: 0.14 }); } catch (_) {}
+    try {
+      // Ascending sparkle — three quick triangle notes (E5, A5, D6).
+      const notes = [659.25, 880, 1174.66];
+      notes.forEach((f, i) =>
+        playTone({ type: "triangle", freqStart: f, duration: 0.1, volume: 0.16, when: i * 0.06 })
+      );
+    } catch (_) {}
   }
 
   // --- Supabase progress sync (cross-device per-card mastery) ---
