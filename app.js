@@ -29,6 +29,18 @@
     rewardNext: document.getElementById("rewardNext"),
     masteryFront: document.getElementById("masteryFront"),
     masteryBack: document.getElementById("masteryBack"),
+    profilePicker: document.getElementById("profilePicker"),
+    profilePickerTitle: document.getElementById("profilePickerTitle"),
+    profileList: document.getElementById("profileList"),
+    newProfileBtn: document.getElementById("newProfileBtn"),
+    newProfileForm: document.getElementById("newProfileForm"),
+    newProfileName: document.getElementById("newProfileName"),
+    newProfileEmoji: document.getElementById("newProfileEmoji"),
+    createProfileBtn: document.getElementById("createProfileBtn"),
+    cancelProfileBtn: document.getElementById("cancelProfileBtn"),
+    profileChip: document.getElementById("profileChip"),
+    profileChipEmoji: document.getElementById("profileChipEmoji"),
+    profileChipName: document.getElementById("profileChipName"),
   };
 
   let deck = [];
@@ -46,6 +58,14 @@
   let smartQueue = []; // deck indexes
   let flippedThisCard = false;
   let gotItThisCard = false;
+
+  // --- Multi-user profile + session state ---
+  const IDLE_TIMEOUT_MS = 60 * 60 * 1000; // 60 minutes
+  let currentProfile = null;
+  let currentSessionId = null;
+  let sessionCounters = { shown: 0, correct: 0, wrong: 0, flipped: 0 };
+  let lastInteractionAt = Date.now();
+  let sessionFlushTimer = null;
 
   function show(el) { el.classList.remove("hidden"); }
   function hide(el) { el.classList.add("hidden"); }
@@ -71,17 +91,11 @@
       show(els.emptyState);
       return;
     }
-    show(els.studyContent);
+    // Don't show study content yet — the startup flow gates this on
+    // profile selection. Just initialize the deck state.
     index = 0;
     shuffleQueue = [];
     smartQueue = [];
-    // Fetch existing progress + build the first smart-picker queue, then
-    // start with one of those cards. Falls back gracefully if Supabase
-    // isn't reachable.
-    await refreshProgress();
-    buildSmartQueue();
-    if (smartQueue.length) index = smartQueue.shift();
-    render();
   }
 
   function shuffleArr(arr) {
@@ -204,6 +218,11 @@
     triggerBounce();
     flippedThisCard = false;
     gotItThisCard = false;
+    if (currentSessionId) {
+      sessionCounters.shown += 1;
+      scheduleSessionFlush();
+    }
+    bumpInteraction();
   }
 
   function flip() {
@@ -370,8 +389,13 @@
     progressMap[cardKey] = { ...(progressMap[cardKey] || {}), card_key: cardKey, ...patch };
   }
 
+  function progressRowWithProfile(row) {
+    if (!currentProfile) return row;
+    return { ...row, profile_id: currentProfile.id };
+  }
+
   async function recordCorrect(cardKey) {
-    if (!cardKey) return;
+    if (!cardKey || !currentProfile) return;
     const now = new Date().toISOString();
     const cur = localProgress(cardKey);
     const next = {
@@ -384,13 +408,15 @@
       last_correct_at: now,
     };
     patchLocal(cardKey, next);
+    sessionCounters.correct += 1;
+    scheduleSessionFlush();
     if (!sb) return;
-    try { await sb.from("progress").upsert(next); }
+    try { await sb.from("progress").upsert(progressRowWithProfile(next)); }
     catch (e) { console.warn("progress correct write failed:", e); }
   }
 
   async function recordWrong(cardKey) {
-    if (!cardKey) return;
+    if (!cardKey || !currentProfile) return;
     const now = new Date().toISOString();
     const cur = localProgress(cardKey);
     const next = {
@@ -403,13 +429,15 @@
       last_correct_at: cur.last_correct_at || null,
     };
     patchLocal(cardKey, next);
+    sessionCounters.wrong += 1;
+    scheduleSessionFlush();
     if (!sb) return;
-    try { await sb.from("progress").upsert(next); }
+    try { await sb.from("progress").upsert(progressRowWithProfile(next)); }
     catch (e) { console.warn("progress wrong write failed:", e); }
   }
 
   async function recordFlip(cardKey) {
-    if (!cardKey) return;
+    if (!cardKey || !currentProfile) return;
     const cur = localProgress(cardKey);
     const next = {
       card_key: cardKey,
@@ -421,8 +449,10 @@
       last_correct_at: cur.last_correct_at || null,
     };
     patchLocal(cardKey, next);
+    sessionCounters.flipped += 1;
+    scheduleSessionFlush();
     if (!sb) return;
-    try { await sb.from("progress").upsert(next); }
+    try { await sb.from("progress").upsert(progressRowWithProfile(next)); }
     catch (e) { console.warn("progress flip write failed:", e); }
   }
 
@@ -435,12 +465,13 @@
   }
 
   async function refreshProgress() {
-    if (!sb) return;
+    progressMap = {};
+    if (!sb || !currentProfile) return;
     try {
       const { data } = await sb
         .from("progress")
-        .select("card_key, seen, correct, wrong, flips, last_seen_at, last_correct_at");
-      progressMap = {};
+        .select("card_key, seen, correct, wrong, flips, last_seen_at, last_correct_at")
+        .eq("profile_id", currentProfile.id);
       if (data) for (const r of data) progressMap[r.card_key] = r;
     } catch (e) {
       console.warn("progress fetch failed:", e);
@@ -1012,6 +1043,237 @@
     }
   });
 
-  loadDeck();
-  preloadReward();
+  // --- Profiles + session lifecycle ---
+
+  function bumpInteraction() {
+    lastInteractionAt = Date.now();
+  }
+
+  function scheduleSessionFlush() {
+    if (sessionFlushTimer || !currentSessionId) return;
+    sessionFlushTimer = setTimeout(async () => {
+      sessionFlushTimer = null;
+      await flushSessionCounters();
+    }, 3000);
+  }
+
+  async function flushSessionCounters(extra) {
+    if (!sb || !currentSessionId) return;
+    const patch = {
+      cards_shown: sessionCounters.shown,
+      cards_correct: sessionCounters.correct,
+      cards_wrong: sessionCounters.wrong,
+      cards_flipped: sessionCounters.flipped,
+      ...(extra || {}),
+    };
+    try {
+      await sb.from("sessions").update(patch).eq("id", currentSessionId);
+    } catch (e) {
+      console.warn("session update failed:", e);
+    }
+  }
+
+  async function startSession(profileId) {
+    sessionCounters = { shown: 0, correct: 0, wrong: 0, flipped: 0 };
+    lastInteractionAt = Date.now();
+    currentSessionId = null;
+    if (!sb) return;
+    try {
+      const { data, error } = await sb
+        .from("sessions")
+        .insert({ profile_id: profileId })
+        .select()
+        .single();
+      if (error) throw error;
+      currentSessionId = data && data.id;
+    } catch (e) {
+      console.warn("session start failed:", e);
+    }
+  }
+
+  async function endSession() {
+    if (sessionFlushTimer) {
+      clearTimeout(sessionFlushTimer);
+      sessionFlushTimer = null;
+    }
+    if (!currentSessionId) return;
+    const sessionId = currentSessionId;
+    currentSessionId = null;
+    if (!sb) return;
+    try {
+      await sb.from("sessions").update({
+        ended_at: new Date().toISOString(),
+        cards_shown: sessionCounters.shown,
+        cards_correct: sessionCounters.correct,
+        cards_wrong: sessionCounters.wrong,
+        cards_flipped: sessionCounters.flipped,
+      }).eq("id", sessionId);
+    } catch (e) {
+      console.warn("session end failed:", e);
+    }
+  }
+
+  function checkIdle() {
+    if (!currentSessionId) return;
+    if (Date.now() - lastInteractionAt > IDLE_TIMEOUT_MS) {
+      endSession();
+      showProfilePicker();
+    }
+  }
+  setInterval(checkIdle, 60 * 1000);
+  window.addEventListener("pagehide", () => {
+    if (currentSessionId) endSession();
+  });
+  document.addEventListener("pointerdown", bumpInteraction, { passive: true });
+
+  // Profile picker UI
+
+  async function fetchProfiles() {
+    if (!sb) return [];
+    try {
+      const { data } = await sb
+        .from("profiles")
+        .select("id, name, emoji, color, created_at")
+        .order("created_at", { ascending: true });
+      return data || [];
+    } catch (e) {
+      console.warn("profiles fetch failed:", e);
+      return [];
+    }
+  }
+
+  function renderProfileList(profiles) {
+    els.profileList.innerHTML = "";
+    for (const p of profiles) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "profile-tile";
+      btn.innerHTML =
+        '<span class="profile-tile-avatar">' +
+        escapeHtml(p.emoji || "🐱") +
+        '</span><span class="profile-tile-name">' +
+        escapeHtml(p.name || "") +
+        "</span>";
+      btn.addEventListener("click", () => selectProfile(p));
+      els.profileList.appendChild(btn);
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    })[c]);
+  }
+
+  async function showProfilePicker() {
+    els.profilePicker.classList.remove("hidden");
+    els.newProfileForm.classList.add("hidden");
+    els.profilePicker.querySelector(".profile-picker-card").classList.remove("hidden");
+    const profiles = await fetchProfiles();
+    renderProfileList(profiles);
+  }
+
+  function hideProfilePicker() {
+    els.profilePicker.classList.add("hidden");
+  }
+
+  function showNewProfileForm() {
+    els.profilePicker.querySelector(".profile-picker-card").classList.add("hidden");
+    els.newProfileForm.classList.remove("hidden");
+    els.newProfileName.value = "";
+    els.newProfileEmoji.value = "🐱";
+    setTimeout(() => els.newProfileName.focus(), 0);
+  }
+
+  function hideNewProfileForm() {
+    els.newProfileForm.classList.add("hidden");
+    els.profilePicker.querySelector(".profile-picker-card").classList.remove("hidden");
+  }
+
+  async function onCreateProfile() {
+    const name = (els.newProfileName.value || "").trim();
+    const emoji = (els.newProfileEmoji.value || "").trim() || "🐱";
+    if (!name) {
+      els.newProfileName.focus();
+      return;
+    }
+    if (!sb) return;
+    try {
+      const { data, error } = await sb
+        .from("profiles")
+        .insert({ name, emoji })
+        .select()
+        .single();
+      if (error) throw error;
+      await selectProfile(data);
+    } catch (e) {
+      console.warn("profile create failed:", e);
+    }
+  }
+
+  async function selectProfile(profile) {
+    if (!profile) return;
+    if (currentSessionId) await endSession();
+    currentProfile = profile;
+    try {
+      localStorage.setItem("currentProfileId", profile.id);
+    } catch (_) {}
+    els.profileChipEmoji.textContent = profile.emoji || "🐱";
+    els.profileChipName.textContent = profile.name || "";
+    hideProfilePicker();
+    show(els.studyContent);
+    stars = 0;
+    if (els.starCount) els.starCount.textContent = "0";
+    await startSession(profile.id);
+    await refreshProgress();
+    smartQueue = [];
+    buildSmartQueue();
+    if (smartQueue.length) {
+      index = smartQueue.shift();
+    } else {
+      index = 0;
+    }
+    render();
+  }
+
+  els.profileChip.addEventListener("click", showProfilePicker);
+  els.newProfileBtn.addEventListener("click", showNewProfileForm);
+  els.createProfileBtn.addEventListener("click", onCreateProfile);
+  els.cancelProfileBtn.addEventListener("click", hideNewProfileForm);
+  els.newProfileName.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      onCreateProfile();
+    }
+  });
+
+  // --- Startup ---
+
+  async function startup() {
+    // Load deck first.
+    await loadDeck();
+    if (!deck.length) return; // empty / error state already shown
+    hide(els.studyContent); // keep hidden until profile chosen
+    // Try to auto-select last profile.
+    let autoProfile = null;
+    if (sb) {
+      const savedId = (() => {
+        try { return localStorage.getItem("currentProfileId"); } catch (_) { return null; }
+      })();
+      const profiles = await fetchProfiles();
+      if (savedId) autoProfile = profiles.find((p) => p.id === savedId);
+    }
+    if (autoProfile) {
+      await selectProfile(autoProfile);
+    } else {
+      await showProfilePicker();
+    }
+    preloadReward();
+  }
+
+  startup();
 })();
