@@ -396,6 +396,207 @@ main {
   display: none !important;
 }
 
+/* --- Profile picker --- */
+
+.profile-picker {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #fffaf0, #f4f1ea);
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  overflow-y: auto;
+}
+
+.profile-picker-card,
+.new-profile-form {
+  background: #fff;
+  border-radius: 22px;
+  padding: 1.5rem 1.25rem;
+  max-width: 460px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.profile-picker h2 {
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+
+.profile-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+  justify-items: center;
+}
+
+.profile-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 14px;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.profile-tile:hover {
+  background: #f9f3e3;
+  transform: translateY(-2px);
+}
+
+.profile-tile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  background: linear-gradient(135deg, #ffe5b4, #ffd093);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  user-select: none;
+}
+
+.profile-tile-name {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 0.95rem;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-add-btn {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.profile-add-btn:hover {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  transform: scale(1.03);
+}
+
+.new-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.np-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: left;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.np-label input {
+  padding: 0.6rem 0.85rem;
+  font-size: 1.05rem;
+  border-radius: 10px;
+  border: 1.5px solid #d8d3c8;
+  background: #fff;
+}
+
+.np-label input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.np-label small {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+#newProfileEmoji {
+  font-size: 1.6rem;
+  text-align: center;
+  max-width: 6rem;
+  align-self: center;
+}
+
+.create-profile-btn {
+  background: linear-gradient(135deg, #4caf50, #66bb6a);
+  color: white;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 0.75rem 1.6rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 0.25rem;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.92rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.link-btn:hover { color: var(--text); background: none; }
+
+/* --- Profile chip in study view --- */
+
+.profile-chip {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 8;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem 0.3rem 0.35rem;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1.5px solid #e3ddcd;
+  border-radius: 999px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+  max-width: 60vw;
+}
+
+.profile-chip:hover {
+  background: #fff;
+  transform: scale(1.03);
+}
+
+.profile-chip-emoji {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.profile-chip-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 10ch;
+}
+
 /* --- Kid-friendly flair --- */
 
 .bg-decor {
