@@ -791,5 +791,65 @@
     "images": [
       "data/images/svg-back.svg"
     ]
+  },
+  {
+    "hanzi": "冬",
+    "pinyin": "dōng",
+    "english": "winter",
+    "wikiTitles": ["Winter", "Snow"]
+  },
+  {
+    "hanzi": "夏",
+    "pinyin": "xià",
+    "english": "summer",
+    "wikiTitles": ["Summer", "Beach"]
+  },
+  {
+    "hanzi": "春",
+    "pinyin": "chūn",
+    "english": "spring",
+    "wikiTitles": ["Spring_(season)", "Cherry_blossom"]
+  },
+  {
+    "hanzi": "科",
+    "pinyin": "kē",
+    "english": "science / subject",
+    "wikiTitles": ["Science", "Laboratory"]
+  },
+  {
+    "hanzi": "左",
+    "pinyin": "zuǒ",
+    "english": "left",
+    "images": ["data/images/svg-left.svg"]
+  },
+  {
+    "hanzi": "右",
+    "pinyin": "yòu",
+    "english": "right",
+    "images": ["data/images/svg-right.svg"]
+  },
+  {
+    "hanzi": "东",
+    "pinyin": "dōng",
+    "english": "east",
+    "wikiTitles": ["East", "Sunrise"]
+  },
+  {
+    "hanzi": "南",
+    "pinyin": "nán",
+    "english": "south",
+    "wikiTitles": ["South", "Compass"]
+  },
+  {
+    "hanzi": "西",
+    "pinyin": "xī",
+    "english": "west",
+    "wikiTitles": ["West", "Sunset"]
+  },
+  {
+    "hanzi": "北",
+    "pinyin": "běi",
+    "english": "north",
+    "wikiTitles": ["North", "Compass_rose"]
   }
 ]
