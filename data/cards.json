@@ -796,60 +796,119 @@
     "hanzi": "冬",
     "pinyin": "dōng",
     "english": "winter",
-    "wikiTitles": ["Winter", "Snow"]
+    "wikiTitles": [
+      "Winter",
+      "Snow"
+    ],
+    "localImages": {
+      "Winter": "data/images/6c4bf4237715.jpg",
+      "Snow": "data/images/675259ea2198.jpg"
+    }
   },
   {
     "hanzi": "夏",
     "pinyin": "xià",
     "english": "summer",
-    "wikiTitles": ["Summer", "Beach"]
+    "wikiTitles": [
+      "Summer",
+      "Beach"
+    ],
+    "localImages": {
+      "Summer": "data/images/35426bbb26c6.jpg",
+      "Beach": "data/images/e30c9efd7ef1.jpg"
+    }
   },
   {
     "hanzi": "春",
     "pinyin": "chūn",
     "english": "spring",
-    "wikiTitles": ["Spring_(season)", "Cherry_blossom"]
+    "wikiTitles": [
+      "Spring_(season)",
+      "Cherry_blossom"
+    ],
+    "localImages": {
+      "Spring_(season)": "data/images/5af6151bf79a.jpg",
+      "Cherry_blossom": "data/images/813de902d457.jpg"
+    }
   },
   {
     "hanzi": "科",
     "pinyin": "kē",
     "english": "science / subject",
-    "wikiTitles": ["Science", "Laboratory"]
+    "wikiTitles": [
+      "Science",
+      "Laboratory"
+    ],
+    "localImages": {
+      "Laboratory": "data/images/e24c5b45bc69.jpg"
+    }
   },
   {
     "hanzi": "左",
     "pinyin": "zuǒ",
     "english": "left",
-    "images": ["data/images/svg-left.svg"]
+    "images": [
+      "data/images/svg-left.svg"
+    ]
   },
   {
     "hanzi": "右",
     "pinyin": "yòu",
     "english": "right",
-    "images": ["data/images/svg-right.svg"]
+    "images": [
+      "data/images/svg-right.svg"
+    ]
   },
   {
     "hanzi": "东",
     "pinyin": "dōng",
     "english": "east",
-    "wikiTitles": ["East", "Sunrise"]
+    "wikiTitles": [
+      "East",
+      "Sunrise"
+    ],
+    "localImages": {
+      "East": "data/images/a343be3896b7.png",
+      "Sunrise": "data/images/2d501c10ccc4.jpg"
+    }
   },
   {
     "hanzi": "南",
     "pinyin": "nán",
     "english": "south",
-    "wikiTitles": ["South", "Compass"]
+    "wikiTitles": [
+      "South",
+      "Compass"
+    ],
+    "localImages": {
+      "South": "data/images/093814600ad6.png",
+      "Compass": "data/images/202209f03038.jpg"
+    }
   },
   {
     "hanzi": "西",
     "pinyin": "xī",
     "english": "west",
-    "wikiTitles": ["West", "Sunset"]
+    "wikiTitles": [
+      "West",
+      "Sunset"
+    ],
+    "localImages": {
+      "West": "data/images/3d866ab03a9d.png",
+      "Sunset": "data/images/60a8eb8819a3.jpg"
+    }
   },
   {
     "hanzi": "北",
     "pinyin": "běi",
     "english": "north",
-    "wikiTitles": ["North", "Compass_rose"]
+    "wikiTitles": [
+      "North",
+      "Compass_rose"
+    ],
+    "localImages": {
+      "North": "data/images/cf3e0a689de8.png",
+      "Compass_rose": "data/images/9119204447d1.png"
+    }
   }
 ]
