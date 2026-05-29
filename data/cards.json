@@ -915,12 +915,29 @@
     "hanzi": "高",
     "pinyin": "gāo",
     "english": "tall / high",
-    "wikiTitles": ["Skyscraper", "Mount_Everest", "Tower"]
+    "wikiTitles": [
+      "Skyscraper",
+      "Mount_Everest",
+      "Tower"
+    ],
+    "localImages": {
+      "Mount_Everest": "data/images/6a879bd04d2d.jpg",
+      "Tower": "data/images/d315b6a8813b.jpg"
+    }
   },
   {
     "hanzi": "矮",
     "pinyin": "ǎi",
     "english": "short (in height)",
-    "wikiTitles": ["Bungalow", "Hut", "Bonsai"]
+    "wikiTitles": [
+      "Bungalow",
+      "Hut",
+      "Bonsai"
+    ],
+    "localImages": {
+      "Bungalow": "data/images/06d422e7c88e.jpg",
+      "Hut": "data/images/f20e5fe1a9eb.jpg",
+      "Bonsai": "data/images/5b60b5a50a03.jpg"
+    }
   }
 ]
