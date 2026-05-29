@@ -910,5 +910,17 @@
       "North": "data/images/cf3e0a689de8.png",
       "Compass_rose": "data/images/9119204447d1.png"
     }
+  },
+  {
+    "hanzi": "高",
+    "pinyin": "gāo",
+    "english": "tall / high",
+    "wikiTitles": ["Skyscraper", "Mount_Everest", "Tower"]
+  },
+  {
+    "hanzi": "矮",
+    "pinyin": "ǎi",
+    "english": "short (in height)",
+    "wikiTitles": ["Bungalow", "Hut", "Bonsai"]
   }
 ]
