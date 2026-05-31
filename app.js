@@ -41,6 +41,19 @@
     profileChip: document.getElementById("profileChip"),
     profileChipEmoji: document.getElementById("profileChipEmoji"),
     profileChipName: document.getElementById("profileChipName"),
+    statsOverlay: document.getElementById("statsOverlay"),
+    statsAvatar: document.getElementById("statsAvatar"),
+    statsName: document.getElementById("statsName"),
+    statsSince: document.getElementById("statsSince"),
+    statsSessions: document.getElementById("statsSessions"),
+    statsTotalShown: document.getElementById("statsTotalShown"),
+    statsAccuracy: document.getElementById("statsAccuracy"),
+    statsMastered: document.getElementById("statsMastered"),
+    statsMasteryBars: document.getElementById("statsMasteryBars"),
+    statsHardest: document.getElementById("statsHardest"),
+    statsSessionsList: document.getElementById("statsSessionsList"),
+    statsCloseBtn: document.getElementById("statsCloseBtn"),
+    statsSwitchBtn: document.getElementById("statsSwitchBtn"),
   };
 
   let deck = [];
@@ -1240,7 +1253,7 @@
     render();
   }
 
-  els.profileChip.addEventListener("click", showProfilePicker);
+  els.profileChip.addEventListener("click", showStats);
   els.newProfileBtn.addEventListener("click", showNewProfileForm);
   els.createProfileBtn.addEventListener("click", onCreateProfile);
   els.cancelProfileBtn.addEventListener("click", hideNewProfileForm);
@@ -1250,6 +1263,209 @@
       onCreateProfile();
     }
   });
+  els.statsCloseBtn.addEventListener("click", hideStats);
+  els.statsSwitchBtn.addEventListener("click", () => {
+    hideStats();
+    showProfilePicker();
+  });
+
+  // --- Stats overlay ---
+
+  async function showStats() {
+    if (!currentProfile) {
+      showProfilePicker();
+      return;
+    }
+    els.statsAvatar.textContent = currentProfile.emoji || "🐱";
+    els.statsName.textContent = currentProfile.name || "—";
+    els.statsSince.textContent = currentProfile.created_at
+      ? "since " + formatDate(currentProfile.created_at)
+      : "";
+    // Show placeholders while loading.
+    els.statsSessions.textContent = "…";
+    els.statsTotalShown.textContent = "…";
+    els.statsAccuracy.textContent = "…";
+    els.statsMastered.textContent = "…";
+    els.statsMasteryBars.innerHTML = "";
+    els.statsHardest.innerHTML = '<p class="stats-empty">Loading…</p>';
+    els.statsSessionsList.innerHTML = '<p class="stats-empty">Loading…</p>';
+    els.statsOverlay.classList.remove("hidden");
+
+    // Flush pending session counters so totals reflect the current session.
+    if (sessionFlushTimer) {
+      clearTimeout(sessionFlushTimer);
+      sessionFlushTimer = null;
+      try { await flushSessionCounters(); } catch (_) {}
+    }
+
+    const [sessions, progressRows] = await Promise.all([
+      fetchProfileSessions(currentProfile.id),
+      fetchProfileProgress(currentProfile.id),
+    ]);
+    renderStats(sessions, progressRows);
+  }
+
+  function hideStats() {
+    els.statsOverlay.classList.add("hidden");
+  }
+
+  async function fetchProfileSessions(profileId) {
+    if (!sb) return [];
+    try {
+      const { data } = await sb
+        .from("sessions")
+        .select("id, started_at, ended_at, cards_shown, cards_correct, cards_wrong, cards_flipped")
+        .eq("profile_id", profileId)
+        .order("started_at", { ascending: false });
+      return data || [];
+    } catch (e) {
+      console.warn("sessions fetch failed:", e);
+      return [];
+    }
+  }
+
+  async function fetchProfileProgress(profileId) {
+    if (!sb) return [];
+    try {
+      const { data } = await sb
+        .from("progress")
+        .select("card_key, seen, correct, wrong, flips, last_seen_at, last_correct_at")
+        .eq("profile_id", profileId);
+      return data || [];
+    } catch (e) {
+      console.warn("progress fetch failed:", e);
+      return [];
+    }
+  }
+
+  function renderStats(sessions, progressRows) {
+    // Totals from sessions (lifetime).
+    let totalShown = 0, totalCorrect = 0, totalWrong = 0, totalFlipped = 0;
+    for (const s of sessions) {
+      totalShown += s.cards_shown || 0;
+      totalCorrect += s.cards_correct || 0;
+      totalWrong += s.cards_wrong || 0;
+      totalFlipped += s.cards_flipped || 0;
+    }
+    const answered = totalCorrect + totalWrong;
+    const acc = answered > 0 ? Math.round((totalCorrect / answered) * 100) : 0;
+
+    // Mastery breakdown across the deck.
+    const progressByKey = {};
+    for (const r of progressRows) progressByKey[r.card_key] = r;
+    const masteryCounts = [0, 0, 0, 0, 0, 0]; // levels 0..5
+    for (const card of deck) {
+      const lvl = masteryLevel(progressByKey[card.hanzi]);
+      masteryCounts[lvl] = (masteryCounts[lvl] || 0) + 1;
+    }
+    const masteredCount = masteryCounts[5] + masteryCounts[4];
+
+    els.statsSessions.textContent = String(sessions.length);
+    els.statsTotalShown.textContent = String(totalShown);
+    els.statsAccuracy.textContent = String(acc);
+    els.statsMastered.textContent = String(masteredCount);
+
+    // Mastery bars.
+    const deckSize = deck.length || 1;
+    const labels = ["☆☆☆☆☆", "★☆☆☆☆", "★★☆☆☆", "★★★☆☆", "★★★★☆", "★★★★★"];
+    let barsHtml = "";
+    for (let lvl = 5; lvl >= 0; lvl--) {
+      const n = masteryCounts[lvl] || 0;
+      const pct = Math.round((n / deckSize) * 100);
+      barsHtml +=
+        '<div class="stats-bar-row">' +
+        '<span class="stats-bar-label">' + labels[lvl] + "</span>" +
+        '<div class="stats-bar-track">' +
+        '<div class="stats-bar-fill lvl-' + lvl + '" style="width:' + pct + '%"></div>' +
+        "</div>" +
+        '<span class="stats-bar-num">' + n + "</span>" +
+        "</div>";
+    }
+    els.statsMasteryBars.innerHTML = barsHtml;
+
+    // Hardest words: top wrongs + flips, excluding zero-miss rows.
+    const deckByHanzi = {};
+    for (const c of deck) deckByHanzi[c.hanzi] = c;
+    const hard = progressRows
+      .filter((r) => (r.wrong || 0) + (r.flips || 0) > 0)
+      .map((r) => ({
+        hanzi: r.card_key,
+        pinyin: (deckByHanzi[r.card_key] && deckByHanzi[r.card_key].pinyin) || "",
+        miss: (r.wrong || 0) + (r.flips || 0),
+        wrong: r.wrong || 0,
+        flips: r.flips || 0,
+      }))
+      .sort((a, b) => b.miss - a.miss)
+      .slice(0, 10);
+    if (hard.length === 0) {
+      els.statsHardest.innerHTML = '<p class="stats-empty">No misses yet. 🎉</p>';
+    } else {
+      els.statsHardest.innerHTML = hard
+        .map(
+          (h) =>
+            '<span class="stats-hard-pill">' +
+            '<span class="hp-hanzi">' + escapeHtml(h.hanzi) + "</span>" +
+            (h.pinyin ? '<span class="hp-pinyin">' + escapeHtml(h.pinyin) + "</span>" : "") +
+            '<span class="hp-miss">×' + h.miss + "</span>" +
+            "</span>"
+        )
+        .join("");
+    }
+
+    // Recent sessions: last 10.
+    const recent = sessions.slice(0, 10);
+    if (recent.length === 0) {
+      els.statsSessionsList.innerHTML = '<p class="stats-empty">No sessions yet.</p>';
+    } else {
+      els.statsSessionsList.innerHTML = recent
+        .map((s) => {
+          const started = new Date(s.started_at);
+          const ended = s.ended_at ? new Date(s.ended_at) : null;
+          const dur = ended ? formatDuration(ended - started) : "in progress";
+          return (
+            '<div class="stats-session-row">' +
+            "<div>" +
+            '<div class="stats-session-date">' + escapeHtml(formatDate(s.started_at)) + " · " + escapeHtml(formatTime(s.started_at)) + "</div>" +
+            '<div class="stats-session-meta">' + escapeHtml(dur) + " · " + (s.cards_shown || 0) + " cards</div>" +
+            "</div>" +
+            '<div class="stats-session-counts">' +
+            '<span class="ok">' + (s.cards_correct || 0) + "✓</span> " +
+            '<span class="bad">' + (s.cards_wrong || 0) + "✗</span> " +
+            '<span class="flip">' + (s.cards_flipped || 0) + "↺</span>" +
+            "</div>" +
+            "</div>"
+          );
+        })
+        .join("");
+    }
+  }
+
+  function formatDate(iso) {
+    try {
+      const d = new Date(iso);
+      return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function formatTime(iso) {
+    try {
+      const d = new Date(iso);
+      return d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function formatDuration(ms) {
+    if (!ms || ms < 0) return "—";
+    const totalSec = Math.round(ms / 1000);
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    if (m === 0) return s + "s";
+    return m + "m " + s + "s";
+  }
 
   // --- Startup ---
 
