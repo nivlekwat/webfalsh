@@ -273,13 +273,13 @@
   }
 
   function nextCard() {
-    maybeRecordUnresolvedFlip();
+    maybeRecordMiss();
     index = (index + 1) % deck.length;
     render();
   }
 
   function prevCard() {
-    maybeRecordUnresolvedFlip();
+    maybeRecordMiss();
     index = (index - 1 + deck.length) % deck.length;
     render();
   }
@@ -469,10 +469,10 @@
     catch (e) { console.warn("progress flip write failed:", e); }
   }
 
-  // Called when the user leaves a card. If they flipped it but didn't
-  // confirm with "I got it!" or a successful mic check, count a flip.
-  function maybeRecordUnresolvedFlip() {
-    if (!flippedThisCard || gotItThisCard) return;
+  // Called when the user leaves a card. If they didn't confirm with
+  // "I got it!" or a successful mic check, count it as a flip (a miss).
+  function maybeRecordMiss() {
+    if (gotItThisCard) return;
     const card = deck[index];
     if (card && card.hanzi) recordFlip(card.hanzi);
   }
@@ -589,7 +589,7 @@
 
   async function nextSmartCard() {
     if (deck.length <= 1) return render();
-    maybeRecordUnresolvedFlip();
+    maybeRecordMiss();
     if (smartQueue.length === 0) {
       await refreshProgress();
       buildSmartQueue();
@@ -1033,6 +1033,7 @@
     els.mic.addEventListener("click", startListening);
   }
   els.shuffle.addEventListener("click", () => {
+    maybeRecordMiss();
     shuffleArr(deck);
     index = 0;
     shuffleQueue = [];
