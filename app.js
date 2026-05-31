@@ -1338,10 +1338,19 @@
     }
   }
 
+  function isRealSession(s) {
+    const interactions =
+      (s.cards_correct || 0) + (s.cards_wrong || 0) + (s.cards_flipped || 0);
+    return (s.cards_shown || 0) >= 3 || interactions >= 1;
+  }
+
   function renderStats(sessions, progressRows) {
-    // Totals from sessions (lifetime).
+    // Filter out phantom sessions (e.g. page reloads that just rendered one card).
+    const realSessions = sessions.filter(isRealSession);
+
+    // Totals from real sessions only.
     let totalShown = 0, totalCorrect = 0, totalWrong = 0, totalFlipped = 0;
-    for (const s of sessions) {
+    for (const s of realSessions) {
       totalShown += s.cards_shown || 0;
       totalCorrect += s.cards_correct || 0;
       totalWrong += s.cards_wrong || 0;
@@ -1360,7 +1369,7 @@
     }
     const masteredCount = masteryCounts[5] + masteryCounts[4];
 
-    els.statsSessions.textContent = String(sessions.length);
+    els.statsSessions.textContent = String(realSessions.length);
     els.statsTotalShown.textContent = String(totalShown);
     els.statsAccuracy.textContent = String(acc);
     els.statsMastered.textContent = String(masteredCount);
@@ -1412,8 +1421,8 @@
         .join("");
     }
 
-    // Recent sessions: last 10.
-    const recent = sessions.slice(0, 10);
+    // Recent sessions: last 10 real ones.
+    const recent = realSessions.slice(0, 10);
     if (recent.length === 0) {
       els.statsSessionsList.innerHTML = '<p class="stats-empty">No sessions yet.</p>';
     } else {
