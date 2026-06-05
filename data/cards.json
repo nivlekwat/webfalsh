@@ -939,5 +939,17 @@
       "Hut": "data/images/f20e5fe1a9eb.jpg",
       "Bonsai": "data/images/5b60b5a50a03.jpg"
     }
+  },
+  {
+    "hanzi": "男生",
+    "pinyin": "nán shēng",
+    "english": "boy / male student",
+    "wikiTitles": ["Boy", "Schoolboy", "Boyhood"]
+  },
+  {
+    "hanzi": "女生",
+    "pinyin": "nǚ shēng",
+    "english": "girl / female student",
+    "wikiTitles": ["Girl", "Schoolgirl", "Girlhood"]
   }
 ]
