@@ -922,7 +922,8 @@
     ],
     "localImages": {
       "Mount_Everest": "data/images/6a879bd04d2d.jpg",
-      "Tower": "data/images/d315b6a8813b.jpg"
+      "Tower": "data/images/d315b6a8813b.jpg",
+      "Skyscraper": "data/images/30c58b998c6c.jpg"
     }
   },
   {
@@ -944,12 +945,27 @@
     "hanzi": "男生",
     "pinyin": "nán shēng",
     "english": "boy / male student",
-    "wikiTitles": ["Boy", "Schoolboy", "Boyhood"]
+    "wikiTitles": [
+      "Boy",
+      "Schoolboy",
+      "Boyhood"
+    ],
+    "localImages": {
+      "Boy": "data/images/07db3b8a7e53.jpg",
+      "Schoolboy": "data/images/5f42bbe17718.jpg"
+    }
   },
   {
     "hanzi": "女生",
     "pinyin": "nǚ shēng",
     "english": "girl / female student",
-    "wikiTitles": ["Girl", "Schoolgirl", "Girlhood"]
+    "wikiTitles": [
+      "Girl",
+      "Schoolgirl",
+      "Girlhood"
+    ],
+    "localImages": {
+      "Girl": "data/images/850d2e6f3c3d.jpg"
+    }
   }
 ]
