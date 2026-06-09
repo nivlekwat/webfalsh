@@ -967,5 +967,23 @@
     "localImages": {
       "Girl": "data/images/850d2e6f3c3d.jpg"
     }
+  },
+  {
+    "hanzi": "梦想家",
+    "pinyin": "mèng xiǎng jiā",
+    "english": "dreamer",
+    "wikiTitles": ["Astronaut", "Inventor", "Daydream"]
+  },
+  {
+    "hanzi": "医生",
+    "pinyin": "yī shēng",
+    "english": "doctor",
+    "wikiTitles": ["Physician", "Pediatrics", "Stethoscope"]
+  },
+  {
+    "hanzi": "厨师",
+    "pinyin": "chú shī",
+    "english": "chef / cook",
+    "wikiTitles": ["Chef", "Cook_(profession)", "Cooking"]
   }
 ]
