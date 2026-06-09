@@ -972,18 +972,45 @@
     "hanzi": "梦想家",
     "pinyin": "mèng xiǎng jiā",
     "english": "dreamer",
-    "wikiTitles": ["Astronaut", "Inventor", "Daydream"]
+    "wikiTitles": [
+      "Astronaut",
+      "Inventor",
+      "Daydream"
+    ],
+    "localImages": {
+      "Astronaut": "data/images/748f70fac3ff.jpg",
+      "Inventor": "data/images/539cbd12b014.jpg",
+      "Daydream": "data/images/d43b26a02ce5.jpg"
+    }
   },
   {
     "hanzi": "医生",
     "pinyin": "yī shēng",
     "english": "doctor",
-    "wikiTitles": ["Physician", "Pediatrics", "Stethoscope"]
+    "wikiTitles": [
+      "Physician",
+      "Pediatrics",
+      "Stethoscope"
+    ],
+    "localImages": {
+      "Physician": "data/images/55eb550d3b9d.jpg",
+      "Pediatrics": "data/images/3712f1bb1703.jpg",
+      "Stethoscope": "data/images/1111df5bb175.png"
+    }
   },
   {
     "hanzi": "厨师",
     "pinyin": "chú shī",
     "english": "chef / cook",
-    "wikiTitles": ["Chef", "Cook_(profession)", "Cooking"]
+    "wikiTitles": [
+      "Chef",
+      "Cook_(profession)",
+      "Cooking"
+    ],
+    "localImages": {
+      "Chef": "data/images/760348bfe29e.jpg",
+      "Cook_(profession)": "data/images/63b32dc92f1a.jpg",
+      "Cooking": "data/images/dcb04d3f7d85.jpg"
+    }
   }
 ]
