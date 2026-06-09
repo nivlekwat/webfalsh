@@ -156,7 +156,7 @@
     "wikiTitles": [
       "Human",
       "Person",
-      "Adult"
+      "Family"
     ],
     "localImages": {
       "Human": "data/images/a5ce914d685a.jpg",
@@ -184,7 +184,7 @@
     "english": "hand",
     "wikiTitles": [
       "Hand",
-      "Fist",
+      "Handshake",
       "Palm_(anatomy)"
     ],
     "localImages": {
@@ -291,7 +291,7 @@
     "wikiTitles": [
       "Cattle",
       "Holstein_Friesian",
-      "Calf"
+      "Dairy_cattle"
     ],
     "localImages": {
       "Cattle": "data/images/85e2ec0bb8b4.jpg",
@@ -304,7 +304,7 @@
     "english": "sheep",
     "wikiTitles": [
       "Sheep",
-      "Lamb_(animal)",
+      "Merino",
       "Wool"
     ],
     "localImages": {
@@ -348,7 +348,7 @@
     "english": "bird",
     "wikiTitles": [
       "Bird",
-      "Sparrow",
+      "House_sparrow",
       "Pigeon"
     ],
     "localImages": {
@@ -741,7 +741,7 @@
     "pinyin": "shénme",
     "english": "what",
     "wikiTitles": [
-      "Question_mark",
+      "Interrogative_word",
       "Question"
     ],
     "localImages": {
@@ -836,7 +836,7 @@
     "pinyin": "kē",
     "english": "science / subject",
     "wikiTitles": [
-      "Science",
+      "Scientist",
       "Laboratory"
     ],
     "localImages": {
@@ -948,7 +948,7 @@
     "wikiTitles": [
       "Boy",
       "Schoolboy",
-      "Boyhood"
+      "Childhood"
     ],
     "localImages": {
       "Boy": "data/images/07db3b8a7e53.jpg",
@@ -961,8 +961,8 @@
     "english": "girl / female student",
     "wikiTitles": [
       "Girl",
-      "Schoolgirl",
-      "Girlhood"
+      "Daughter",
+      "Female"
     ],
     "localImages": {
       "Girl": "data/images/850d2e6f3c3d.jpg"
