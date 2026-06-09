@@ -160,7 +160,8 @@
     ],
     "localImages": {
       "Human": "data/images/a5ce914d685a.jpg",
-      "Person": "data/images/dfd55524f90e.jpg"
+      "Person": "data/images/dfd55524f90e.jpg",
+      "Family": "data/images/5697aa778312.jpg"
     }
   },
   {
@@ -189,7 +190,8 @@
     ],
     "localImages": {
       "Hand": "data/images/5ea9b3aa4b3b.jpg",
-      "Palm_(anatomy)": "data/images/5ea9b3aa4b3b.jpg"
+      "Palm_(anatomy)": "data/images/5ea9b3aa4b3b.jpg",
+      "Handshake": "data/images/f8b7d41fff2b.jpg"
     }
   },
   {
@@ -295,7 +297,8 @@
     ],
     "localImages": {
       "Cattle": "data/images/85e2ec0bb8b4.jpg",
-      "Holstein_Friesian": "data/images/849fa7970494.jpg"
+      "Holstein_Friesian": "data/images/849fa7970494.jpg",
+      "Dairy_cattle": "data/images/bcaf79af99ec.jpg"
     }
   },
   {
@@ -309,7 +312,8 @@
     ],
     "localImages": {
       "Sheep": "data/images/8d8653a9da65.jpg",
-      "Wool": "data/images/da123002ebf3.jpg"
+      "Wool": "data/images/da123002ebf3.jpg",
+      "Merino": "data/images/b0ac6d24206e.jpg"
     }
   },
   {
@@ -353,7 +357,8 @@
     ],
     "localImages": {
       "Bird": "data/images/ca57c585b8d3.png",
-      "Pigeon": "data/images/1a4f9cf4b22e.jpg"
+      "Pigeon": "data/images/1a4f9cf4b22e.jpg",
+      "House_sparrow": "data/images/456ae899b4bc.jpg"
     }
   },
   {
@@ -840,7 +845,8 @@
       "Laboratory"
     ],
     "localImages": {
-      "Laboratory": "data/images/e24c5b45bc69.jpg"
+      "Laboratory": "data/images/e24c5b45bc69.jpg",
+      "Scientist": "data/images/b6a3f88ed1ad.jpg"
     }
   },
   {
@@ -952,7 +958,8 @@
     ],
     "localImages": {
       "Boy": "data/images/07db3b8a7e53.jpg",
-      "Schoolboy": "data/images/5f42bbe17718.jpg"
+      "Schoolboy": "data/images/5f42bbe17718.jpg",
+      "Childhood": "data/images/6273148fd710.jpeg"
     }
   },
   {
@@ -965,7 +972,9 @@
       "Female"
     ],
     "localImages": {
-      "Girl": "data/images/850d2e6f3c3d.jpg"
+      "Girl": "data/images/850d2e6f3c3d.jpg",
+      "Daughter": "data/images/e25fc07ee5e7.jpg",
+      "Female": "data/images/b24badd0ded2.png"
     }
   },
   {
