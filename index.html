@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chinese Flashcards</title>
-  <link rel="stylesheet" href="styles.css?v=25" />
+  <link rel="stylesheet" href="styles.css?v=26" />
 </head>
 <body>
   <div class="bg-decor" aria-hidden="true">
@@ -149,14 +149,12 @@
         </div>
       </div>
 
-      <button id="mic" class="mic-btn" type="button" data-state="idle">🎤 Try saying it</button>
+      <p class="mic-status" id="micStatus" hidden></p>
 
-      <button id="gotIt" class="got-it-btn" type="button">✓ I got it!</button>
-
-      <div class="controls-bottom">
-        <button id="prev" type="button" aria-label="Previous card">← Prev</button>
-        <button id="shuffle" type="button" title="Shuffle deck">Shuffle</button>
-        <button id="next" type="button" aria-label="Next card">Next →</button>
+      <div class="action-bar">
+        <button id="mic" class="mic-btn" type="button" data-state="idle" aria-label="Try saying it">🎤</button>
+        <button id="gotIt" class="got-it-btn" type="button">✓ I got it!</button>
+        <button id="next" class="next-btn" type="button" aria-label="Next card">Next ➜</button>
       </div>
 
       <p class="tts-warning" id="ttsWarning" hidden>
@@ -172,18 +170,18 @@
         <div class="reward-loading" id="rewardLoading">Loading your prize…</div>
         <img id="rewardGif" alt="Surprise animal gif" />
       </div>
-      <button class="reward-next" id="rewardNext" type="button">🔀 Shuffle</button>
-      <p class="reward-hint">Tap anywhere for a new random word</p>
+      <button class="reward-next" id="rewardNext" type="button">Next word ➜</button>
+      <p class="reward-hint">Tap anywhere for a new word</p>
     </div>
   </div>
 
   <footer>
-    <p>← / → to navigate, Space to flip, S to play sound.</p>
+    <p>Space to flip, → next card, S to play sound.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.js"></script>
-  <script src="supabase-config.js?v=25"></script>
-  <script src="pinyin-dict.js?v=25"></script>
-  <script src="app.js?v=25"></script>
+  <script src="supabase-config.js?v=26"></script>
+  <script src="pinyin-dict.js?v=26"></script>
+  <script src="app.js?v=26"></script>
 </body>
 </html>

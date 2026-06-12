@@ -17,12 +17,11 @@
     english: document.getElementById("english"),
     speakFront: document.getElementById("speakFront"),
     speakBack: document.getElementById("speakBack"),
-    prev: document.getElementById("prev"),
     next: document.getElementById("next"),
-    shuffle: document.getElementById("shuffle"),
     ttsWarning: document.getElementById("ttsWarning"),
     gotIt: document.getElementById("gotIt"),
     mic: document.getElementById("mic"),
+    micStatus: document.getElementById("micStatus"),
     rewardOverlay: document.getElementById("rewardOverlay"),
     rewardLoading: document.getElementById("rewardLoading"),
     rewardGif: document.getElementById("rewardGif"),
@@ -59,8 +58,6 @@
   let deck = [];
   let index = 0;
   let chineseVoice = null;
-  // Bag-shuffle queue for "🔀" so every card is shown before any repeat.
-  let shuffleQueue = [];
   // Session-local star count (resets on reload).
   let stars = 0;
 
@@ -107,16 +104,7 @@
     // Don't show study content yet — the startup flow gates this on
     // profile selection. Just initialize the deck state.
     index = 0;
-    shuffleQueue = [];
     smartQueue = [];
-  }
-
-  function shuffleArr(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
   }
 
   function setPlaceholder(text) {
@@ -270,18 +258,6 @@
     els.card.classList.remove("bounce-in");
     void els.card.offsetWidth;
     els.card.classList.add("bounce-in");
-  }
-
-  function nextCard() {
-    maybeRecordMiss();
-    index = (index + 1) % deck.length;
-    render();
-  }
-
-  function prevCard() {
-    maybeRecordMiss();
-    index = (index - 1 + deck.length) % deck.length;
-    render();
   }
 
   function pickChineseVoice() {
@@ -633,8 +609,7 @@
     speak(deck[index] && deck[index].hanzi, els.speakBack);
   });
 
-  els.next.addEventListener("click", nextCard);
-  els.prev.addEventListener("click", prevCard);
+  els.next.addEventListener("click", nextSmartCard);
 
   function loadImageWithTimeout(url, ms) {
     return new Promise((resolve, reject) => {
@@ -779,27 +754,6 @@
     }
   }
 
-  function refillShuffleQueue(avoidFirst) {
-    const idxs = [];
-    for (let i = 0; i < deck.length; i++) idxs.push(i);
-    for (let i = idxs.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
-    }
-    if (avoidFirst != null && idxs.length > 1 && idxs[0] === avoidFirst) {
-      [idxs[0], idxs[1]] = [idxs[1], idxs[0]];
-    }
-    shuffleQueue = idxs;
-  }
-
-  function shuffleToRandomCard() {
-    if (deck.length <= 1) return render();
-    if (shuffleQueue.length === 0) refillShuffleQueue(index);
-    index = shuffleQueue.shift();
-    playShuffleSound();
-    render();
-  }
-
   function dismissReward() {
     if (!els.rewardOverlay.classList.contains("show")) return;
     els.rewardOverlay.classList.remove("show");
@@ -814,18 +768,23 @@
   });
 
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const MIC_IDLE_TEXT = "🎤 Try saying it";
+  const MIC_IDLE_TEXT = "";
   let micRecognition = null;
   let micListening = false;
   let micResetTimer = null;
 
+  // The mic button stays an icon; status text lives in a pill above the bar.
   function setMicState(state, text) {
     if (micResetTimer) {
       clearTimeout(micResetTimer);
       micResetTimer = null;
     }
     els.mic.dataset.state = state;
-    if (text !== undefined) els.mic.textContent = text;
+    if (text !== undefined) {
+      els.micStatus.dataset.state = state;
+      els.micStatus.textContent = text;
+      els.micStatus.hidden = !text;
+    }
   }
 
   function resetMicSoon(ms) {
@@ -1028,19 +987,10 @@
   }
 
   if (!SR) {
-    setMicState("unsupported", "🎤 not supported here");
+    els.mic.hidden = true;
   } else {
     els.mic.addEventListener("click", startListening);
   }
-  els.shuffle.addEventListener("click", () => {
-    maybeRecordMiss();
-    shuffleArr(deck);
-    index = 0;
-    shuffleQueue = [];
-    playShuffleSound();
-    render();
-  });
-
   document.addEventListener("keydown", (e) => {
     if (!deck.length) return;
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
@@ -1048,8 +998,7 @@
       dismissReward();
       return;
     }
-    if (e.key === "ArrowRight") nextCard();
-    else if (e.key === "ArrowLeft") prevCard();
+    if (e.key === "ArrowRight") nextSmartCard();
     else if (e.key.toLowerCase() === "s") speak(deck[index].hanzi, els.speakFront);
     else if (e.key === " " && e.target !== els.card) {
       e.preventDefault();

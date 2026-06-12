@@ -141,7 +141,7 @@ main {
 
 .card {
   width: min(420px, 94vw);
-  height: min(620px, 78vh);
+  height: min(620px, 72vh);
   perspective: 1500px;
   cursor: pointer;
   outline: none;
@@ -336,15 +336,48 @@ main {
   opacity: 0.7;
 }
 
-.controls-bottom {
+/* --- v2 action bar: mic / got it / next in one row --- */
+
+.action-bar {
   display: flex;
-  gap: 0.75rem;
+  align-items: stretch;
+  gap: 0.6rem;
+  width: min(420px, 94vw);
+  margin-top: 0.15rem;
 }
 
-.controls-bottom button {
-  min-width: 110px;
-  font-size: 1rem;
+.next-btn {
+  flex: 0 0 auto;
+  background: #fff;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 0 1.1rem;
+  letter-spacing: 0.02em;
+  transition: transform 0.15s ease, background 0.15s ease;
+  cursor: pointer;
 }
+.next-btn:hover {
+  background: #fdf0ee;
+  transform: scale(1.04);
+}
+.next-btn:active { transform: scale(0.97); }
+
+.mic-status {
+  margin: 0;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: #eef6fc;
+  color: #2471a3;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.mic-status[data-state="listening"] { background: #fdecea; color: #c0392b; }
+.mic-status[data-state="success"]   { background: #eafaf1; color: #1e8449; }
+.mic-status[data-state="error"]     { background: #fef5e7; color: #b9770e; }
 
 .tts-warning {
   color: #8a6d3b;
@@ -932,49 +965,52 @@ main, header, footer {
   .confetti { animation: none; }
 }
 
-/* "I got it!" button */
+/* "I got it!" button — primary action, biggest target */
 .got-it-btn {
+  flex: 1 1 auto;
   background: linear-gradient(135deg, #4caf50, #66bb6a);
   color: white;
-  font-size: 1rem;
-  font-weight: 700;
-  padding: 0.65rem 1.8rem;
-  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
   border: none;
-  margin: 0.1rem 0 0.25rem;
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.35);
   letter-spacing: 0.02em;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   cursor: pointer;
 }
 .got-it-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
   box-shadow: 0 6px 16px rgba(76, 175, 80, 0.5);
   background: linear-gradient(135deg, #4caf50, #66bb6a);
 }
 .got-it-btn:active { transform: scale(0.97); }
 
-/* Microphone button (speech check) */
+/* Microphone button (speech check) — round icon */
 .mic-btn {
+  flex: 0 0 auto;
+  width: 58px;
   background: linear-gradient(135deg, #3498db, #2980b9);
   color: white;
-  font-size: 1.15rem;
-  font-weight: 700;
-  padding: 0.85rem 2rem;
-  border-radius: 14px;
+  font-size: 1.5rem;
+  border-radius: 16px;
   border: none;
-  margin: 0.1rem 0 0.15rem;
+  padding: 0;
   box-shadow: 0 5px 14px rgba(52, 152, 219, 0.4);
-  letter-spacing: 0.02em;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
   cursor: pointer;
-  min-width: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.mic-btn[hidden] { display: none; }
+
 .mic-btn:hover {
-  transform: scale(1.04);
+  transform: scale(1.06);
   box-shadow: 0 7px 18px rgba(52, 152, 219, 0.55);
 }
-.mic-btn:active { transform: scale(0.97); }
+.mic-btn:active { transform: scale(0.95); }
 
 .mic-btn[data-state="listening"] {
   background: linear-gradient(135deg, #c0392b, #e74c3c);
@@ -985,11 +1021,6 @@ main, header, footer {
 }
 .mic-btn[data-state="error"] {
   background: linear-gradient(135deg, #e67e22, #d35400);
-}
-.mic-btn[data-state="unsupported"] {
-  background: #bdbdbd;
-  cursor: not-allowed;
-  opacity: 0.7;
 }
 
 @keyframes mic-pulse {
@@ -1095,10 +1126,13 @@ footer {
 }
 
 @media (max-width: 480px) {
-  .controls-bottom button {
-    min-width: 90px;
-  }
   footer {
     display: none;
+  }
+  .action-bar {
+    gap: 0.5rem;
+  }
+  .got-it-btn {
+    font-size: 1.1rem;
   }
 }
