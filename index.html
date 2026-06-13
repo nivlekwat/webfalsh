@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chinese Flashcards</title>
-  <link rel="stylesheet" href="styles.css?v=26" />
+  <link rel="stylesheet" href="styles.css?v=27" />
 </head>
 <body>
   <div class="bg-decor" aria-hidden="true">
@@ -88,7 +88,61 @@
 
         <div class="stats-actions">
           <button id="statsSwitchBtn" type="button" class="link-btn">↻ Switch profile</button>
+          <button id="statsPuzzleBtn" type="button" class="profile-add-btn puzzle-launch-btn">🧩 Puzzle</button>
           <button id="statsCloseBtn" type="button" class="profile-add-btn">Back to cards</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="puzzleOverlay" class="puzzle-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="puzzleTitle">
+      <div class="puzzle-card">
+        <div class="puzzle-header">
+          <h2 id="puzzleTitle">🧩 Crossword</h2>
+          <p id="puzzleSubtitle" class="puzzle-subtitle">Tap a cell, then tap a tile.</p>
+        </div>
+
+        <div id="puzzleEmpty" class="puzzle-empty hidden">
+          <p>Master at least 5 words to ★★★ to unlock the crossword.</p>
+          <p class="puzzle-empty-sub">You have <span id="puzzleEmptyCount">0</span> right now.</p>
+        </div>
+
+        <div id="puzzleBody" class="puzzle-body">
+          <div class="puzzle-grid-wrap">
+            <div id="puzzleGrid" class="puzzle-grid"></div>
+          </div>
+
+          <div class="puzzle-clue" id="puzzleClue">
+            <span class="puzzle-clue-arrow" id="puzzleClueArrow">→</span>
+            <span class="puzzle-clue-text" id="puzzleClueText">Pick a cell to start</span>
+          </div>
+
+          <div id="puzzleTiles" class="puzzle-tiles"></div>
+
+          <details class="puzzle-cluelist-wrap">
+            <summary>All clues</summary>
+            <div class="puzzle-cluelist">
+              <div class="puzzle-cluecol">
+                <h4>Across</h4>
+                <ol id="puzzleAcrossList"></ol>
+              </div>
+              <div class="puzzle-cluecol">
+                <h4>Down</h4>
+                <ol id="puzzleDownList"></ol>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="puzzle-actions">
+          <button id="puzzleNewBtn" type="button" class="link-btn">🔄 New puzzle</button>
+          <button id="puzzleCheckBtn" type="button" class="puzzle-check-btn">Check</button>
+          <button id="puzzleCloseBtn" type="button" class="profile-add-btn">Close</button>
+        </div>
+
+        <div id="puzzleWin" class="puzzle-win hidden">
+          <div class="puzzle-win-emoji">🎉</div>
+          <h3>You solved it!</h3>
+          <p>+<span id="puzzleWinStars">0</span> ⭐</p>
         </div>
       </div>
     </div>
@@ -180,8 +234,8 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.js"></script>
-  <script src="supabase-config.js?v=26"></script>
-  <script src="pinyin-dict.js?v=26"></script>
-  <script src="app.js?v=26"></script>
+  <script src="supabase-config.js?v=27"></script>
+  <script src="pinyin-dict.js?v=27"></script>
+  <script src="app.js?v=27"></script>
 </body>
 </html>

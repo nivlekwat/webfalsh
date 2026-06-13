@@ -53,6 +53,23 @@
     statsSessionsList: document.getElementById("statsSessionsList"),
     statsCloseBtn: document.getElementById("statsCloseBtn"),
     statsSwitchBtn: document.getElementById("statsSwitchBtn"),
+    statsPuzzleBtn: document.getElementById("statsPuzzleBtn"),
+    puzzleOverlay: document.getElementById("puzzleOverlay"),
+    puzzleSubtitle: document.getElementById("puzzleSubtitle"),
+    puzzleEmpty: document.getElementById("puzzleEmpty"),
+    puzzleEmptyCount: document.getElementById("puzzleEmptyCount"),
+    puzzleBody: document.getElementById("puzzleBody"),
+    puzzleGrid: document.getElementById("puzzleGrid"),
+    puzzleClueArrow: document.getElementById("puzzleClueArrow"),
+    puzzleClueText: document.getElementById("puzzleClueText"),
+    puzzleTiles: document.getElementById("puzzleTiles"),
+    puzzleAcrossList: document.getElementById("puzzleAcrossList"),
+    puzzleDownList: document.getElementById("puzzleDownList"),
+    puzzleCloseBtn: document.getElementById("puzzleCloseBtn"),
+    puzzleNewBtn: document.getElementById("puzzleNewBtn"),
+    puzzleCheckBtn: document.getElementById("puzzleCheckBtn"),
+    puzzleWin: document.getElementById("puzzleWin"),
+    puzzleWinStars: document.getElementById("puzzleWinStars"),
   };
 
   let deck = [];
@@ -1425,6 +1442,500 @@
     if (m === 0) return s + "s";
     return m + "m " + s + "s";
   }
+
+  // --- Crossword puzzle ---
+  // Grid: rows × cols of { ch, num, words: [wordIndex], blank }.
+  // Word: { idx, row, col, dir: "across"|"down", hanzi, english, pinyin, num, cells: [{r,c}] }.
+  // State: puzzleState = { grid, words, filled: Map<"r,c", char>, selected, selectedWord, completed }.
+  let puzzleState = null;
+
+  async function openPuzzle() {
+    hideStats();
+    els.puzzleOverlay.classList.remove("hidden");
+    els.puzzleWin.classList.add("hidden");
+    // Ensure we have fresh progress for the current profile.
+    if (currentProfile) await refreshProgress();
+    const pool = deck.filter((c) => masteryLevel(progressMap[c.hanzi]) >= 3);
+    if (pool.length < 5) {
+      els.puzzleEmpty.classList.remove("hidden");
+      els.puzzleBody.classList.add("hidden");
+      els.puzzleEmptyCount.textContent = String(pool.length);
+      return;
+    }
+    els.puzzleEmpty.classList.add("hidden");
+    els.puzzleBody.classList.remove("hidden");
+    generateAndRenderPuzzle(pool);
+  }
+
+  function generateAndRenderPuzzle(pool) {
+    let layout = null;
+    // Generator is stochastic; try a few times to get a denser fill.
+    for (let attempt = 0; attempt < 12 && !layout; attempt++) {
+      const sample = sampleWordsForPuzzle(pool, 7 + Math.floor(Math.random() * 3));
+      layout = generateCrossword(sample);
+    }
+    if (!layout) {
+      // Fallback: single horizontal word so the screen never blanks.
+      const w = pool[0];
+      layout = singleWordLayout(w);
+    }
+    puzzleState = {
+      ...layout,
+      filled: new Map(),
+      selected: null,
+      selectedWord: null,
+      completed: false,
+    };
+    // Auto-select the first cell of the first word (before render so painting picks it up).
+    const w0 = layout.words[0];
+    if (w0) {
+      puzzleState.selected = { r: w0.cells[0].r, c: w0.cells[0].c };
+      puzzleState.selectedWord = w0;
+    }
+    renderPuzzleGrid();
+    renderClueList();
+    renderTileBank();
+    updateClueText();
+  }
+
+  function sampleWordsForPuzzle(pool, n) {
+    // Prefer single-hanzi words first (easier intersections), then compounds.
+    const single = pool.filter((c) => c.hanzi.length === 1);
+    const multi = pool.filter((c) => c.hanzi.length > 1);
+    shuffleInPlace(single);
+    shuffleInPlace(multi);
+    const take = Math.min(n, single.length + multi.length);
+    const out = [];
+    let si = 0, mi = 0;
+    // Bias: 2 multi-char per 5 if available.
+    while (out.length < take) {
+      const wantMulti = (out.length % 5 < 2) && mi < multi.length;
+      if (wantMulti) out.push(multi[mi++]);
+      else if (si < single.length) out.push(single[si++]);
+      else if (mi < multi.length) out.push(multi[mi++]);
+      else break;
+    }
+    return out;
+  }
+
+  function shuffleInPlace(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function singleWordLayout(card) {
+    const chars = [...card.hanzi];
+    const cells = chars.map((_, i) => ({ r: 0, c: i }));
+    return {
+      rows: 1,
+      cols: chars.length,
+      cells: chars.map((ch, i) => ({ r: 0, c: i, ch, num: i === 0 ? 1 : 0, words: [0] })),
+      words: [{
+        idx: 0, row: 0, col: 0, dir: "across",
+        hanzi: card.hanzi, english: card.english, pinyin: card.pinyin,
+        num: 1, cells,
+      }],
+    };
+  }
+
+  // Greedy crossword generator. Returns null if too few words fit.
+  function generateCrossword(words) {
+    if (!words.length) return null;
+    // Sort by length descending so longer anchors place first.
+    const sorted = [...words].sort((a, b) => b.hanzi.length - a.hanzi.length);
+
+    // Use a sparse map { "r,c": char } during placement; bound recomputed at end.
+    const placed = []; // { hanzi, english, pinyin, dir, row, col, cells }
+    const grid = new Map();
+
+    function gridGet(r, c) { return grid.get(r + "," + c); }
+    function gridSet(r, c, ch) { grid.set(r + "," + c, ch); }
+
+    function canPlace(chars, r, c, dir) {
+      // chars must not collide with non-matching letters and must not create
+      // adjacent same-direction runs that aren't this word.
+      const drR = dir === "down" ? 1 : 0;
+      const drC = dir === "across" ? 1 : 0;
+      const perpR = dir === "down" ? 0 : 1;
+      const perpC = dir === "across" ? 0 : 1;
+
+      // Cell BEFORE the word must be empty/blank.
+      const beforeR = r - drR, beforeC = c - drC;
+      if (gridGet(beforeR, beforeC)) return false;
+      // Cell AFTER the word must be empty.
+      const afterR = r + drR * chars.length, afterC = c + drC * chars.length;
+      if (gridGet(afterR, afterC)) return false;
+
+      let intersections = 0;
+      for (let i = 0; i < chars.length; i++) {
+        const rr = r + drR * i, cc = c + drC * i;
+        const existing = gridGet(rr, cc);
+        if (existing) {
+          if (existing !== chars[i]) return false;
+          intersections++;
+        } else {
+          // Check perpendicular neighbors are empty (no accidental abuts).
+          if (gridGet(rr + perpR, cc + perpC)) return false;
+          if (gridGet(rr - perpR, cc - perpC)) return false;
+        }
+      }
+      return intersections;
+    }
+
+    function commit(chars, r, c, dir, card) {
+      const cells = [];
+      const drR = dir === "down" ? 1 : 0;
+      const drC = dir === "across" ? 1 : 0;
+      for (let i = 0; i < chars.length; i++) {
+        const rr = r + drR * i, cc = c + drC * i;
+        gridSet(rr, cc, chars[i]);
+        cells.push({ r: rr, c: cc });
+      }
+      placed.push({
+        hanzi: card.hanzi, english: card.english, pinyin: card.pinyin,
+        dir, row: r, col: c, cells,
+      });
+    }
+
+    // Place first word horizontally at origin.
+    const first = sorted[0];
+    const firstChars = [...first.hanzi];
+    commit(firstChars, 0, 0, "across", first);
+
+    // Try to place remaining words, intersecting at any shared character.
+    for (let wi = 1; wi < sorted.length; wi++) {
+      const card = sorted[wi];
+      const chars = [...card.hanzi];
+      const candidates = [];
+      // For each char in this word, try aligning against existing matching cells.
+      for (let ci = 0; ci < chars.length; ci++) {
+        for (const [key, existingCh] of grid) {
+          if (existingCh !== chars[ci]) continue;
+          const [er, ec] = key.split(",").map(Number);
+          // Try both orientations.
+          for (const dir of ["across", "down"]) {
+            const drR = dir === "down" ? 1 : 0;
+            const drC = dir === "across" ? 1 : 0;
+            const r = er - drR * ci;
+            const c = ec - drC * ci;
+            const intersections = canPlace(chars, r, c, dir);
+            if (intersections) candidates.push({ r, c, dir, intersections });
+          }
+        }
+      }
+      if (candidates.length === 0) continue;
+      candidates.sort((a, b) => b.intersections - a.intersections);
+      const pick = candidates[0];
+      commit(chars, pick.r, pick.c, pick.dir, card);
+    }
+
+    if (placed.length < 3) return null;
+
+    // Normalize to a 2D grid.
+    let minR = Infinity, minC = Infinity, maxR = -Infinity, maxC = -Infinity;
+    for (const key of grid.keys()) {
+      const [r, c] = key.split(",").map(Number);
+      if (r < minR) minR = r;
+      if (c < minC) minC = c;
+      if (r > maxR) maxR = r;
+      if (c > maxC) maxC = c;
+    }
+    const rows = maxR - minR + 1;
+    const cols = maxC - minC + 1;
+    if (rows * cols > 100) return null; // too sparse for a small overlay
+
+    const cells = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const ch = grid.get((r + minR) + "," + (c + minC)) || null;
+        cells.push({ r, c, ch, num: 0, words: [] });
+      }
+    }
+    function cellAt(r, c) { return cells[r * cols + c]; }
+
+    // Translate placed words into final coords + cells.
+    const finalWords = placed.map((w, idx) => ({
+      idx,
+      dir: w.dir,
+      row: w.row - minR,
+      col: w.col - minC,
+      hanzi: w.hanzi,
+      english: w.english,
+      pinyin: w.pinyin,
+      cells: w.cells.map((cc) => ({ r: cc.r - minR, c: cc.c - minC })),
+      num: 0,
+    }));
+
+    // Mark which words touch which cells.
+    for (const w of finalWords) {
+      for (const cc of w.cells) cellAt(cc.r, cc.c).words.push(w.idx);
+    }
+
+    // Assign clue numbers: any cell that's the start of an across or down word.
+    let num = 1;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const cell = cellAt(r, c);
+        if (!cell.ch) continue;
+        let startsWord = false;
+        for (const w of finalWords) {
+          if (w.cells[0].r === r && w.cells[0].c === c) {
+            startsWord = true;
+            w.num = w.num || num;
+          }
+        }
+        if (startsWord) {
+          cell.num = num;
+          num++;
+        }
+      }
+    }
+    // Ensure every word has a num.
+    for (const w of finalWords) {
+      if (!w.num) w.num = cellAt(w.cells[0].r, w.cells[0].c).num;
+    }
+    return { rows, cols, cells, words: finalWords };
+  }
+
+  function renderPuzzleGrid() {
+    const { rows, cols, cells } = puzzleState;
+    const wrap = els.puzzleGrid;
+    wrap.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+    const maxCellPx = Math.min(48, Math.floor(Math.min(window.innerWidth - 60, 480) / cols));
+    wrap.style.width = (maxCellPx * cols + cols * 2 + 4) + "px";
+    wrap.innerHTML = "";
+    for (const cell of cells) {
+      const el = document.createElement("div");
+      el.className = "puzzle-cell";
+      if (!cell.ch) {
+        el.classList.add("blank");
+      } else {
+        const filled = puzzleState.filled.get(cell.r + "," + cell.c);
+        if (cell.num) {
+          const n = document.createElement("span");
+          n.className = "puzzle-cell-num";
+          n.textContent = cell.num;
+          el.appendChild(n);
+        }
+        const ch = document.createElement("span");
+        ch.className = "puzzle-cell-ch";
+        ch.textContent = filled || "";
+        el.appendChild(ch);
+        el.dataset.r = cell.r;
+        el.dataset.c = cell.c;
+        el.addEventListener("click", () => onCellClick(cell.r, cell.c));
+      }
+      wrap.appendChild(el);
+    }
+    paintSelection();
+  }
+
+  function paintSelection() {
+    if (!puzzleState) return;
+    const { cols, cells } = puzzleState;
+    const nodes = els.puzzleGrid.children;
+    const selectedW = puzzleState.selectedWord;
+    const selectedKey = puzzleState.selected
+      ? puzzleState.selected.r + "," + puzzleState.selected.c
+      : null;
+    for (let i = 0; i < cells.length; i++) {
+      const cell = cells[i];
+      const node = nodes[i];
+      if (!cell.ch) continue;
+      node.classList.remove("selected", "highlight");
+      if (selectedW && selectedW.cells.some((cc) => cc.r === cell.r && cc.c === cell.c)) {
+        node.classList.add("highlight");
+      }
+      if (selectedKey === cell.r + "," + cell.c) {
+        node.classList.add("selected");
+      }
+    }
+  }
+
+  function onCellClick(r, c) {
+    if (!puzzleState) return;
+    const cell = cellByCoord(r, c);
+    if (!cell || !cell.ch) return;
+    // If the user clicks the already-selected cell, toggle word direction.
+    let word = puzzleState.selectedWord;
+    if (
+      puzzleState.selected &&
+      puzzleState.selected.r === r &&
+      puzzleState.selected.c === c &&
+      cell.words.length > 1 &&
+      word
+    ) {
+      const other = cell.words.find((idx) => idx !== word.idx);
+      if (other != null) word = puzzleState.words[other];
+    } else {
+      // Pick a word that contains this cell — prefer same direction as current.
+      const containing = cell.words.map((i) => puzzleState.words[i]);
+      word = containing.find((w) => w.dir === (word && word.dir)) || containing[0];
+    }
+    selectCell(r, c, word);
+  }
+
+  function selectCell(r, c, word) {
+    puzzleState.selected = { r, c };
+    puzzleState.selectedWord = word || null;
+    updateClueText();
+    paintSelection();
+  }
+
+  function cellByCoord(r, c) {
+    const { cols, cells } = puzzleState;
+    if (r < 0 || c < 0 || r >= puzzleState.rows || c >= cols) return null;
+    return cells[r * cols + c];
+  }
+
+  function updateClueText() {
+    const w = puzzleState.selectedWord;
+    if (!w) {
+      els.puzzleClueArrow.textContent = "→";
+      els.puzzleClueText.textContent = "Pick a cell to start";
+      return;
+    }
+    els.puzzleClueArrow.textContent = w.dir === "across" ? "→" : "↓";
+    els.puzzleClueText.innerHTML =
+      escapeHtml(w.english) +
+      (w.pinyin
+        ? ' <span class="clue-pinyin">(' + escapeHtml(w.pinyin) + ", " + w.hanzi.length + " chars)</span>"
+        : "");
+  }
+
+  function renderClueList() {
+    const across = puzzleState.words.filter((w) => w.dir === "across");
+    const down = puzzleState.words.filter((w) => w.dir === "down");
+    function render(list) {
+      return list
+        .sort((a, b) => a.num - b.num)
+        .map(
+          (w) =>
+            "<li><b>" + w.num + ".</b> " + escapeHtml(w.english) +
+            ' <span class="clue-pinyin">(' + escapeHtml(w.pinyin || "") +
+            ", " + w.hanzi.length + ")</span></li>"
+        )
+        .join("");
+    }
+    els.puzzleAcrossList.innerHTML = render(across) || "<li>(none)</li>";
+    els.puzzleDownList.innerHTML = render(down) || "<li>(none)</li>";
+  }
+
+  function renderTileBank() {
+    // Tile bank = every hanzi character that appears in the answers,
+    // plus 2-4 distractor characters from other mastered cards.
+    const need = new Set();
+    for (const w of puzzleState.words) for (const ch of w.hanzi) need.add(ch);
+    const tiles = [...need];
+    // Distractors: pick chars from other mastered single-char cards not in `need`.
+    const distractors = [];
+    for (const card of deck) {
+      if (masteryLevel(progressMap[card.hanzi]) < 3) continue;
+      for (const ch of card.hanzi) {
+        if (!need.has(ch) && !distractors.includes(ch)) distractors.push(ch);
+      }
+    }
+    shuffleInPlace(distractors);
+    for (let i = 0; i < Math.min(3, distractors.length); i++) tiles.push(distractors[i]);
+    shuffleInPlace(tiles);
+
+    els.puzzleTiles.innerHTML = "";
+    for (const ch of tiles) {
+      const t = document.createElement("button");
+      t.type = "button";
+      t.className = "puzzle-tile";
+      t.textContent = ch;
+      t.addEventListener("click", () => onTilePlace(ch));
+      els.puzzleTiles.appendChild(t);
+    }
+  }
+
+  function onTilePlace(ch) {
+    if (!puzzleState || !puzzleState.selected) return;
+    const { r, c } = puzzleState.selected;
+    puzzleState.filled.set(r + "," + c, ch);
+    // Auto-advance within the selected word.
+    const w = puzzleState.selectedWord;
+    if (w) {
+      const idx = w.cells.findIndex((cc) => cc.r === r && cc.c === c);
+      const nextCell = w.cells.find(
+        (cc, i) => i > idx && !puzzleState.filled.get(cc.r + "," + cc.c)
+      );
+      if (nextCell) selectCell(nextCell.r, nextCell.c, w);
+      else selectCell(r, c, w);
+    }
+    renderPuzzleGrid();
+    // If the whole grid is filled correctly, win.
+    if (isPuzzleSolved(false)) {
+      onPuzzleWin();
+    }
+  }
+
+  function isPuzzleSolved(showWrong) {
+    if (!puzzleState) return false;
+    for (const cell of puzzleState.cells) {
+      if (!cell.ch) continue;
+      const got = puzzleState.filled.get(cell.r + "," + cell.c);
+      if (got !== cell.ch) return false;
+    }
+    return true;
+  }
+
+  function checkPuzzle() {
+    if (!puzzleState) return;
+    const nodes = els.puzzleGrid.children;
+    let anyMistake = false;
+    for (let i = 0; i < puzzleState.cells.length; i++) {
+      const cell = puzzleState.cells[i];
+      const node = nodes[i];
+      node.classList.remove("correct", "wrong");
+      if (!cell.ch) continue;
+      const got = puzzleState.filled.get(cell.r + "," + cell.c);
+      if (!got) continue;
+      if (got === cell.ch) node.classList.add("correct");
+      else { node.classList.add("wrong"); anyMistake = true; }
+    }
+    if (!anyMistake && isPuzzleSolved(false)) onPuzzleWin();
+    // Clear the green/red after a moment so the player can keep editing.
+    setTimeout(() => {
+      for (const n of nodes) n.classList.remove("correct", "wrong");
+    }, 1500);
+  }
+
+  async function onPuzzleWin() {
+    if (puzzleState.completed) return;
+    puzzleState.completed = true;
+    const starsWon = puzzleState.words.length;
+    if (els.puzzleWinStars) els.puzzleWinStars.textContent = String(starsWon);
+    els.puzzleWin.classList.remove("hidden");
+    stars += starsWon;
+    if (els.starCount) els.starCount.textContent = String(stars);
+    playGotItSound();
+    spawnConfetti(els.puzzleOverlay);
+    // Each correctly-placed word counts as a "got it" for the smart picker.
+    for (const w of puzzleState.words) {
+      try { await recordCorrect(w.hanzi); } catch (_) {}
+    }
+  }
+
+  function closePuzzle() {
+    els.puzzleOverlay.classList.add("hidden");
+    puzzleState = null;
+  }
+
+  els.statsPuzzleBtn.addEventListener("click", openPuzzle);
+  els.puzzleCloseBtn.addEventListener("click", closePuzzle);
+  els.puzzleNewBtn.addEventListener("click", async () => {
+    if (currentProfile) await refreshProgress();
+    const pool = deck.filter((c) => masteryLevel(progressMap[c.hanzi]) >= 3);
+    if (pool.length < 5) return;
+    els.puzzleWin.classList.add("hidden");
+    generateAndRenderPuzzle(pool);
+  });
+  els.puzzleCheckBtn.addEventListener("click", checkPuzzle);
 
   // --- Startup ---
 
