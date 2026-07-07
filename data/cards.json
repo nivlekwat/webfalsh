@@ -1026,30 +1026,75 @@
     "hanzi": "黑色",
     "pinyin": "hēi sè",
     "english": "black",
-    "wikiTitles": ["Black", "Black_cat", "Night"]
+    "wikiTitles": [
+      "Black",
+      "Black_cat",
+      "Night"
+    ],
+    "localImages": {
+      "Black": "data/images/ce32fcd45071.png",
+      "Black_cat": "data/images/15aea58a57e6.jpg",
+      "Night": "data/images/e523a0c08a3c.jpg"
+    }
   },
   {
     "hanzi": "白色",
     "pinyin": "bái sè",
     "english": "white",
-    "wikiTitles": ["White", "Snow", "Polar_bear"]
+    "wikiTitles": [
+      "White",
+      "Snow",
+      "Polar_bear"
+    ],
+    "localImages": {
+      "White": "data/images/215a844db76d.jpg",
+      "Snow": "data/images/675259ea2198.jpg",
+      "Polar_bear": "data/images/239f71a3b3ab.jpg"
+    }
   },
   {
     "hanzi": "蓝色",
     "pinyin": "lán sè",
     "english": "blue",
-    "wikiTitles": ["Blue", "Blueberry", "Blue_whale"]
+    "wikiTitles": [
+      "Blue",
+      "Blueberry",
+      "Blue_whale"
+    ],
+    "localImages": {
+      "Blue": "data/images/e851c60bd76f.jpg",
+      "Blueberry": "data/images/e339d2bef952.jpg",
+      "Blue_whale": "data/images/eacc12638348.jpg"
+    }
   },
   {
     "hanzi": "土地",
     "pinyin": "tǔ dì",
     "english": "land",
-    "wikiTitles": ["Land", "Landscape", "Grassland"]
+    "wikiTitles": [
+      "Land",
+      "Landscape",
+      "Grassland"
+    ],
+    "localImages": {
+      "Land": "data/images/4e34a1d59de0.jpg",
+      "Landscape": "data/images/6ddb85234b36.jpg",
+      "Grassland": "data/images/a2c562051147.jpg"
+    }
   },
   {
     "hanzi": "云",
     "pinyin": "yún",
     "english": "cloud",
-    "wikiTitles": ["Cloud", "Cumulus_cloud", "Cirrus_cloud"]
+    "wikiTitles": [
+      "Cloud",
+      "Cumulus_cloud",
+      "Cirrus_cloud"
+    ],
+    "localImages": {
+      "Cloud": "data/images/47be47a2ba4a.jpg",
+      "Cumulus_cloud": "data/images/6e5e400c26bc.jpg",
+      "Cirrus_cloud": "data/images/26b92a3264ca.jpg"
+    }
   }
 ]
