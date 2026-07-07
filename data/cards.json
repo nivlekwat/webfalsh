@@ -1021,5 +1021,35 @@
       "Cook_(profession)": "data/images/63b32dc92f1a.jpg",
       "Cooking": "data/images/dcb04d3f7d85.jpg"
     }
+  },
+  {
+    "hanzi": "黑色",
+    "pinyin": "hēi sè",
+    "english": "black",
+    "wikiTitles": ["Black", "Black_cat", "Night"]
+  },
+  {
+    "hanzi": "白色",
+    "pinyin": "bái sè",
+    "english": "white",
+    "wikiTitles": ["White", "Snow", "Polar_bear"]
+  },
+  {
+    "hanzi": "蓝色",
+    "pinyin": "lán sè",
+    "english": "blue",
+    "wikiTitles": ["Blue", "Blueberry", "Blue_whale"]
+  },
+  {
+    "hanzi": "土地",
+    "pinyin": "tǔ dì",
+    "english": "land",
+    "wikiTitles": ["Land", "Landscape", "Grassland"]
+  },
+  {
+    "hanzi": "云",
+    "pinyin": "yún",
+    "english": "cloud",
+    "wikiTitles": ["Cloud", "Cumulus_cloud", "Cirrus_cloud"]
   }
 ]
