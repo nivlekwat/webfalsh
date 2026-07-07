@@ -687,6 +687,13 @@
 
   els.card.addEventListener("click", (e) => {
     if (e.target.closest(".speak-btn")) return;
+    if (cardMode === "quiz") {
+      // Quiz cards don't flip — tapping the picture replays the word.
+      if (e.target.closest(".image-wrap")) {
+        speak(deck[index] && deck[index].hanzi, els.quizSound);
+      }
+      return;
+    }
     flip();
   });
 
