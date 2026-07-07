@@ -70,6 +70,9 @@
     puzzleCheckBtn: document.getElementById("puzzleCheckBtn"),
     puzzleWin: document.getElementById("puzzleWin"),
     puzzleWinStars: document.getElementById("puzzleWinStars"),
+    quizBlock: document.getElementById("quizBlock"),
+    quizSound: document.getElementById("quizSound"),
+    quizAnswers: document.getElementById("quizAnswers"),
   };
 
   let deck = [];
@@ -85,6 +88,11 @@
   let smartQueue = []; // deck indexes
   let flippedThisCard = false;
   let gotItThisCard = false;
+
+  // --- Quiz (multiple-choice) mode state ---
+  let cardMode = "flash"; // "flash" | "quiz", re-rolled on every render
+  let quizSolved = false;
+  let quizMissRecorded = false;
 
   // --- Multi-user profile + session state ---
   const IDLE_TIMEOUT_MS = 60 * 60 * 1000; // 60 minutes
@@ -236,6 +244,15 @@
     triggerBounce();
     flippedThisCard = false;
     gotItThisCard = false;
+    quizSolved = false;
+    quizMissRecorded = false;
+    // 50/50 flashcard vs multiple-choice quiz (quiz needs 4+ cards).
+    cardMode = deck.length >= 4 && Math.random() < 0.5 ? "quiz" : "flash";
+    els.card.classList.toggle("quiz-mode", cardMode === "quiz");
+    els.quizBlock.classList.toggle("hidden", cardMode !== "quiz");
+    els.gotIt.classList.toggle("hidden", cardMode === "quiz");
+    els.mic.classList.toggle("hidden", cardMode === "quiz");
+    if (cardMode === "quiz") buildQuizAnswers(card);
     if (currentSessionId) {
       sessionCounters.shown += 1;
       scheduleSessionFlush();
@@ -244,10 +261,73 @@
   }
 
   function flip() {
+    if (cardMode === "quiz") return; // quiz cards don't flip
     els.card.classList.toggle("flipped");
     playFlipSound();
     spawnConfetti(els.card);
     flippedThisCard = true;
+  }
+
+  // --- Multiple-choice quiz mode ---
+
+  function buildQuizAnswers(card) {
+    // 3 unique distractor hanzi from other cards.
+    const others = deck.filter((c) => c.hanzi && c.hanzi !== card.hanzi);
+    const seen = new Set([card.hanzi]);
+    const distractors = [];
+    while (distractors.length < 3 && others.length) {
+      const pick = others[Math.floor(Math.random() * others.length)];
+      if (!seen.has(pick.hanzi)) {
+        seen.add(pick.hanzi);
+        distractors.push(pick.hanzi);
+      }
+      if (seen.size >= others.length + 1) break;
+    }
+    const options = [card.hanzi, ...distractors];
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    els.quizAnswers.innerHTML = "";
+    for (const hanzi of options) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "quiz-answer";
+      btn.textContent = hanzi;
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        onQuizPick(btn, hanzi, card);
+      });
+      els.quizAnswers.appendChild(btn);
+    }
+  }
+
+  function onQuizPick(btn, hanzi, card) {
+    if (quizSolved) return;
+    bumpInteraction();
+    if (hanzi === card.hanzi) {
+      quizSolved = true;
+      gotItThisCard = true;
+      btn.classList.add("correct");
+      for (const b of els.quizAnswers.children) b.disabled = true;
+      if (!quizMissRecorded) {
+        // First-try correct → the full "I got it" flow (records correct,
+        // star, GIF reward; dismissing advances via smart picker).
+        setTimeout(showReward, 350);
+      } else {
+        // Solved after a mistake — celebrate lightly, no star, auto-advance.
+        playGotItSound();
+        spawnConfetti(btn);
+        setTimeout(nextSmartCard, 900);
+      }
+    } else {
+      btn.classList.add("wrong-pick");
+      btn.disabled = true;
+      if (!quizMissRecorded) {
+        quizMissRecorded = true;
+        if (card.hanzi) recordWrong(card.hanzi);
+      }
+    }
   }
 
   function spawnConfetti(centerEl) {
@@ -464,8 +544,9 @@
 
   // Called when the user leaves a card. If they didn't confirm with
   // "I got it!" or a successful mic check, count it as a flip (a miss).
+  // Quiz cards that already recorded a wrong pick don't get double-counted.
   function maybeRecordMiss() {
-    if (gotItThisCard) return;
+    if (gotItThisCard || quizMissRecorded) return;
     const card = deck[index];
     if (card && card.hanzi) recordFlip(card.hanzi);
   }
@@ -626,6 +707,11 @@
     speak(deck[index] && deck[index].hanzi, els.speakBack);
   });
 
+  els.quizSound.addEventListener("click", (e) => {
+    e.stopPropagation();
+    speak(deck[index] && deck[index].hanzi, els.quizSound);
+  });
+
   els.next.addEventListener("click", nextSmartCard);
 
   function loadImageWithTimeout(url, ms) {
@@ -734,7 +820,9 @@
     void els.score.offsetWidth;
     els.score.classList.add("bump");
 
-    const rect = (originEl || els.score).getBoundingClientRect();
+    let origin = originEl || els.score;
+    let rect = origin.getBoundingClientRect();
+    if (!rect.width && !rect.height) rect = els.score.getBoundingClientRect();
     const popup = document.createElement("span");
     popup.className = "score-popup";
     popup.textContent = "+1 ⭐";
