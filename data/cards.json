@@ -1096,5 +1096,41 @@
       "Cumulus_cloud": "data/images/6e5e400c26bc.jpg",
       "Cirrus_cloud": "data/images/26b92a3264ca.jpg"
     }
+  },
+  {
+    "hanzi": "绿色",
+    "pinyin": "lǜ sè",
+    "english": "green",
+    "wikiTitles": ["Green", "Leaf", "Lawn"]
+  },
+  {
+    "hanzi": "红色",
+    "pinyin": "hóng sè",
+    "english": "red",
+    "wikiTitles": ["Red", "Strawberry", "Tomato"]
+  },
+  {
+    "hanzi": "黄色",
+    "pinyin": "huáng sè",
+    "english": "yellow",
+    "wikiTitles": ["Yellow", "Banana", "Lemon"]
+  },
+  {
+    "hanzi": "太阳",
+    "pinyin": "tài yáng",
+    "english": "sun",
+    "wikiTitles": ["Sun", "Sunlight", "Sunrise"]
+  },
+  {
+    "hanzi": "草",
+    "pinyin": "cǎo",
+    "english": "grass",
+    "wikiTitles": ["Grass", "Lawn", "Meadow"]
+  },
+  {
+    "hanzi": "星星",
+    "pinyin": "xīng xīng",
+    "english": "star",
+    "wikiTitles": ["Star", "Night_sky", "Starfield"]
   }
 ]
