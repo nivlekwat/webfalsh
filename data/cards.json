@@ -1101,36 +1101,89 @@
     "hanzi": "绿色",
     "pinyin": "lǜ sè",
     "english": "green",
-    "wikiTitles": ["Green", "Leaf", "Lawn"]
+    "wikiTitles": [
+      "Green",
+      "Leaf",
+      "Lawn"
+    ],
+    "localImages": {
+      "Green": "data/images/eb41f8cff2e4.jpg",
+      "Leaf": "data/images/887b67f29158.jpg",
+      "Lawn": "data/images/68d6a7a3e940.jpg"
+    }
   },
   {
     "hanzi": "红色",
     "pinyin": "hóng sè",
     "english": "red",
-    "wikiTitles": ["Red", "Strawberry", "Tomato"]
+    "wikiTitles": [
+      "Red",
+      "Strawberry",
+      "Tomato"
+    ],
+    "localImages": {
+      "Red": "data/images/f0817c64b303.jpg",
+      "Strawberry": "data/images/4c3966212dbc.jpg",
+      "Tomato": "data/images/77b3d322e880.jpg"
+    }
   },
   {
     "hanzi": "黄色",
     "pinyin": "huáng sè",
     "english": "yellow",
-    "wikiTitles": ["Yellow", "Banana", "Lemon"]
+    "wikiTitles": [
+      "Yellow",
+      "Banana",
+      "Lemon"
+    ],
+    "localImages": {
+      "Yellow": "data/images/cd6d7ebb64f5.jpg",
+      "Banana": "data/images/cc80ef90012a.jpg",
+      "Lemon": "data/images/2bbe5c565773.jpg"
+    }
   },
   {
     "hanzi": "太阳",
     "pinyin": "tài yáng",
     "english": "sun",
-    "wikiTitles": ["Sun", "Sunlight", "Sunrise"]
+    "wikiTitles": [
+      "Sun",
+      "Sunlight",
+      "Sunrise"
+    ],
+    "localImages": {
+      "Sun": "data/images/6bce2b593eb4.jpg",
+      "Sunlight": "data/images/f26fef572d7c.jpg",
+      "Sunrise": "data/images/d8fcb3df455a.jpg"
+    }
   },
   {
     "hanzi": "草",
     "pinyin": "cǎo",
     "english": "grass",
-    "wikiTitles": ["Grass", "Lawn", "Meadow"]
+    "wikiTitles": [
+      "Grass",
+      "Lawn",
+      "Meadow"
+    ],
+    "localImages": {
+      "Grass": "data/images/667cfa9bc074.jpg",
+      "Lawn": "data/images/68d6a7a3e940.jpg",
+      "Meadow": "data/images/79622de24390.jpg"
+    }
   },
   {
     "hanzi": "星星",
     "pinyin": "xīng xīng",
     "english": "star",
-    "wikiTitles": ["Star", "Night_sky", "Starfield"]
+    "wikiTitles": [
+      "Star",
+      "Night_sky",
+      "Starfield"
+    ],
+    "localImages": {
+      "Star": "data/images/6bce2b593eb4.jpg",
+      "Night_sky": "data/images/de418fff81f3.jpg"
+    }
   }
 ]
