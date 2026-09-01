@@ -1478,7 +1478,12 @@
       "Noodle",
       "Chinese_noodles",
       "Ramen"
-    ]
+    ],
+    "localImages": {
+      "Noodle": "data/images/8a3d16f9a57c.jpg",
+      "Chinese_noodles": "data/images/e317cc1e7fbf.jpg",
+      "Ramen": "data/images/57a8a835fd62.jpg"
+    }
   },
   {
     "hanzi": "米饭",
@@ -1491,7 +1496,12 @@
       "Cooked_rice",
       "Rice",
       "Fried_rice"
-    ]
+    ],
+    "localImages": {
+      "Cooked_rice": "data/images/494a786b0a2f.jpg",
+      "Rice": "data/images/d7129cb1e950.jpg",
+      "Fried_rice": "data/images/7a147183123d.jpg"
+    }
   },
   {
     "hanzi": "面包",
@@ -1504,6 +1514,11 @@
       "Bread",
       "Baguette",
       "Sliced_bread"
-    ]
+    ],
+    "localImages": {
+      "Bread": "data/images/dba54700b536.jpg",
+      "Baguette": "data/images/b062809115d5.jpg",
+      "Sliced_bread": "data/images/5bf14f938cbb.jpg"
+    }
   }
 ]
