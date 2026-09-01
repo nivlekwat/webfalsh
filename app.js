@@ -70,6 +70,10 @@
     puzzleCheckBtn: document.getElementById("puzzleCheckBtn"),
     puzzleWin: document.getElementById("puzzleWin"),
     puzzleWinStars: document.getElementById("puzzleWinStars"),
+    focusTags: document.getElementById("focusTags"),
+    focusHelp: document.getElementById("focusHelp"),
+    focusPill: document.getElementById("focusPill"),
+    focusPillText: document.getElementById("focusPillText"),
     quizBlock: document.getElementById("quizBlock"),
     quizSound: document.getElementById("quizSound"),
     quizAnswers: document.getElementById("quizAnswers"),
@@ -88,6 +92,11 @@
   let smartQueue = []; // deck indexes
   let flippedThisCard = false;
   let gotItThisCard = false;
+
+  // --- Focus areas (tag filter) ---
+  // Empty = study the whole deck. Persisted on the profile row when the
+  // focus_tags column exists, and mirrored to localStorage either way.
+  let focusTags = [];
 
   // --- Quiz (multiple-choice) mode state ---
   let cardMode = "flash"; // "flash" | "quiz", re-rolled on every render
@@ -612,9 +621,133 @@
     return "learning";
   }
 
+  // --- Focus areas ---
+
+  function cardMatchesFocus(card) {
+    if (!focusTags.length) return true;
+    const tags = card.tags || [];
+    return focusTags.some((t) => tags.includes(t));
+  }
+
+  // Deck indexes in the current focus. Falls back to the whole deck if a
+  // focus somehow matches nothing (e.g. a tag was removed from cards.json).
+  function focusedIndexes() {
+    const out = [];
+    for (let i = 0; i < deck.length; i++) {
+      if (cardMatchesFocus(deck[i])) out.push(i);
+    }
+    if (!out.length) for (let i = 0; i < deck.length; i++) out.push(i);
+    return out;
+  }
+
+  function allTagsWithCounts() {
+    const counts = new Map();
+    for (const card of deck) {
+      for (const t of card.tags || []) counts.set(t, (counts.get(t) || 0) + 1);
+    }
+    return [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  }
+
+  function tagLabel(tag) {
+    return tag.charAt(0).toUpperCase() + tag.slice(1);
+  }
+
+  function focusStorageKey() {
+    return "focusTags:" + (currentProfile ? currentProfile.id : "anon");
+  }
+
+  function loadFocusForProfile(profile) {
+    // Prefer the value stored on the profile row; fall back to localStorage
+    // so this works before scripts/focus-schema.sql has been run.
+    if (profile && Array.isArray(profile.focus_tags)) {
+      focusTags = profile.focus_tags.slice();
+    } else {
+      try {
+        const raw = localStorage.getItem("focusTags:" + (profile ? profile.id : "anon"));
+        focusTags = raw ? JSON.parse(raw) : [];
+      } catch (_) {
+        focusTags = [];
+      }
+    }
+    if (!Array.isArray(focusTags)) focusTags = [];
+    renderFocusPill();
+  }
+
+  async function saveFocus() {
+    try {
+      localStorage.setItem(focusStorageKey(), JSON.stringify(focusTags));
+    } catch (_) {}
+    if (currentProfile) currentProfile.focus_tags = focusTags.slice();
+    if (!sb || !currentProfile) return;
+    try {
+      await sb.from("profiles").update({ focus_tags: focusTags }).eq("id", currentProfile.id);
+    } catch (e) {
+      // Column may not exist yet — localStorage already has it.
+      console.warn("focus save failed (run scripts/focus-schema.sql?):", e);
+    }
+  }
+
+  function renderFocusPill() {
+    if (!els.focusPill) return;
+    if (!focusTags.length) {
+      els.focusPill.classList.add("hidden");
+      return;
+    }
+    els.focusPill.classList.remove("hidden");
+    els.focusPillText.textContent =
+      focusTags.length === 1
+        ? tagLabel(focusTags[0])
+        : focusTags.length + " areas";
+  }
+
+  function renderFocusTags() {
+    const tags = allTagsWithCounts();
+    const focusedCount = focusedIndexes().length;
+    els.focusHelp.textContent = focusTags.length
+      ? "Studying " + focusedCount + " words in " +
+        focusTags.map(tagLabel).join(", ") + "."
+      : "Studying all " + deck.length + " words. Tap tags to focus on just those.";
+
+    els.focusTags.innerHTML = "";
+
+    const allBtn = document.createElement("button");
+    allBtn.type = "button";
+    allBtn.className = "focus-tag focus-tag-all" + (focusTags.length ? "" : " on");
+    allBtn.textContent = "All words";
+    allBtn.addEventListener("click", () => {
+      focusTags = [];
+      onFocusChanged();
+    });
+    els.focusTags.appendChild(allBtn);
+
+    for (const [tag, count] of tags) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "focus-tag" + (focusTags.includes(tag) ? " on" : "");
+      btn.innerHTML =
+        escapeHtml(tagLabel(tag)) +
+        ' <span class="focus-tag-count">' + count + "</span>";
+      btn.addEventListener("click", () => {
+        if (focusTags.includes(tag)) focusTags = focusTags.filter((t) => t !== tag);
+        else focusTags = [...focusTags, tag];
+        onFocusChanged();
+      });
+      els.focusTags.appendChild(btn);
+    }
+  }
+
+  async function onFocusChanged() {
+    await saveFocus();
+    renderFocusTags();
+    renderFocusPill();
+    // Rebuild the study queue so the next card respects the new focus.
+    smartQueue = [];
+    buildSmartQueue();
+  }
+
   function buildSmartQueue() {
     const buckets = { knowIt: [], learning: [], review: [], new: [] };
-    for (let i = 0; i < deck.length; i++) {
+    for (const i of focusedIndexes()) {
       const card = deck[i];
       const p = progressMap[card.hanzi];
       const bucket = classifyCard(p);
@@ -1205,16 +1338,25 @@
 
   async function fetchProfiles() {
     if (!sb) return [];
-    try {
-      const { data } = await sb
-        .from("profiles")
-        .select("id, name, emoji, color, created_at")
-        .order("created_at", { ascending: true });
-      return data || [];
-    } catch (e) {
-      console.warn("profiles fetch failed:", e);
-      return [];
+    const BASE = "id, name, emoji, color, created_at";
+    // focus_tags only exists once scripts/focus-schema.sql has been run;
+    // retry without it so older databases keep working.
+    for (const cols of [BASE + ", focus_tags", BASE]) {
+      try {
+        const { data, error } = await sb
+          .from("profiles")
+          .select(cols)
+          .order("created_at", { ascending: true });
+        if (error) throw error;
+        return data || [];
+      } catch (e) {
+        if (cols === BASE) {
+          console.warn("profiles fetch failed:", e);
+          return [];
+        }
+      }
     }
+    return [];
   }
 
   function renderProfileList(profiles) {
@@ -1299,6 +1441,7 @@
     } catch (_) {}
     els.profileChipEmoji.textContent = profile.emoji || "🐱";
     els.profileChipName.textContent = profile.name || "";
+    loadFocusForProfile(profile);
     hideProfilePicker();
     show(els.studyContent);
     stars = 0;
@@ -1316,6 +1459,7 @@
   }
 
   els.profileChip.addEventListener("click", showStats);
+  els.focusPill.addEventListener("click", showStats);
   els.newProfileBtn.addEventListener("click", showNewProfileForm);
   els.createProfileBtn.addEventListener("click", onCreateProfile);
   els.cancelProfileBtn.addEventListener("click", hideNewProfileForm);
@@ -1351,6 +1495,7 @@
     els.statsMasteryBars.innerHTML = "";
     els.statsHardest.innerHTML = '<p class="stats-empty">Loading…</p>';
     els.statsSessionsList.innerHTML = '<p class="stats-empty">Loading…</p>';
+    renderFocusTags();
     els.statsOverlay.classList.remove("hidden");
 
     // Flush pending session counters so totals reflect the current session.
@@ -1550,7 +1695,9 @@
     els.puzzleWin.classList.add("hidden");
     // Ensure we have fresh progress for the current profile.
     if (currentProfile) await refreshProgress();
-    const pool = deck.filter((c) => masteryLevel(progressMap[c.hanzi]) >= 3);
+    const pool = deck.filter(
+      (c) => cardMatchesFocus(c) && masteryLevel(progressMap[c.hanzi]) >= 3
+    );
     if (pool.length < 5) {
       els.puzzleEmpty.classList.remove("hidden");
       els.puzzleBody.classList.add("hidden");
@@ -2025,7 +2172,9 @@
   els.puzzleCloseBtn.addEventListener("click", closePuzzle);
   els.puzzleNewBtn.addEventListener("click", async () => {
     if (currentProfile) await refreshProgress();
-    const pool = deck.filter((c) => masteryLevel(progressMap[c.hanzi]) >= 3);
+    const pool = deck.filter(
+      (c) => cardMatchesFocus(c) && masteryLevel(progressMap[c.hanzi]) >= 3
+    );
     if (pool.length < 5) return;
     els.puzzleWin.classList.add("hidden");
     generateAndRenderPuzzle(pool);

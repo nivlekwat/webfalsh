@@ -3,6 +3,9 @@
     "hanzi": "家",
     "pinyin": "jiā",
     "english": "home",
+    "tags": [
+      "places"
+    ],
     "wikiTitles": [
       "House",
       "Cottage",
@@ -18,6 +21,9 @@
     "hanzi": "学",
     "pinyin": "xué",
     "english": "learn",
+    "tags": [
+      "school"
+    ],
     "wikiTitles": [
       "Education",
       "Classroom",
@@ -33,6 +39,9 @@
     "hanzi": "石",
     "pinyin": "shí",
     "english": "rock",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Boulder",
       "Pebble",
@@ -48,6 +57,9 @@
     "hanzi": "火",
     "pinyin": "huǒ",
     "english": "fire",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Fire",
       "Campfire",
@@ -63,6 +75,9 @@
     "hanzi": "土",
     "pinyin": "tǔ",
     "english": "dirt / ground",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Soil",
       "Mud",
@@ -78,6 +93,10 @@
     "hanzi": "田",
     "pinyin": "tián",
     "english": "farm",
+    "tags": [
+      "nature",
+      "places"
+    ],
     "wikiTitles": [
       "Paddy_field",
       "Farm",
@@ -93,6 +112,10 @@
     "hanzi": "爸爸",
     "pinyin": "bàba",
     "english": "dad",
+    "tags": [
+      "family",
+      "people"
+    ],
     "wikiTitles": [
       "Father",
       "Fatherhood",
@@ -108,6 +131,10 @@
     "hanzi": "妈妈",
     "pinyin": "māma",
     "english": "mom",
+    "tags": [
+      "family",
+      "people"
+    ],
     "wikiTitles": [
       "Mother",
       "Motherhood",
@@ -123,6 +150,10 @@
     "hanzi": "姐姐",
     "pinyin": "jiějie",
     "english": "older sister",
+    "tags": [
+      "family",
+      "people"
+    ],
     "wikiTitles": [
       "Sister",
       "Sibling",
@@ -138,6 +169,10 @@
     "hanzi": "妹妹",
     "pinyin": "mèimei",
     "english": "younger sister",
+    "tags": [
+      "family",
+      "people"
+    ],
     "wikiTitles": [
       "Girl",
       "Daughter",
@@ -153,6 +188,10 @@
     "hanzi": "人",
     "pinyin": "rén",
     "english": "person",
+    "tags": [
+      "people",
+      "body"
+    ],
     "wikiTitles": [
       "Human",
       "Person",
@@ -168,6 +207,9 @@
     "hanzi": "头",
     "pinyin": "tóu",
     "english": "head",
+    "tags": [
+      "body"
+    ],
     "wikiTitles": [
       "Head",
       "Human_head",
@@ -183,6 +225,9 @@
     "hanzi": "手",
     "pinyin": "shǒu",
     "english": "hand",
+    "tags": [
+      "body"
+    ],
     "wikiTitles": [
       "Hand",
       "Handshake",
@@ -198,6 +243,9 @@
     "hanzi": "脚",
     "pinyin": "jiǎo",
     "english": "foot",
+    "tags": [
+      "body"
+    ],
     "wikiTitles": [
       "Foot",
       "Barefoot",
@@ -213,6 +261,9 @@
     "hanzi": "天",
     "pinyin": "tiān",
     "english": "sky",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Sky",
       "Cloud",
@@ -228,6 +279,9 @@
     "hanzi": "口",
     "pinyin": "kǒu",
     "english": "mouth",
+    "tags": [
+      "body"
+    ],
     "wikiTitles": [
       "Mouth",
       "Lip",
@@ -243,6 +297,9 @@
     "hanzi": "耳",
     "pinyin": "ěr",
     "english": "ear",
+    "tags": [
+      "body"
+    ],
     "wikiTitles": [
       "Ear",
       "Earlobe",
@@ -258,6 +315,9 @@
     "hanzi": "花",
     "pinyin": "huā",
     "english": "flower",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Flower",
       "Rose",
@@ -275,6 +335,10 @@
     "hanzi": "花园",
     "pinyin": "huāyuán",
     "english": "garden",
+    "tags": [
+      "places",
+      "nature"
+    ],
     "wikiTitles": [
       "Garden",
       "Flower_garden",
@@ -290,6 +354,9 @@
     "hanzi": "牛",
     "pinyin": "niú",
     "english": "cow",
+    "tags": [
+      "animals"
+    ],
     "wikiTitles": [
       "Cattle",
       "Holstein_Friesian",
@@ -305,6 +372,9 @@
     "hanzi": "羊",
     "pinyin": "yáng",
     "english": "sheep",
+    "tags": [
+      "animals"
+    ],
     "wikiTitles": [
       "Sheep",
       "Merino",
@@ -320,6 +390,9 @@
     "hanzi": "马",
     "pinyin": "mǎ",
     "english": "horse",
+    "tags": [
+      "animals"
+    ],
     "wikiTitles": [
       "Horse",
       "Pony",
@@ -335,6 +408,9 @@
     "hanzi": "狗",
     "pinyin": "gǒu",
     "english": "dog",
+    "tags": [
+      "animals"
+    ],
     "wikiTitles": [
       "Dog",
       "Puppy",
@@ -350,6 +426,9 @@
     "hanzi": "鸟",
     "pinyin": "niǎo",
     "english": "bird",
+    "tags": [
+      "animals"
+    ],
     "wikiTitles": [
       "Bird",
       "House_sparrow",
@@ -365,6 +444,9 @@
     "hanzi": "虫",
     "pinyin": "chóng",
     "english": "insect",
+    "tags": [
+      "animals"
+    ],
     "wikiTitles": [
       "Caterpillar",
       "Butterfly",
@@ -380,6 +462,9 @@
     "hanzi": "水",
     "pinyin": "shuǐ",
     "english": "water",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Drinking_water"
     ],
@@ -391,6 +476,9 @@
     "hanzi": "一",
     "pinyin": "yī",
     "english": "one",
+    "tags": [
+      "numbers"
+    ],
     "images": [
       "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23c0392b'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E1%3C/text%3E%3C/svg%3E"
     ]
@@ -399,6 +487,9 @@
     "hanzi": "二",
     "pinyin": "èr",
     "english": "two",
+    "tags": [
+      "numbers"
+    ],
     "images": [
       "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23e67e22'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E2%3C/text%3E%3C/svg%3E"
     ]
@@ -407,6 +498,9 @@
     "hanzi": "三",
     "pinyin": "sān",
     "english": "three",
+    "tags": [
+      "numbers"
+    ],
     "images": [
       "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23f39c12'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E3%3C/text%3E%3C/svg%3E"
     ]
@@ -415,6 +509,9 @@
     "hanzi": "四",
     "pinyin": "sì",
     "english": "four",
+    "tags": [
+      "numbers"
+    ],
     "images": [
       "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2327ae60'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E4%3C/text%3E%3C/svg%3E"
     ]
@@ -423,6 +520,9 @@
     "hanzi": "五",
     "pinyin": "wǔ",
     "english": "five",
+    "tags": [
+      "numbers"
+    ],
     "images": [
       "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2316a085'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E5%3C/text%3E%3C/svg%3E"
     ]
@@ -431,6 +531,9 @@
     "hanzi": "六",
     "pinyin": "liù",
     "english": "six",
+    "tags": [
+      "numbers"
+    ],
     "images": [
       "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%232980b9'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E6%3C/text%3E%3C/svg%3E"
     ]
@@ -439,6 +542,9 @@
     "hanzi": "七",
     "pinyin": "qī",
     "english": "seven",
+    "tags": [
+      "numbers"
+    ],
     "images": [
       "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%238e44ad'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E7%3C/text%3E%3C/svg%3E"
     ]
@@ -447,6 +553,9 @@
     "hanzi": "八",
     "pinyin": "bā",
     "english": "eight",
+    "tags": [
+      "numbers"
+    ],
     "images": [
       "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23e91e63'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E8%3C/text%3E%3C/svg%3E"
     ]
@@ -455,6 +564,9 @@
     "hanzi": "九",
     "pinyin": "jiǔ",
     "english": "nine",
+    "tags": [
+      "numbers"
+    ],
     "images": [
       "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%23795548'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='295'%20font-size='280'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E9%3C/text%3E%3C/svg%3E"
     ]
@@ -463,6 +575,9 @@
     "hanzi": "十",
     "pinyin": "shí",
     "english": "ten",
+    "tags": [
+      "numbers"
+    ],
     "images": [
       "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%2334495e'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='285'%20font-size='240'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E10%3C/text%3E%3C/svg%3E"
     ]
@@ -471,6 +586,9 @@
     "hanzi": "百",
     "pinyin": "bǎi",
     "english": "hundred",
+    "tags": [
+      "numbers"
+    ],
     "images": [
       "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20400'%3E%3Crect%20fill='%238b0000'%20width='600'%20height='400'/%3E%3Ctext%20x='300'%20y='275'%20font-size='200'%20fill='white'%20text-anchor='middle'%20font-family='sans-serif'%20font-weight='800'%3E100%3C/text%3E%3C/svg%3E"
     ]
@@ -479,6 +597,10 @@
     "hanzi": "老师",
     "pinyin": "lǎoshī",
     "english": "teacher",
+    "tags": [
+      "school",
+      "people"
+    ],
     "images": [
       "data/images/svg-teacher.svg"
     ],
@@ -497,6 +619,10 @@
     "hanzi": "同学",
     "pinyin": "tóngxué",
     "english": "classmate",
+    "tags": [
+      "school",
+      "people"
+    ],
     "images": [
       "data/images/svg-classmate.svg"
     ],
@@ -513,6 +639,9 @@
     "hanzi": "多",
     "pinyin": "duō",
     "english": "many",
+    "tags": [
+      "opposites"
+    ],
     "images": [
       "data/images/svg-many.svg"
     ],
@@ -529,6 +658,9 @@
     "hanzi": "少",
     "pinyin": "shǎo",
     "english": "few",
+    "tags": [
+      "opposites"
+    ],
     "images": [
       "data/images/svg-few.svg"
     ],
@@ -544,6 +676,9 @@
     "hanzi": "小",
     "pinyin": "xiǎo",
     "english": "small",
+    "tags": [
+      "opposites"
+    ],
     "images": [
       "data/images/svg-small.svg"
     ],
@@ -561,6 +696,9 @@
     "hanzi": "月",
     "pinyin": "yuè",
     "english": "moon",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Moon",
       "Full_moon",
@@ -576,6 +714,9 @@
     "hanzi": "山",
     "pinyin": "shān",
     "english": "mountain",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Mountain",
       "Mount_Fuji",
@@ -591,6 +732,9 @@
     "hanzi": "日",
     "pinyin": "rì",
     "english": "sun",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Sun",
       "Sunrise",
@@ -606,6 +750,9 @@
     "hanzi": "木",
     "pinyin": "mù",
     "english": "wood / tree",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Tree",
       "Wood",
@@ -621,6 +768,10 @@
     "hanzi": "上",
     "pinyin": "shàng",
     "english": "up / above",
+    "tags": [
+      "directions",
+      "opposites"
+    ],
     "images": [
       "data/images/svg-up.svg"
     ],
@@ -637,6 +788,10 @@
     "hanzi": "下",
     "pinyin": "xià",
     "english": "down / below",
+    "tags": [
+      "directions",
+      "opposites"
+    ],
     "images": [
       "data/images/svg-down.svg"
     ],
@@ -654,6 +809,10 @@
     "hanzi": "出",
     "pinyin": "chū",
     "english": "go out / exit",
+    "tags": [
+      "actions",
+      "opposites"
+    ],
     "images": [
       "data/images/svg-exit.svg"
     ],
@@ -670,6 +829,10 @@
     "hanzi": "入",
     "pinyin": "rù",
     "english": "enter",
+    "tags": [
+      "actions",
+      "opposites"
+    ],
     "images": [
       "data/images/svg-enter.svg"
     ],
@@ -686,6 +849,9 @@
     "hanzi": "走",
     "pinyin": "zǒu",
     "english": "walk",
+    "tags": [
+      "actions"
+    ],
     "images": [
       "data/images/svg-walk.svg"
     ],
@@ -704,6 +870,9 @@
     "hanzi": "立",
     "pinyin": "lì",
     "english": "stand",
+    "tags": [
+      "actions"
+    ],
     "images": [
       "data/images/svg-stand.svg"
     ],
@@ -719,6 +888,9 @@
     "hanzi": "你好",
     "pinyin": "nǐhǎo",
     "english": "hello",
+    "tags": [
+      "greetings"
+    ],
     "wikiTitles": [
       "Greeting",
       "Hello",
@@ -734,6 +906,9 @@
     "hanzi": "长颈鹿",
     "pinyin": "chángjǐnglù",
     "english": "giraffe",
+    "tags": [
+      "animals"
+    ],
     "wikiTitles": [
       "Giraffe"
     ],
@@ -745,6 +920,9 @@
     "hanzi": "什么",
     "pinyin": "shénme",
     "english": "what",
+    "tags": [
+      "greetings"
+    ],
     "wikiTitles": [
       "Interrogative_word",
       "Question"
@@ -757,6 +935,9 @@
     "hanzi": "新年",
     "pinyin": "xīnnián",
     "english": "new year",
+    "tags": [
+      "seasons"
+    ],
     "wikiTitles": [
       "Chinese_New_Year",
       "New_Year",
@@ -772,6 +953,9 @@
     "hanzi": "方向",
     "pinyin": "fāngxiàng",
     "english": "direction",
+    "tags": [
+      "directions"
+    ],
     "wikiTitles": [
       "Compass",
       "Compass_rose"
@@ -785,6 +969,10 @@
     "hanzi": "前面",
     "pinyin": "qiánmiàn",
     "english": "in front",
+    "tags": [
+      "directions",
+      "opposites"
+    ],
     "images": [
       "data/images/svg-front.svg"
     ]
@@ -793,6 +981,10 @@
     "hanzi": "后面",
     "pinyin": "hòumiàn",
     "english": "in the back",
+    "tags": [
+      "directions",
+      "opposites"
+    ],
     "images": [
       "data/images/svg-back.svg"
     ]
@@ -801,6 +993,9 @@
     "hanzi": "冬",
     "pinyin": "dōng",
     "english": "winter",
+    "tags": [
+      "seasons"
+    ],
     "wikiTitles": [
       "Winter",
       "Snow"
@@ -814,6 +1009,9 @@
     "hanzi": "夏",
     "pinyin": "xià",
     "english": "summer",
+    "tags": [
+      "seasons"
+    ],
     "wikiTitles": [
       "Summer",
       "Beach"
@@ -827,6 +1025,9 @@
     "hanzi": "春",
     "pinyin": "chūn",
     "english": "spring",
+    "tags": [
+      "seasons"
+    ],
     "wikiTitles": [
       "Spring_(season)",
       "Cherry_blossom"
@@ -840,6 +1041,9 @@
     "hanzi": "科",
     "pinyin": "kē",
     "english": "science / subject",
+    "tags": [
+      "school"
+    ],
     "wikiTitles": [
       "Scientist",
       "Laboratory"
@@ -853,6 +1057,10 @@
     "hanzi": "左",
     "pinyin": "zuǒ",
     "english": "left",
+    "tags": [
+      "directions",
+      "opposites"
+    ],
     "images": [
       "data/images/svg-left.svg"
     ]
@@ -861,6 +1069,10 @@
     "hanzi": "右",
     "pinyin": "yòu",
     "english": "right",
+    "tags": [
+      "directions",
+      "opposites"
+    ],
     "images": [
       "data/images/svg-right.svg"
     ]
@@ -869,6 +1081,9 @@
     "hanzi": "东",
     "pinyin": "dōng",
     "english": "east",
+    "tags": [
+      "directions"
+    ],
     "wikiTitles": [
       "East",
       "Sunrise"
@@ -882,6 +1097,9 @@
     "hanzi": "南",
     "pinyin": "nán",
     "english": "south",
+    "tags": [
+      "directions"
+    ],
     "wikiTitles": [
       "South",
       "Compass"
@@ -895,6 +1113,9 @@
     "hanzi": "西",
     "pinyin": "xī",
     "english": "west",
+    "tags": [
+      "directions"
+    ],
     "wikiTitles": [
       "West",
       "Sunset"
@@ -908,6 +1129,9 @@
     "hanzi": "北",
     "pinyin": "běi",
     "english": "north",
+    "tags": [
+      "directions"
+    ],
     "wikiTitles": [
       "North",
       "Compass_rose"
@@ -921,6 +1145,9 @@
     "hanzi": "高",
     "pinyin": "gāo",
     "english": "tall / high",
+    "tags": [
+      "opposites"
+    ],
     "wikiTitles": [
       "Skyscraper",
       "Mount_Everest",
@@ -936,6 +1163,9 @@
     "hanzi": "矮",
     "pinyin": "ǎi",
     "english": "short (in height)",
+    "tags": [
+      "opposites"
+    ],
     "wikiTitles": [
       "Bungalow",
       "Hut",
@@ -951,6 +1181,10 @@
     "hanzi": "男生",
     "pinyin": "nán shēng",
     "english": "boy / male student",
+    "tags": [
+      "people",
+      "school"
+    ],
     "wikiTitles": [
       "Boy",
       "Schoolboy",
@@ -966,6 +1200,10 @@
     "hanzi": "女生",
     "pinyin": "nǚ shēng",
     "english": "girl / female student",
+    "tags": [
+      "people",
+      "school"
+    ],
     "wikiTitles": [
       "Girl",
       "Daughter",
@@ -981,6 +1219,9 @@
     "hanzi": "梦想家",
     "pinyin": "mèng xiǎng jiā",
     "english": "dreamer",
+    "tags": [
+      "people"
+    ],
     "wikiTitles": [
       "Astronaut",
       "Inventor",
@@ -996,6 +1237,9 @@
     "hanzi": "医生",
     "pinyin": "yī shēng",
     "english": "doctor",
+    "tags": [
+      "people"
+    ],
     "wikiTitles": [
       "Physician",
       "Pediatrics",
@@ -1011,6 +1255,9 @@
     "hanzi": "厨师",
     "pinyin": "chú shī",
     "english": "chef / cook",
+    "tags": [
+      "people"
+    ],
     "wikiTitles": [
       "Chef",
       "Cook_(profession)",
@@ -1026,6 +1273,9 @@
     "hanzi": "黑色",
     "pinyin": "hēi sè",
     "english": "black",
+    "tags": [
+      "colors"
+    ],
     "wikiTitles": [
       "Black",
       "Black_cat",
@@ -1041,6 +1291,9 @@
     "hanzi": "白色",
     "pinyin": "bái sè",
     "english": "white",
+    "tags": [
+      "colors"
+    ],
     "wikiTitles": [
       "White",
       "Snow",
@@ -1056,6 +1309,9 @@
     "hanzi": "蓝色",
     "pinyin": "lán sè",
     "english": "blue",
+    "tags": [
+      "colors"
+    ],
     "wikiTitles": [
       "Blue",
       "Blueberry",
@@ -1071,6 +1327,10 @@
     "hanzi": "土地",
     "pinyin": "tǔ dì",
     "english": "land",
+    "tags": [
+      "nature",
+      "places"
+    ],
     "wikiTitles": [
       "Land",
       "Landscape",
@@ -1086,6 +1346,9 @@
     "hanzi": "云",
     "pinyin": "yún",
     "english": "cloud",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Cloud",
       "Cumulus_cloud",
@@ -1101,6 +1364,9 @@
     "hanzi": "绿色",
     "pinyin": "lǜ sè",
     "english": "green",
+    "tags": [
+      "colors"
+    ],
     "wikiTitles": [
       "Green",
       "Leaf",
@@ -1116,6 +1382,9 @@
     "hanzi": "红色",
     "pinyin": "hóng sè",
     "english": "red",
+    "tags": [
+      "colors"
+    ],
     "wikiTitles": [
       "Red",
       "Strawberry",
@@ -1131,6 +1400,9 @@
     "hanzi": "黄色",
     "pinyin": "huáng sè",
     "english": "yellow",
+    "tags": [
+      "colors"
+    ],
     "wikiTitles": [
       "Yellow",
       "Banana",
@@ -1146,6 +1418,9 @@
     "hanzi": "太阳",
     "pinyin": "tài yáng",
     "english": "sun",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Sun",
       "Sunlight",
@@ -1161,6 +1436,9 @@
     "hanzi": "草",
     "pinyin": "cǎo",
     "english": "grass",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Grass",
       "Lawn",
@@ -1176,6 +1454,9 @@
     "hanzi": "星星",
     "pinyin": "xīng xīng",
     "english": "star",
+    "tags": [
+      "nature"
+    ],
     "wikiTitles": [
       "Star",
       "Night_sky",
