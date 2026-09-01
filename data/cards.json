@@ -1466,5 +1466,44 @@
       "Star": "data/images/6bce2b593eb4.jpg",
       "Night_sky": "data/images/de418fff81f3.jpg"
     }
+  },
+  {
+    "hanzi": "面条",
+    "pinyin": "miàn tiáo",
+    "english": "noodles",
+    "tags": [
+      "food"
+    ],
+    "wikiTitles": [
+      "Noodle",
+      "Chinese_noodles",
+      "Ramen"
+    ]
+  },
+  {
+    "hanzi": "米饭",
+    "pinyin": "mǐ fàn",
+    "english": "rice (cooked)",
+    "tags": [
+      "food"
+    ],
+    "wikiTitles": [
+      "Cooked_rice",
+      "Rice",
+      "Fried_rice"
+    ]
+  },
+  {
+    "hanzi": "面包",
+    "pinyin": "miàn bāo",
+    "english": "bread",
+    "tags": [
+      "food"
+    ],
+    "wikiTitles": [
+      "Bread",
+      "Baguette",
+      "Sliced_bread"
+    ]
   }
 ]
